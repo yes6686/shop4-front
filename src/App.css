@@ -175,3 +175,10 @@
   font-size: 1.4rem; /* 폰트 크기 */
   border-radius: 5px; /* 둥근 모서리 */
 }
+
+/* 장바구니 상품 이미지 크기 조절 */
+.image {
+  width: 100px; /* 원하는 너비 */
+  height: auto; /* 비율을 유지하며 높이 자동 조절 */
+  object-fit: cover; /* 이미지 비율 유지, 중앙을 기준으로 잘림 */
+}
