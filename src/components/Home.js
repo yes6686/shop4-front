@@ -27,9 +27,6 @@ function Card(props){
     return (
       <div className='col-md-4'>
               <NavLink to={"/detail/"+(props.index+1)}>
-              {
-                console.log(props.index)
-              }
                 <img src={`${props.shoes[props.index].url}`} width='80%'/>
                 </NavLink>
                 <h4>{props.shoes[props.index].name}</h4>

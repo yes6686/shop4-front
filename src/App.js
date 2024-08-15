@@ -11,6 +11,12 @@ import Cart from './routes/Cart';
 function App() { 
 
   let [data, setData] = useState([])
+
+  useEffect(()=>{
+    let watched = sessionStorage.getItem('watched')
+    !watched && sessionStorage.setItem('watched',JSON.stringify([]))
+
+  }, [])
   
   useEffect(()=>{
     getAllGoods();

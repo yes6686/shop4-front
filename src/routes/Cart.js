@@ -3,20 +3,13 @@ import { Table } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import {addCount} from './../store/cartSlice'
 import './../App.css'
+import { useNavigate } from 'react-router-dom'
 
 const Cart = () => {
 
     let state = useSelector((state)=> { return state})
     let dispatch = useDispatch()
-    const [number, setNumber] = useState(0); // 초기 숫자값을 0으로 설정
-
-    const increaseNumber = () => {
-        setNumber(prevNumber => prevNumber + 1); // 숫자 증가
-    };
-
-    const decreaseNumber = () => {
-        setNumber(prevNumber => (prevNumber > 0 ? prevNumber - 1 : 0)); // 숫자 감소, 0보다 작아지지 않도록
-    };
+    let navigate = useNavigate()
  
     
     return (
@@ -38,20 +31,16 @@ const Cart = () => {
             {
             state.cart.map((a,i)=>
                 <>
-                <tr key={i}>
+                <tr key={i} style={{ textAlign: 'center', fontSize : '22px'}}>
                 <td>{state.cart[i].id}</td>
-                <td><img className="image" src={`${state.cart[i].url}`}></img></td>
+                <td onClick={()=>{ // 이미지 클릭 시 이미지 상품으로 경로 이동
+                        navigate(`/detail/${state.cart[i].id}`)
+                    }}><img className="image" src={`${state.cart[i].url}`}></img></td>
                 <td>{state.cart[i].name}</td>
-                <td>
-                <div >
-                    <div onClick={increaseNumber}>&#8593;</div> {/* 위쪽 화살표 */}
-                    <div>{number}</div>
-                    <div onClick={decreaseNumber}>&#8595;</div> {/* 아래쪽 화살표 */}
-                </div>
-                </td>
+                <td>{state.cart[i].stock}</td>
                 <td>{state.cart[i].price}</td>
                 <td>무료</td>
-                <td>{state.cart[i].stock}</td>
+                <td>0</td>
                 <td>
                     <button onClick={()=>{
                         dispatch(addCount(state.cart[i].id))

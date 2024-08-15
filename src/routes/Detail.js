@@ -7,6 +7,8 @@ import {addItem} from './../store/cartSlice';
 
 function Detail(props){
 
+    console.log(props.shoes)
+
     let {id} = useParams();
     let findProduct = props.shoes.find(x=> x.id == id);
     let [alert, setAlert] = useState(true)
@@ -17,24 +19,20 @@ function Detail(props){
     const handleOrderClick = () => {
         dispatch(addItem(findProduct));
         setMessage('상품이 장바구니에 추가되었습니다!'); // 메시지 설정
-        setTimeout(() => setMessage(''), 3000); // 3초 후 메시지 제거
+        setTimeout(() => setMessage(''), 2000); // 2초 후 메시지 제거
     };
-
-    useEffect(()=>{
-        let watched = localStorage.getItem('watched')
-        watched = JSON.parse(watched)
+    
+    useEffect(()=>{ // 처음 detail페이제에 로드할때 해당상품 id 최근본항목에 저장하기
+        let watched = JSON.parse(sessionStorage.getItem('watched'))
         watched.push(findProduct.id)
-        watched = new Set(watched)
-        watched = Array.from(watched)
-        localStorage.setItem('watched',JSON.stringify(watched))
-    },[])
+        watched = Array.from(new Set(watched))
+        sessionStorage.setItem('watched',JSON.stringify(watched))
+    }, [])
 
     useEffect(()=>{
         let timer = setTimeout(()=>{setAlert(false)},10000)
-        console.log(1)
         return ()=>{
             // useEffect가 실행되기 전에 실행됨 (단, mount (X), unmount (O))
-            console.log(2)
             clearTimeout(timer) // 타이머 제거해주는 함수
         }
     }, [])
@@ -61,7 +59,7 @@ function Detail(props){
             
         <div className="row">
             <div className="col-md-6">
-            <img src={`${findProduct.url}`} width="100%" />
+            <img src={findProduct.url} width="100%" />
             </div>
             <div className="col-md-6 product">
             <h4 className="pt-5 product-title">name : {findProduct.name}</h4>
