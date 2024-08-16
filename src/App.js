@@ -9,7 +9,7 @@ import { listGoods } from './services/GoodsService';
 import Cart from './routes/Cart';
 // rface
 function App() { 
-
+  //안녕
   let [data, setData] = useState([])
 
   useEffect(()=>{
