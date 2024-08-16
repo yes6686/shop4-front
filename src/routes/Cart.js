@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Table } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import {addCount} from './../store/cartSlice'
@@ -10,7 +10,6 @@ const Cart = () => {
     let state = useSelector((state)=> { return state})
     let dispatch = useDispatch()
     let navigate = useNavigate()
- 
     
     return (
         <div>
