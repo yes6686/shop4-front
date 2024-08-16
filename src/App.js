@@ -15,7 +15,6 @@ function App() {
   useEffect(()=>{
     let watched = sessionStorage.getItem('watched')
     !watched && sessionStorage.setItem('watched',JSON.stringify([]))
-
   }, [])
   
   useEffect(()=>{
@@ -34,7 +33,7 @@ function App() {
         <Header/>
         <Routes>
           <Route path='/' element={<Home shoes={data}/>}/>
-          <Route path='/detail/:id' element={<Detail shoes={data}/>}/>
+          <Route path='/detail/:id' element={<Detail />}/>
           <Route path='/cart' element={<Cart/>} />
         </Routes>
         <Footer/>

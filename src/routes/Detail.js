@@ -3,18 +3,29 @@ import { useParams } from "react-router-dom";
 import {Nav} from 'react-bootstrap'
 import { useDispatch } from "react-redux";
 import {addItem} from './../store/cartSlice';
+import { getGoods } from "../services/GoodsService";
 
 
-function Detail(props){
-
-    console.log(props.shoes)
+function Detail(){
 
     let {id} = useParams();
-    let findProduct = props.shoes.find(x=> x.id == id);
+
+    let [findProduct, setFindProduct] = useState([])
+
+    useEffect(()=>{
+        getGoods(id)
+        .then((response)=>{
+            setFindProduct(response.data)
+        }).catch(error=>{
+            console.error(error)
+        })
+    })
+    
     let [alert, setAlert] = useState(true)
     let [tab, setTab] = useState(0)
     let dispatch = useDispatch()
     const [message, setMessage] = useState('');
+
 
     const handleOrderClick = () => {
         dispatch(addItem(findProduct));
@@ -83,7 +94,7 @@ function Detail(props){
                 <Nav.Link onClick={()=>{setTab(2)}} eventKey="link2">버튼2</Nav.Link>
             </Nav.Item>
         </Nav>
-            <TabContent tab={tab} shoes={props.shoes}/>
+            <TabContent tab={tab} shoes={findProduct}/>
 
         </div> 
         </>
