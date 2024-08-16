@@ -7,10 +7,22 @@ import { getGoods } from '../services/GoodsService';
 
 function Detail() {
   let { id } = useParams();
-
   let [findProduct, setFindProduct] = useState([]);
+  let [alert, setAlert] = useState(true);
+  let [tab, setTab] = useState(0);
+  let dispatch = useDispatch();
+  const [message, setMessage] = useState('');
+  
+  let [fade, setFade] = useState('');
 
-  useEffect(() => {
+  useEffect(() => { // 천천히 보여주기 효과
+    setFade('end');
+    return () => {
+      setFade('');
+    };
+  }, []);
+
+  useEffect(() => { // 상품 데이터 get으로 가져오기
     getGoods(id)
       .then((response) => {
         setFindProduct(response.data);
@@ -18,28 +30,9 @@ function Detail() {
       .catch((error) => {
         console.error(error);
       });
-  });
+  },[]);
 
-  let [alert, setAlert] = useState(true);
-  let [tab, setTab] = useState(0);
-  let dispatch = useDispatch();
-  const [message, setMessage] = useState('');
-
-  const handleOrderClick = () => {
-    dispatch(addItem(findProduct));
-    setMessage('상품이 장바구니에 추가되었습니다!'); // 메시지 설정
-    setTimeout(() => setMessage(''), 2000); // 2초 후 메시지 제거
-  };
-
-  useEffect(() => {
-    // 처음 detail페이제에 로드할때 해당상품 id 최근본항목에 저장하기
-    let watched = JSON.parse(sessionStorage.getItem('watched'));
-    watched.push(findProduct.id);
-    watched = Array.from(new Set(watched));
-    sessionStorage.setItem('watched', JSON.stringify(watched));
-  }, []);
-
-  useEffect(() => {
+  useEffect(() => { // 10초 이내 구매 시 할인 알람
     let timer = setTimeout(() => {
       setAlert(false);
     }, 10000);
@@ -49,14 +42,17 @@ function Detail() {
     };
   }, []);
 
-  let [fade, setFade] = useState('');
-
-  useEffect(() => {
-    setFade('end');
-    return () => {
-      setFade('');
-    };
-  }, []);
+  const handleOrderClick = () => {
+    dispatch(addItem(findProduct));
+    setMessage('상품이 장바구니에 추가되었습니다!'); // 메시지 설정
+    setTimeout(() => setMessage(''), 2000); // 2초 후 메시지 제거
+  };
+  
+  // 처음 detail페이제에 로드할때 해당상품 id 최근본항목에 저장하기
+  let watched = JSON.parse(sessionStorage.getItem('watched'));
+  watched.push(findProduct.id);
+  watched = Array.from(new Set(watched));
+  sessionStorage.setItem('watched', JSON.stringify(watched));
 
   return (
     <>
@@ -121,13 +117,13 @@ function Detail() {
             </Nav.Link>
           </Nav.Item>
         </Nav>
-        <TabContent tab={tab} shoes={findProduct} />
+        <TabContent tab={tab}/>
       </div>
     </>
   );
 }
 
-function TabContent({ tab, shoes }) {
+function TabContent({ tab }) {
   let [fade, setFade] = useState('');
 
   useEffect(() => {
