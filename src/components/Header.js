@@ -7,7 +7,6 @@ import { useNavigate } from 'react-router-dom';
 const Header = () => {
     const navigate = useNavigate();
     const state = useSelector((state) => state);
-
     const handleNavigation = (path) => {
         navigate(path);
     };
@@ -35,10 +34,13 @@ const Header = () => {
 
                                 <Dropdown.Menu className="custom-dropdown-menu">
                                     <Dropdown.Item onClick={() => handleNavigation('/mypage')}>
-                                        My Page
+                                        마이페이지
                                     </Dropdown.Item>
-                                    <Dropdown.Item onClick={() => handleNavigation('/Cart')}>
-                                        Cart
+                                    <Dropdown.Item onClick={() => handleNavigation('/cart')}>
+                                        장바구니
+                                    </Dropdown.Item>
+                                    <Dropdown.Item onClick={() => handleNavigation('/recentlyViewed')}>
+                                        최근 본 상품
                                     </Dropdown.Item>
                                     {/* You can add more items here */}
                                 </Dropdown.Menu>
