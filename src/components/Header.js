@@ -19,7 +19,6 @@ const Header = () => {
                     <Navbar.Brand onClick={() => navigate('/')}>Shop</Navbar.Brand>
                     <Nav className="me-auto">
                         <Nav.Link onClick={() => navigate('/')}>Home</Nav.Link>
-                        <Nav.Link onClick={() => navigate('/Cart')}>Cart</Nav.Link>
                     </Nav>
                     {/* 사용자 이름 표시 */}
                     {state.user && (
