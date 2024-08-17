@@ -6,6 +6,7 @@ import Home from './routes/Home';
 import Detail from './routes/Detail';
 import Cart from './routes/Cart';
 import MyPage from './routes/MyPage';
+import RecentlyViewed from './routes/RecentlyViewed';
 
 function App() { 
   
@@ -17,6 +18,7 @@ function App() {
           <Route path='/detail/:id' element={<Detail/>}/>
           <Route path='/cart' element={<Cart/>} />
           <Route path='/myPage' element={<MyPage/>}/>
+          <Route path='/recentlyViewed' element={<RecentlyViewed/>}/>
         </Routes>
         <Footer/>
     </>
