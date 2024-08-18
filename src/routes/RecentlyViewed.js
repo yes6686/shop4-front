@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { listGoods } from '../services/GoodsService';
 import { Button, Table } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+import { addItem } from './../store/cartSlice';
 import './../App.css';
+import { deleteRecentlyViewedGoods } from '../store/recentlyViewedSlice';
 
 const RecentlyViewed = () => {
   const state = useSelector((state) => state);
   const [shoes, setShoes] = useState([]);
+  let navigate = useNavigate();
+  let dispatch = useDispatch();
   
   useEffect(() => {
     getAllGoods();
@@ -21,10 +26,18 @@ const RecentlyViewed = () => {
         console.error('Failed to fetch goods:', error);
       });
   }
-  
-  const isDataLoaded = shoes.length > 0;
 
+  const handleOrderClick = (item) => {
+    dispatch(addItem(item)); 
+    alert('상품이 장바구니에 추가되었습니다!')
+  }
+
+  const handleDeleteClick = (index) => {
+    dispatch(deleteRecentlyViewedGoods(index));
+  }
+  
   return (
+    
     <div>
       <br />
       <h2 style={{ textAlign: 'center' }}>최근 본 상품</h2>
@@ -35,7 +48,7 @@ const RecentlyViewed = () => {
         <Table bordered hover>
 
           <tbody>
-            {Array.from(new Set(state.recentlyViewed)).map((viewedItem) => {
+            {Array.from(new Set(state.recentlyViewed)).map((viewedItem,index) => {
               const shoe = shoes[viewedItem - 1];
               if (!shoe) return null;
               
@@ -46,6 +59,8 @@ const RecentlyViewed = () => {
                       src={shoe.url} 
                       alt={shoe.name} 
                       className="product-image" 
+                      onClick={()=>navigate(`/detail/${shoe.id}`)}
+                      style={{ cursor: 'pointer' }}
                     />
                   </td>
                   <td>
@@ -57,7 +72,7 @@ const RecentlyViewed = () => {
                       <Button 
                         variant="primary" 
                         className="me-2"
-                        onClick={() => {/* Handle add to cart action */}}
+                        onClick={() => {handleOrderClick(shoe)}}
                       >
                         장바구니담기
                       </Button>
@@ -70,7 +85,7 @@ const RecentlyViewed = () => {
                       </Button>    
                       <Button 
                         variant="danger" 
-                        onClick={() => {/* Handle delete action */}}
+                        onClick={() => {handleDeleteClick(index)}}
                       >
                         삭제
                       </Button>
