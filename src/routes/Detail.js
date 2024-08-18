@@ -4,6 +4,7 @@ import { Nav } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { addItem } from './../store/cartSlice';
 import { getGoods } from '../services/GoodsService';
+import { addRecentlyViewedGoods } from '../store/recentlyViewedSlice';
 
 function Detail() {
   let { id } = useParams();
@@ -49,11 +50,11 @@ function Detail() {
   };
   
   // 처음 detail페이제에 로드할때 해당상품 id 최근본항목에 저장하기
-  let watched = JSON.parse(sessionStorage.getItem('watched'));
-  watched.push(findProduct.id);
-  watched = Array.from(new Set(watched));
-  sessionStorage.setItem('watched', JSON.stringify(watched));
-
+  useEffect(()=>{
+    dispatch(addRecentlyViewedGoods(id))
+    console.log(id)
+  },[])
+  
   return (
     <>
       {alert == true ? (

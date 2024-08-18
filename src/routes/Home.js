@@ -7,11 +7,6 @@ import { listGoods } from '../services/GoodsService';
 const Home = () => {
 
   let [shoes, setShoes] = useState([])
-
-  useEffect(()=>{
-    let watched = sessionStorage.getItem('watched')
-    !watched && sessionStorage.setItem('watched',JSON.stringify([]))
-  }, [])
   
   useEffect(()=>{
     getAllGoods();
@@ -33,7 +28,7 @@ const Home = () => {
         {
           shoes.map((a, index)=>{
             return (
-              <Card shoes={shoes} index={index}></Card>
+              <Card key={index} shoes={shoes} index={index}></Card>
             )
           })
         }
