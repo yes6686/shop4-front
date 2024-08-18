@@ -16,11 +16,12 @@ const Header = () => {
           <Nav className="me-auto">
             <Nav.Link onClick={()=>{navigate('/')}}>Home</Nav.Link>
             <Nav.Link onClick={()=>{navigate('/Cart')}}>Cart</Nav.Link>
+            <Nav.Link onClick={()=>{navigate('/Cart')}}>Cart</Nav.Link>
           </Nav>
           {/* 사용자 이름 표시 */}
           {state.user && (
                         <Nav className="ms-auto">
-                            <Navbar.Brand className="user-name" disabled>{state.user}</Navbar.Brand>
+                            <Navbar.Brand className="user-name" disabled onClick = {() => {{navigate('/user')}}}>{state.user}</Navbar.Brand>
                         </Nav>
                     )}
         </Container>

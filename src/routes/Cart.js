@@ -14,7 +14,6 @@ const Cart = () => {
     
     return (
         <div>
-            
         <Table bordered hover>
         <thead>
           <tr>
