@@ -5,14 +5,17 @@
   opacity: 1;
   transition: opacity 0.5s;
 }
+
 .App {
   text-align: center;
 }
 
 .footer{
-  position: fixed;
-  bottom: 0;
+  bottom: 0px;
+  height: 75px;
   width: 100%;
+  position: fixed;
+  transform: translateZ(0);
 }
 .App-logo {
   height: 40vmin;
@@ -181,6 +184,38 @@
   width: 100px; /* 원하는 너비 */
   height: auto; /* 비율을 유지하며 높이 자동 조절 */
   object-fit: cover; /* 이미지 비율 유지, 중앙을 기준으로 잘림 */
+}
+
+/* Ensure the image fills the table cell */
+.product-image {
+  width: 330px;
+  height: 220px;
+}
+
+
+/* Style for product title */
+.product-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+/* Style for product description */
+.product-content {
+  margin: 0.5rem 0;
+}
+
+/* Style for product price */
+.product-price {
+  color: #f00;
+  font-size: 1.125rem;
+  margin-bottom: 1rem;
+}
+
+/* Style for buttons container */
+.product-buttons {
+  display: flex;
+  gap: 0.5rem; /* Add some space between buttons */
+  justify-content: flex-start; /* Align buttons to the start */
 }
 
 /* 유저이름 옆에있는 드롭다운 버튼 꾸미기 (Header.js) */
