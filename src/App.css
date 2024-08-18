@@ -5,14 +5,17 @@
   opacity: 1;
   transition: opacity 0.5s;
 }
+
 .App {
   text-align: center;
 }
 
 .footer{
-  position: fixed;
-  bottom: 0;
+  bottom: 0px;
+  height: 75px;
   width: 100%;
+  position: fixed;
+  transform: translateZ(0);
 }
 .App-logo {
   height: 40vmin;
@@ -144,7 +147,7 @@
   border-radius: 5px; /* 모서리 둥글게 */
   cursor: pointer; /* 마우스 포인터 변경 */
   position: fixed;
-  z-index: 1000; /* 다른 요소 위에 표시되도록 설정 */
+  z-index: 999; /* 다른 요소 위에 표시되도록 설정 */
   width: 100%;
   transition: background-color 0.3s, transform 0.2s; /* 배경색과 크기 변환 애니메이션 */
 }
@@ -181,4 +184,64 @@
   width: 100px; /* 원하는 너비 */
   height: auto; /* 비율을 유지하며 높이 자동 조절 */
   object-fit: cover; /* 이미지 비율 유지, 중앙을 기준으로 잘림 */
+}
+
+/* Ensure the image fills the table cell */
+.product-image {
+  width: 330px;
+  height: 220px;
+}
+
+
+/* Style for product title */
+.product-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+/* Style for product description */
+.product-content {
+  margin: 0.5rem 0;
+}
+
+/* Style for product price */
+.product-price {
+  color: #f00;
+  font-size: 1.125rem;
+  margin-bottom: 1rem;
+}
+
+/* Style for buttons container */
+.product-buttons {
+  display: flex;
+  gap: 0.5rem; /* Add some space between buttons */
+  justify-content: flex-start; /* Align buttons to the start */
+}
+
+/* 유저이름 옆에있는 드롭다운 버튼 꾸미기 (Header.js) */
+.custom-dropdown-menu {
+  background-color: #ffffff; /* White background for the dropdown menu */
+  border: 1px solid #ddd; /* Light border for a subtle separation */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  min-width: 150px; /* Minimum width for the dropdown */
+  z-index: 1000; /* 다른 요소 위에 표시되도록 설정 */
+}
+
+.custom-dropdown-menu .dropdown-item {
+  color: #333; /* Dark text color for better readability */
+  font-size: 14px; /* Adjust font size as needed */
+  padding: 10px 15px; /* Padding for better spacing */
+}
+
+.custom-dropdown-menu .dropdown-item:hover,
+.custom-dropdown-menu .dropdown-item:focus {
+  background-color: #f8f9fa; /* Light background on hover/focus */
+  color: #007bff; /* Change text color on hover/focus */
+  text-decoration: none; /* Remove underline on hover/focus */
+}
+
+.custom-dropdown-menu .dropdown-item.disabled {
+  color: #6c757d; /* Color for disabled items */
+  background-color: transparent; /* No background for disabled items */
 }
