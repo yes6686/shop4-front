@@ -54,6 +54,7 @@ function Detail() {
     dispatch(addRecentlyViewedGoods(id))
     console.log(id)
   },[])
+  
   return (
     <>
       {alert == true ? (

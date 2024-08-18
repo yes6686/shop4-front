@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { listGoods } from '../services/GoodsService';
 
 const RecentlyViewed = () => {
-  const state = useSelector((state) => state);
+  let state = useSelector((state) => state);
   const [shoes, setShoes] = useState([]);
   
   useEffect(() => {
@@ -22,7 +22,6 @@ const RecentlyViewed = () => {
   
   // Check if shoes data is loaded and has items
   const isDataLoaded = shoes.length > 0;
-  
   return (
     <div>
       <h2>최근 본 상품</h2>
@@ -30,9 +29,11 @@ const RecentlyViewed = () => {
         {state.recentlyViewed.length === 0 ? (
           <li>최근 본 상품이 없습니다.</li>
         ) : (
-          state.recentlyViewed.map((viewedItem, index) => {
+          // 최근 본 상품 중복 제거
+          Array.from(new Set(state.recentlyViewed)).map((viewedItem, index) => {
             // Ensure the index is within bounds of shoes array
-            const shoe = shoes[viewedItem];
+            const shoe = shoes[viewedItem-1];
+            console.log(viewedItem)
             if (!shoe) return null; // Skip if shoe is not available
             
             return (
@@ -40,7 +41,7 @@ const RecentlyViewed = () => {
                 <img src={shoe.url} alt={shoe.name} />
                 <div>
                   <h3>{shoe.name}</h3>
-                  <p>${shoe.price.toFixed(2)}</p>
+                  <p>{shoe.price}</p>
                 </div>
               </li>
             );
