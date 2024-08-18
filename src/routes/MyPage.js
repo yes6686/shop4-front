@@ -6,7 +6,6 @@ import axios from 'axios';
 
 const MyPage = () => {  
   let [user, setUser] = useState([]);
-
   let member = {
     name : 'babo',
     email : 'a@gmail.com',
@@ -15,24 +14,22 @@ const MyPage = () => {
     age : '25',
     birth : '2000-12-17',
     gender: '남',
-    userid : 'ujkid',
-    userpw : 'ujkpw'
+    userId : 'ujkid',
+    userPw : 'ujkpw'
   }
 
   useEffect(() => {
-    getMember(1)
-      .catch(function (error) {
-        console.log(error.toJSON());
-        if(error.toJSON().status===404) {
-          createMember(member)
-        }
-      }).finally(() => {
-        getMember(1).then((response) => {
-          setUser(response.data)
-        })
+    getMember(1).catch(function (error) {
+      if (error.response) {
+        createMember(member)
+      }
+    }).finally(function() { 
+      getMember(1).then((response)=> {
+        setUser(response.data)
       })
-      ;
-  } ,[])
+    })
+  },[])
+  
 
 return (
     <>
