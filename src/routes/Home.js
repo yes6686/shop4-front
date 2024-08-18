@@ -1,10 +1,24 @@
 import React, { useEffect } from 'react'
 import {useState } from 'react';
 import './../App.css';
-import axios from 'axios';
 import { NavLink } from 'react-router-dom';
+import { listGoods } from '../services/GoodsService';
 
-const Home = (props) => {
+const Home = () => {
+
+  let [shoes, setShoes] = useState([])
+  
+  useEffect(()=>{
+    getAllGoods();
+  },[])
+
+  function getAllGoods(){
+    listGoods().then((response)=>{
+        setShoes(response.data);
+    }).catch(error=>{
+        console.error(error);
+    })
+  }
 
   return (
     <div className="App">
@@ -12,9 +26,9 @@ const Home = (props) => {
     <div className='container'>
       <div className='row'>
         {
-          props.shoes.map((a, index)=>{
+          shoes.map((a, index)=>{
             return (
-              <Card shoes={props.shoes} index={index}></Card>
+              <Card key={index} shoes={shoes} index={index}></Card>
             )
           })
         }
