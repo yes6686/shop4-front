@@ -20,6 +20,8 @@ function App() {
           <Route path='/myPage' element={<MyPage/>}/>
           <Route path='/recentlyViewed' element={<RecentlyViewed/>}/>
         </Routes>
+        {/* footer 박스로 클릭안되는 현상 처리 */}
+        <br/><br/><br/> 
         <Footer/>
     </>
   );
