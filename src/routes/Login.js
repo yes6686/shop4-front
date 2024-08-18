@@ -38,11 +38,13 @@ function Login() {
         <form className="memberForm" onSubmit={onSubmit} encType="multipart/form">
           
           <div className="mb-3">
-            <input type="text" value={userId} onChange={userIdChange} placeholder="아이디"/>
+            <input type="text" value={userId} onChange={userIdChange} 
+              class="form-control" placeholder="아이디"/>
           </div>
           
           <div className="mb-3">
-            <input type="password" value={userPw} onChange={userPwChange} placeholder="비밀번호"/>
+            <input type="password" value={userPw} onChange={userPwChange} 
+              class="form-control" placeholder="비밀번호"/>
           </div>
           
           <div className="mb-3 form-check">
@@ -53,7 +55,8 @@ function Login() {
             <label for="autoLogin">자동로그인</label>
           </div>
           
-          <button type="submit" value="user login">Submit</button>
+          <button type="submit" class="btn btn-primary"
+            value="user login">로그인</button>
           
           <ul className="findRemove">
             <li>아이디/비밀번호 찾기</li>    
