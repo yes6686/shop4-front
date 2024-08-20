@@ -9,6 +9,8 @@ import Cart from './routes/Cart';
 import MyPage from './routes/MyPage';
 import RecentlyViewed from './routes/RecentlyViewed';
 import Direct from './routes/Direct';
+import Login from './routes/Login'
+import SignUp from './routes/SignUp'
 
 function App() { 
   
@@ -22,6 +24,8 @@ function App() {
           <Route path='/myPage' element={<MyPage/>}/>
           <Route path='/recentlyViewed' element={<RecentlyViewed/>}/>
           <Route path='/direct' element={<Direct/>}></Route>
+          <Route path='/login' element={<Login/>} />
+          <Route path='/signUp' element={<SignUp/>} />
         </Routes>
         {/* footer 박스로 클릭안되는 현상 처리 */}
         <br/><br/><br/> 
