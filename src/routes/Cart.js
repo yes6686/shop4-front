@@ -18,15 +18,15 @@ const Cart = () => {
   let [cartData, setCartData] = useState([]);
   let [goodsData, setGoodsdata] = useState([]);
 
-  function getAllCart() {
-    listGoods()
-      .then((response) => {
-        setCartData(response.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }
+  //   function getAllCart() {
+  //     listCarts()
+  //       .then((response) => {
+  //         setCartData(response.data);
+  //       })
+  //       .catch((error) => {
+  //         console.error(error);
+  //       });
+  //   }
 
   const iconStyle = {
     fontSize: '24px', // 아이콘 크기를 키움
