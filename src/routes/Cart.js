@@ -1,35 +1,56 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Table } from 'react-bootstrap';
 import './../App.css';
 import { useNavigate } from 'react-router-dom';
 import { FiShoppingCart } from 'react-icons/fi';
 import { AiOutlinePicture } from 'react-icons/ai';
 import { GiClothes } from 'react-icons/gi';
-import { MdProductionQuantityLimits } from 'react-icons/md';
 import { FaMoneyBillWave } from 'react-icons/fa';
 import { PiPackageDuotone } from 'react-icons/pi';
 import { FaCartArrowDown } from 'react-icons/fa6';
-import { BsCartPlus } from 'react-icons/bs';
-import { BsCartDash } from 'react-icons/bs';
-import axios from 'axios';
+import { BsCartPlus, BsCartDash } from 'react-icons/bs';
+import { listCarts, updateCart } from '../services/CartService';
 
 const Cart = () => {
   let navigate = useNavigate();
   let [cartData, setCartData] = useState([]);
-  let [goodsData, setGoodsdata] = useState([]);
+  const user = sessionStorage.getItem('user');
 
-  //   function getAllCart() {
-  //     listCarts()
-  //       .then((response) => {
-  //         setCartData(response.data);
-  //       })
-  //       .catch((error) => {
-  //         console.error(error);
-  //       });
-  //   }
+  useEffect(() => {
+    if (user) {
+      const userData = JSON.parse(user);
+      const member_id = userData.id;
+      getAllCart(member_id);
+      console.log('로그인한 사용자의 member_id :', member_id);
+    } else {
+      console.log('로그인 정보가 없습니다.');
+    }
+  }, [user]);
+
+  function getAllCart(member_id) {
+    listCarts(member_id)
+      .then((response) => {
+        setCartData(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
+  const updateQuantity = (item, delta) => {
+    const newQuantity = item.quantity + delta;
+    setCartData(
+      cartData.map((cartItem) =>
+        cartItem.id === item.id
+          ? { ...cartItem, quantity: newQuantity }
+          : cartItem
+      )
+    );
+    updateCart(item.id, { quantity: newQuantity });
+  };
 
   const iconStyle = {
-    fontSize: '24px', // 아이콘 크기를 키움
+    fontSize: '24px',
   };
 
   return (
@@ -61,36 +82,41 @@ const Cart = () => {
             </th>
           </tr>
         </thead>
-        {/* <tbody>
-          {state.cart.map((a, i) => (
-            <>
-              <tr key={i} style={{ textAlign: 'center', fontSize: '22px' }}>
-                <td>{state.cart[i].id}</td>
-                <td
-                  onClick={() => {
-                    // 이미지 클릭 시 이미지 상품으로 경로 이동
-                    navigate(`/detail/${state.cart[i].id}`);
-                  }}
+        <tbody>
+          {cartData.map((item) => (
+            <tr key={item.id} style={{ textAlign: 'center', fontSize: '22px' }}>
+              <td>
+                <input type="checkbox" />
+              </td>
+              <td
+                onClick={() => {
+                  navigate(`/detail/${item.goods.id}`);
+                }}
+              >
+                <img
+                  className="image"
+                  src={`${item.goods.url}`}
+                  alt={item.goods.name}
+                />
+              </td>
+              <td>{item.goods.name}</td>
+              <td>{item.quantity}</td>
+              <td>{item.goods.price}</td>
+              <td>무료</td>
+              <td>
+                <button
+                  style={{ marginRight: '10px' }}
+                  onClick={() => updateQuantity(item, 1)}
                 >
-                  <img className="image" src={'none'}></img>
-                </td>
-                <td>이름</td>
-                <td>갯수</td>
-                <td>가격</td>
-                <td>무료</td>
-
-                <td>
-                  <button style={{ marginRight: '10px' }}>
-                    <BsCartPlus />
-                  </button>
-                  <button>
-                    <BsCartDash />
-                  </button>
-                </td>
-              </tr> */}
-        {/* </>
+                  <BsCartPlus />
+                </button>
+                <button onClick={() => updateQuantity(item, -1)}>
+                  <BsCartDash />
+                </button>
+              </td>
+            </tr>
           ))}
-        </tbody> */}
+        </tbody>
       </Table>
     </div>
   );
