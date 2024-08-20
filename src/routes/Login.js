@@ -2,6 +2,7 @@ import './Login.css'
 import {useState} from 'react'
 import axios from 'axios'
 import {useNavigate} from 'react-router-dom'
+
 function Login() {
 
   const navigate = useNavigate();
@@ -38,14 +39,13 @@ function Login() {
      userPw:userPw 
     })
     .then((res)=>{
-      //받아온 데이터 세션에 저장하는 로직추가 해야됨
-
-
-      alert(res.data.name + "님 어서오세요!");
+      sessionStorage.setItem('user', JSON.stringify(res.data)); //session에 값 추가
+      sessionStorage.setItem('isLoggedIn', true);
       navigate('/');
     })
     .catch(function(error) {
       alert("로그인에 실패하였습니다.");
+      window.location.reload();
     })
   }
 
@@ -86,7 +86,7 @@ function Login() {
           <ul className="findRemove">
             <li>아이디/비밀번호 찾기</li>    
             <li>휴면해제</li>
-            <li>회원가입</li>
+            <li onClick={()=> {navigate('/signUp')}}>회원가입</li>
           </ul>
 
         </form>
