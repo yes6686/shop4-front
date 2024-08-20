@@ -5,9 +5,11 @@ import {useNavigate} from 'react-router-dom'
 const MyPage = () => {  
     const user = JSON.parse(sessionStorage.getItem('user')); // 세션에서 사용자 이름 가져오기
     const isLoggedIn = sessionStorage.getItem('isLoggedIn'); // 로그인 여부 확인
-
+    
+    
     let navigate = useNavigate();
     useEffect(() => {
+        console.log(user);
         if (!isLoggedIn || !user) {
             navigate('/login'); // 로그인되지 않았거나 사용자 정보가 없는 경우 로그인 페이지로 이동
             return;
@@ -36,8 +38,9 @@ const MyPage = () => {
                     <div style={{height : 'auto', border : '1px solid green', margin : '15px'}}>나이 : {user.age}</div>
                     <div style={{height : 'auto', border : '1px solid green', margin : '15px'}}>생일 : {user.birth}</div>
                     <div style={{height : 'auto', border : '1px solid green', margin : '15px'}}>성별 : {user.gender}</div>
-                    <div style={{height : 'auto', border : '1px solid green', margin : '15px'}}>{user.userid}</div>
-                    <div style={{height : 'auto', border : '1px solid green', margin : '15px'}}>{user.userpw}</div>
+                    <div style={{height : 'auto', border : '1px solid green', margin : '15px'}}>아이디 : {user.userId}</div>
+                    <div style={{height : 'auto', border : '1px solid green', margin : '15px'}}>비밀번호 : {user.userPw}</div>
+                    <div style={{height : 'auto', border : '1px solid green', margin : '15px'}}>잔액 : {user.cash}</div>
                 </div>
             </div>
         </>
