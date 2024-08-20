@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Nav } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { addItem } from './../store/cartSlice';
@@ -13,7 +13,18 @@ function Detail() {
   let [tab, setTab] = useState(0);
   let dispatch = useDispatch();
   const [message, setMessage] = useState('');
-  
+  let [stock, setStock] = useState();
+  let [orderNum, setOrderNum] = useState();
+  const navigator = useNavigate();
+
+  function chkCharCode(event) {
+    const validKey = /[^0-9]/g;
+    if (validKey.test(event.target)) {
+      event.target.value = event.target.value.replace(validKey, '');
+    }
+  };
+
+
   let [fade, setFade] = useState('');
 
   useEffect(() => { // 천천히 보여주기 효과
@@ -27,6 +38,8 @@ function Detail() {
     getGoods(id)
       .then((response) => {
         setFindProduct(response.data);
+        //재고관리
+        setStock(response.data.stock);
       })
       .catch((error) => {
         console.error(error);
@@ -46,7 +59,7 @@ function Detail() {
   const handleOrderClick = () => {
     dispatch(addItem(findProduct));
     setMessage('상품이 장바구니에 추가되었습니다!'); // 메시지 설정
-    setTimeout(() => setMessage(''), 2000); // 2초 후 메시지 제거
+    setTimeout(() => setMessage(''), 10000); // 2초 후 메시지 제거
   };
   
   // 처음 detail페이제에 로드할때 해당상품 id 최근본항목에 저장하기
@@ -76,11 +89,40 @@ function Detail() {
             </p>
             <p className="product-price">price : {findProduct.price}</p>
             <p className="product-count">stock : {findProduct.stock}</p>
+
+            {/*수량입력*/}
+            <input type='number' defaultValue = '0' min={"0"} max={stock} 
+            style={{height : "60px", width : "100px", marginRight : '12px', fontSize : "30px", outline:'none'} 
+            }
+
+            //한글 입력방지 이벤트핸들러
+            onCompositionStart={(e)=>{
+              e.target.blur();
+              requestAnimationFrame(()=>e.target.focus())
+            }}
+
+            //stock 갯수 이상 입력 못하게하는 이벤트핸들러
+            onChange={(e) => {
+              chkCharCode(e);
+              if (e.target.value > stock) {
+                e.target.value=stock;
+              }
+              setOrderNum(e.target.value);
+            }}
+            >
+            </input>
+
+            {/*Detail.css*/}
+            <button className="buy-button"
+            onClick={() => navigator('/direct')}
+            >
+              바로구매</button>
             <button
-              className="btn btn-danger order-button"
+              className="order-button"
+              style={{marginLeft:'5px'}}
               onClick={handleOrderClick}
             >
-              order
+              장바구니
             </button>
           </div>
           {/* 메시지 표시 */}

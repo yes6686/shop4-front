@@ -1,4 +1,5 @@
 import './App.css';
+import './Detail.css'
 import { Route, Routes } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -7,6 +8,7 @@ import Detail from './routes/Detail';
 import Cart from './routes/Cart';
 import MyPage from './routes/MyPage';
 import RecentlyViewed from './routes/RecentlyViewed';
+import Direct from './routes/Direct';
 
 function App() { 
   
@@ -19,6 +21,7 @@ function App() {
           <Route path='/cart' element={<Cart/>} />
           <Route path='/myPage' element={<MyPage/>}/>
           <Route path='/recentlyViewed' element={<RecentlyViewed/>}/>
+          <Route path='/direct' element={<Direct/>}></Route>
         </Routes>
         {/* footer 박스로 클릭안되는 현상 처리 */}
         <br/><br/><br/> 
