@@ -7,8 +7,8 @@ export const listCarts = (memberId) =>
 
 export const createcart = (cart) => axios.post(REST_API_BASE_URL, cart);
 
-export const updateGoods = (cartId, cart) =>
-  axios.put(REST_API_BASE_URL + '/' + cartId, cart);
+export const updateCart = (cartId, cart) =>
+  axios.patch(REST_API_BASE_URL + '/' + cartId, cart);
 
-export const deleteGoods = (cartId) =>
+export const deleteCart = (cartId) =>
   axios.delete(REST_API_BASE_URL + '/' + cartId);
