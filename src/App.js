@@ -1,5 +1,6 @@
 import './App.css';
 import './Detail.css'
+import './Direct.css'
 import { Route, Routes } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';

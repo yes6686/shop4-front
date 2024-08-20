@@ -1,10 +1,19 @@
+import { useSelector } from "react-redux"
 
 function Direct() {
+    let userInfo = useSelector((state) => { return state.user})
+    console.log(userInfo)
+
     return (
-        <div style={{width :  "80%", alignContent : "center"}}>
-            <h2>결제 페이지</h2>
+        <div style={{width :  "40%", textAlign : "left",  margin:'0 auto'}}>
+            <br/>
+            <h2>결제</h2>
+            <hr style={{height : '3px', background : 'black'}}/>
+            <br/>
+            <h2>구매자 정보</h2>
             <hr/>
-            <table>
+            <table style={{ margin:'0 auto', width : '100%'
+            }}>
                 <thead>
                     <tr>
                     <th>Number</th>
