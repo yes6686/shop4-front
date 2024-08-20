@@ -10,11 +10,16 @@ import { PiPackageDuotone } from 'react-icons/pi';
 import { FaCartArrowDown } from 'react-icons/fa6';
 import { BsCartPlus, BsCartDash } from 'react-icons/bs';
 import { listCarts, updateCart } from '../services/CartService';
+import { MdOutlineDeleteForever } from 'react-icons/md';
+import { deleteCart } from '../services/CartService';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import CheckBox from '../components/CheckBox';
 
 const Cart = () => {
   let navigate = useNavigate();
-  let [cartData, setCartData] = useState([]);
+  const [cartData, setCartData] = useState([]);
   const user = sessionStorage.getItem('user');
+  const [checkGoods, setcheckGoods] = useState(new Set()); //Set 은 중복없이 유일한값만 저장하는 배열임,cartId가 저장됨 구매시 이용
 
   useEffect(() => {
     if (user) {
@@ -38,15 +43,35 @@ const Cart = () => {
   }
 
   const updateQuantity = (item, delta) => {
+    //수량증감 핸들러
     const newQuantity = item.quantity + delta;
-    setCartData(
-      cartData.map((cartItem) =>
-        cartItem.id === item.id
-          ? { ...cartItem, quantity: newQuantity }
-          : cartItem
-      )
-    );
-    updateCart(item.id, { quantity: newQuantity });
+    if (newQuantity <= 0) {
+      deleteCart(item.id);
+      setCartData((prev) => {
+        return prev.filter((goods) => goods.id !== item.id);
+      });
+    } else {
+      setCartData(
+        cartData.map((cartItem) =>
+          cartItem.id === item.id
+            ? { ...cartItem, quantity: newQuantity }
+            : cartItem
+        )
+      );
+      updateCart(item.id, { quantity: newQuantity });
+    }
+  };
+
+  const checkGoodsHandler = (cartId, isChecked) => {
+    if (isChecked) {
+      checkGoods.add(cartId); //set은 add로 추가
+      setcheckGoods(checkGoods);
+      console.log(checkGoods);
+    } else if (!isChecked) {
+      checkGoods.delete(cartId);
+      setcheckGoods(checkGoods);
+      console.log(checkGoods);
+    }
   };
 
   const iconStyle = {
@@ -86,7 +111,10 @@ const Cart = () => {
           {cartData.map((item) => (
             <tr key={item.id} style={{ textAlign: 'center', fontSize: '22px' }}>
               <td>
-                <input type="checkbox" />
+                <CheckBox
+                  id={item.id}
+                  checkGoodsHandler={checkGoodsHandler} // props로 함수전달
+                />
               </td>
               <td
                 onClick={() => {
@@ -110,14 +138,35 @@ const Cart = () => {
                 >
                   <BsCartPlus />
                 </button>
-                <button onClick={() => updateQuantity(item, -1)}>
+                <button
+                  style={{ marginRight: '10px' }}
+                  onClick={() => updateQuantity(item, -1)}
+                >
                   <BsCartDash />
+                </button>
+                <button
+                  style={{ marginRight: '10px' }}
+                  onClick={() => {
+                    deleteCart(item.id);
+                    let delete_id = item.id;
+                    setCartData((prev) => {
+                      return prev.filter((goods) => goods.id !== delete_id);
+                    });
+                  }}
+                >
+                  <MdOutlineDeleteForever />
                 </button>
               </td>
             </tr>
           ))}
         </tbody>
       </Table>
+      <div
+        className="d-flex justify-content-center align-items-center"
+        style={{ height: '20vh' }}
+      >
+        <button className="btn btn-warning btn-lg">구매하기(미구현)</button>
+      </div>
     </div>
   );
 };
