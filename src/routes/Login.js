@@ -1,4 +1,3 @@
-import './Login.css'
 import {useState} from 'react'
 import axios from 'axios'
 import {useNavigate} from 'react-router-dom'
@@ -43,7 +42,7 @@ function Login() {
       sessionStorage.setItem('isLoggedIn', true);
       navigate('/');
     })
-    .catch(function(error) {
+    .catch(function() {
       alert("로그인에 실패하였습니다.");
       window.location.reload();
     })

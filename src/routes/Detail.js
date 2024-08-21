@@ -9,7 +9,6 @@ import { createcart } from '../services/CartService';
 function Detail() {
   let { id } = useParams();
   let [findProduct, setFindProduct] = useState([]);
-  let [alert, setAlert] = useState(true);
   let dispatch = useDispatch();
   const [message, setMessage] = useState('');
   const [cartItem, setCartItem] = useState({});
@@ -79,7 +78,7 @@ function Detail() {
           <div className="col-md-6">
             <img
               src={findProduct.url}
-              style={{ width: '90%', height: '100%'}}
+              style={{ width: '100%', height: '100%'}}
               alt="Product Image"
             />
           </div>
@@ -102,27 +101,6 @@ function Detail() {
         </div>
       </div>
     </>
-  );
-}
-
-function TabContent({ tab }) {
-  let [fade, setFade] = useState('');
-
-  useEffect(() => {
-    // automatic batching 기능 방지를 위한 setTimeout() 사용
-    let timer = setTimeout(() => {
-      setFade('end');
-    }, 100);
-    return () => {
-      clearTimeout(timer);
-      setFade('');
-    };
-  }, [tab]);
-
-  return (
-    <div className={'start ' + fade}>
-      {[<div>내용0</div>, <div>내용1</div>, <div>내용2</div>][tab]}
-    </div>
   );
 }
 
