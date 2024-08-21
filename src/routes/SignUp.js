@@ -1,165 +1,136 @@
 import './SignUp.css'
-import {useState} from 'react'
-import {useNavigate} from 'react-router-dom'
-import {createMember, getMember} from '../services/MemberService'
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { createMember } from '../services/MemberService'
+import axios from 'axios'
 
 function SignUp() {
-
     const navigate = useNavigate();
 
-    let [userId,setUserId] = useState("");
-    let [userPw,setUserPw] = useState("");
-    let [userName,setUserName] = useState("");
-    let [userPhone, setUserPhone] = useState("");
-    let [userEmail,setUserEmail] = useState("");
-    let [userAdress, setUserAdress] = useState("");
-    let [userAge,setUserAge] = useState("");
-    let [userBirth, setUserBirth] = useState("");
-    let [userGender,setUserGender] = useState("");
+    // json형태로 변수 선언 후에 값 입력받기
+    const [formData, setFormData] = useState({
+        userId: "",
+        userPw: "",
+        name: "",
+        phone: "",
+        email: "",
+        address: "",
+        age: "",
+        birth: "",
+        gender: ""
+    });
+
+    const [isIdUnique, setIsIdUnique] = useState(false);
 
 
-    // 회원 정보 입력받는 함수
-    const userIdChange = (e) => setUserId(e.target.value);
-    const userPwChange = (e) => setUserPw(e.target.value);
-    const userNameChange = (e) => setUserName(e.target.value);
-    const userPhoneChange = (e) => setUserPhone(e.target.value);
-    const userEmailChange = (e) => setUserEmail(e.target.value);
-    const userAdressChange = (e) => setUserAdress(e.target.value);
-    const userBirthChange = (e) => setUserBirth(e.target.value);
-    const userGenderChange = (e) => setUserGender(e.target.value);
-    const userAgeChange = (e) =>{
-        const value = e.target.value;
-
-        // 숫자만 입력받도록 필터링
-        if (!isNaN(value) && value.length <= 15) { // Long 타입은 15~19 자리수
-            setUserAge(value);
-        }
-    }
-    
-
-    //formData를 JSON으로 변환하는 함수
-    const formDataToJSON = (formData) => {
-        const obj = {};
-        formData.forEach((value, key) => {
-        obj[key] = value;
-        });
-        return obj;
+    // input으로 입력받는 값들 저장
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prevState => ({ ...prevState, [name]: value }));
     };
 
+    // 빈칸있는지 확인
+    const validateForm = () => {
+        return Object.values(formData).every(value => value.trim() !== "");
+    };
 
-    // 로그인 버튼 누르면 로그인 기능 실행
-    const onSubmit = (e) => {
+    // 회원가입
+    const onSubmit = async (e) => {
         e.preventDefault();
 
-        let formData = new FormData();
-        formData.append("userId", userId);
-        formData.append("userPw", userPw);
-        formData.append("name",userName);
-        formData.append("phone",userPhone);
-        formData.append("email",userEmail);
-        formData.append("address",userAdress);
-        formData.append("age",userAge);
-        formData.append("birth",userBirth);
-        formData.append("gender",userGender);
+        // 빈칸 확인
+        if (!validateForm()) {
+            alert("모든 필드를 채워주세요.");
+            return;
+        }
+        if(!isIdUnique){
+            alert("중복확인 해주세요");
+            return;
+        }
 
-        const data = formDataToJSON(formData);  
-
-        console.log(data);
-        //포스트 요청으로 아이디 비밀번호 값 보내기
-        createMember(data)
-        .then((res)=>{
+        // 회원가입 서버에 요청
+        try {
+            const data = { ...formData, cash: 0 };
+            console.log(data);
+            await createMember(data);   
             alert("회원가입이 완료되었습니다.");
-            console.log(res.data);
-            // navigate('/');
-        })
-        .catch(function(error) {
-        alert("회원가입에 실패하였습니다.");
-        //window.location.reload();
-        })
-    }
+        } catch (error) {
+            alert("회원가입에 실패하였습니다.");
+            console.error(error);
+        }
+    };
 
-    //중복확인 검사 함수
-    const checkDuplicate = () => {
-        getMember(userId)
-        .then((res)=> {
-            console.log("사용가능한 아이디입니다.")
-        })
-        .catch((error)=> {
-            console.log("아이디가 중복되었습니다.")
-        })
-    }
+    //아이디 중복확인
+    const checkDuplicate = async () => {
+        try {
+            const res = await axios.get(`http://localhost:8080/api/members/check/${formData.userId}`);
+            if (res.data) {
+                alert("중복된 아이디입니다. 다른 아이디를 사용해주세요.");
+                setIsIdUnique(false);
+            } else {
+                alert("사용 가능한 아이디입니다.");
+                setIsIdUnique(true);
+            }
+        } catch (error) {
+            console.error("아이디 중복 확인에 실패했습니다.", error);
+            alert("서버에 문제가 발생했습니다. 나중에 다시 시도해주세요.");
+        }
+    };
 
-
-    return(
+    return (
         <>
-            
-            <form className="memberForm" onSubmit={onSubmit} encType="multipart/form">
-                <h2 className="title">회원가입</h2> <br/> <br/>
-                {/* 아이디 입력 칸 */}
+            <form className="memberForm" onSubmit={onSubmit}>
+                <h2 className="title">회원가입</h2>
+                
+                {/* 아이디 입력 및 중복확인 태그 */}
                 <div className="mb-3 d-flex align-items-center">
-                    <input type="text" value={userId} onChange={userIdChange} 
-                    className="form-control" placeholder="아이디"/>
-                    <button type="button" className="btn btn-primary ms-2 btn-sm"
-                    style={{ width: '100px', height : '100%',padding: '5px 10px', fontSize: '0.875rem' }}
-                    onClick={checkDuplicate}
-                    >중복 확인</button>
-                </div>
-                
-                {/* 비밀번호 입력칸 */}
-                <div className="mb-3">
-                    <input type="text" value={userPw} onChange={userPwChange} 
-                    className="form-control" placeholder="비밀번호"/>
-                </div>
-
-                {/* 회원 이름 */}
-                <div className="mb-3">
-                    <input type="text" value={userName} onChange={userNameChange} 
-                    className="form-control" placeholder="이름"/>
+                    <input
+                        type="text"
+                        name="userId"
+                        value={formData.userId}
+                        onChange={handleChange}
+                        className="form-control"
+                        placeholder="아이디"
+                    />
+                    <button
+                        type="button"
+                        className="btn btn-primary ms-2 btn-sm"
+                        style={{ width: '100px', height: '100%', padding: '5px 10px', fontSize: '0.875rem' }}
+                        onClick={checkDuplicate}
+                    >
+                        중복 확인
+                    </button>
                 </div>
 
-                {/* 휴대전화 */}
-                <div className="mb-3">
-                    <input type="text" value={userPhone} onChange={userPhoneChange} 
-                    className="form-control" placeholder="휴대폰 번호"/>
-                </div>
+                {/* mpa을 활용해 각 입력 필드 */}
+                {Object.entries({
+                    userPw: "비밀번호",
+                    name: "이름",
+                    phone: "휴대폰 번호",
+                    email: "이메일",
+                    address: "주소",
+                    age: "나이",
+                    birth: "생일",
+                    gender: "성별"
+                }).map(([key, placeholder]) => (
+                    <div className="mb-3" key={key}>
+                        <input
+                            type={key === "email" ? "email" : key === "birth" ? "date" : "text"}
+                            name={key}
+                            value={formData[key]}
+                            onChange={handleChange}
+                            className="form-control"
+                            placeholder={placeholder}
+                        />
+                    </div>
+                ))}
 
-                {/* 이메일 */}
-                <div className="mb-3">
-                    <input type="text" value={userEmail} onChange={userEmailChange} 
-                    className="form-control" placeholder="이메일"/>
-                </div>
-
-                {/* 주소 */}
-                <div className="mb-3">
-                    <input type="text" value={userAdress} onChange={userAdressChange} 
-                    className="form-control" placeholder="주소"/>
-                </div>
-
-                {/* 나이 */}
-                <div className="mb-3">
-                    <input type="text" value={userAge} onChange={userAgeChange} 
-                    className="form-control" placeholder="나이"/>
-                </div>
-
-                {/* 생일 */}
-                <div className="mb-3">
-                    <input type="date" value={userBirth} onChange={userBirthChange} 
-                    className="form-control" placeholder="생일"/>
-                </div>
-                
-                {/* 성별 */}
-                <div className="mb-3">
-                    <input type="text" value={userGender} onChange={userGenderChange} 
-                    className="form-control" placeholder="성별"/>
-                </div>
-
-
-                {/* 로그인 버튼 */}
-                <button type="submit" className="btn btn-primary"
-                    value="user signUp">회원가입</button>
+                <button type="submit" className="btn btn-primary">
+                    회원가입
+                </button>
             </form>
         </>
-    )
+    );
 }
 
 export default SignUp;
