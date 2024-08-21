@@ -245,3 +245,21 @@
   color: #6c757d; /* Color for disabled items */
   background-color: transparent; /* No background for disabled items */
 }
+
+.search-input {
+  padding: 10px 15px;
+  border-radius: 20px;
+  border: 2px solid #28a745;
+  background-color: #fff;
+  width: 250px;
+  font-size: 16px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  outline: none;
+  margin-left: 10px;
+  color: black;
+  
+}
+
+.search-input:focus {
+  border-color: #007bff;
+}
