@@ -119,7 +119,6 @@ const Cart = () => {
             </th>
           </tr>
         </thead>
-
         <tbody>
           {cartData.map((item) => (
             <tr key={item.id} style={{ textAlign: 'center', fontSize: '22px' }}>
