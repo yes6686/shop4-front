@@ -86,7 +86,9 @@ function Login() {
           <ul className="findRemove">
             <li>아이디/비밀번호 찾기</li>    
             <li>휴면해제</li>
-            <li onClick={()=> {navigate('/signUp')}}>회원가입</li>
+            <li onClick={()=> {navigate('/signUp')}}
+              style={{ cursor: 'pointer' }}
+              >회원가입</li>
           </ul>
 
         </form>
