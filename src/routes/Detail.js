@@ -10,7 +10,6 @@ function Detail() {
   let { id } = useParams();
   let [findProduct, setFindProduct] = useState([]);
   let [alert, setAlert] = useState(true);
-  let [tab, setTab] = useState(0);
   let dispatch = useDispatch();
   const [message, setMessage] = useState('');
   const [cartItem, setCartItem] = useState({});
@@ -39,17 +38,6 @@ function Detail() {
       .catch((error) => {
         console.error(error);
       });
-  }, []);
-
-  useEffect(() => {
-    // 10초 이내 구매 시 할인 알람
-    let timer = setTimeout(() => {
-      setAlert(false);
-    }, 10000);
-    return () => {
-      // useEffect가 실행되기 전에 실행됨 (단, mount (X), unmount (O))
-      clearTimeout(timer); // 타이머 제거해주는 함수
-    };
   }, []);
 
   const handleOrderClick = () => {
@@ -86,19 +74,16 @@ function Detail() {
 
   return (
     <>
-      {alert == true ? (
-        <div className="alert alert-warning">10초이내 구매시 할인</div>
-      ) : null}
       <div className={'container start ' + fade}>
         <div className="row">
           <div className="col-md-6">
             <img
               src={findProduct.url}
-              style={{ width: '90%', height: '450px', objectFit: 'cover' }}
+              style={{ width: '90%', height: '100%'}}
               alt="Product Image"
             />
           </div>
-          <div className="col-md-6 product">
+          <div className="col-md-6">
             <h4 className="pt-5 product-title">name : {findProduct.name}</h4>
             <p className="product-content">
               description : {findProduct.description}
@@ -115,39 +100,6 @@ function Detail() {
           {/* 메시지 표시 */}
           {message && <div className="alert alert-success">{message}</div>}
         </div>
-        <Nav variant="tabs" defaultActiveKey="link0">
-          <Nav.Item>
-            <Nav.Link
-              onClick={() => {
-                setTab(0);
-              }}
-              eventKey="link0"
-            >
-              버튼0
-            </Nav.Link>
-          </Nav.Item>
-          <Nav.Item>
-            <Nav.Link
-              onClick={() => {
-                setTab(1);
-              }}
-              eventKey="link1"
-            >
-              버튼1
-            </Nav.Link>
-          </Nav.Item>
-          <Nav.Item>
-            <Nav.Link
-              onClick={() => {
-                setTab(2);
-              }}
-              eventKey="link2"
-            >
-              버튼2
-            </Nav.Link>
-          </Nav.Item>
-        </Nav>
-        <TabContent tab={tab} />
       </div>
     </>
   );
