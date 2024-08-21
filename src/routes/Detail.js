@@ -79,7 +79,7 @@ function Detail() {
           <div className="col-md-6">
             <img
               src={findProduct.url}
-              style={{ width: '90%', height: '100%'}}
+              style={{ width: '100%', height: '100%'}}
               alt="Product Image"
             />
           </div>
