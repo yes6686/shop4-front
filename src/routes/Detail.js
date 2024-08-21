@@ -16,8 +16,9 @@ function Detail() {
   const [cartItem, setCartItem] = useState({});
   let [fade, setFade] = useState('');
 
+
   const user = sessionStorage.getItem('user');
-  const userData = JSON.parse(user);
+  const userData = user ? JSON.parse(user) : { id: null }; // Null 체크 후 기본값 설정
   const member_id = userData.id;
   console.log('로그인한 사용자의 member_id :', member_id);
 
