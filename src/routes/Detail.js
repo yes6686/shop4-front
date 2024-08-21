@@ -14,8 +14,9 @@ function Detail() {
   let dispatch = useDispatch();
   const [message, setMessage] = useState('');
   let [stock, setStock] = useState();
-  let [orderNum, setOrderNum] = useState();
+  let [orderNum, setOrderNum] = useState(1);
   const navigator = useNavigate();
+  const isLoggedIn = sessionStorage.getItem('isLoggedIn'); 
 
   function chkCharCode(event) {
     const validKey = /[^0-9]/g;
@@ -91,17 +92,17 @@ function Detail() {
             <p className="product-count">stock : {findProduct.stock}</p>
 
             {/*수량입력*/}
-            <input type='number' defaultValue = '0' min={"0"} max={stock} 
+            <input type='number' defaultValue = '1' min={"1"} max={stock}
             style={{height : "60px", width : "100px", marginRight : '12px', fontSize : "30px", outline:'none'} 
             }
 
-            //한글 입력방지 이벤트핸들러
+            //한글 입력방지해줌
             onCompositionStart={(e)=>{
               e.target.blur();
               requestAnimationFrame(()=>e.target.focus())
             }}
 
-            //stock 갯수 이상 입력 못하게하는 이벤트핸들러
+            //stock 갯수 이상 입력 안되게해줌
             onChange={(e) => {
               chkCharCode(e);
               if (e.target.value > stock) {
@@ -109,12 +110,20 @@ function Detail() {
               }
               setOrderNum(e.target.value);
             }}
+
             >
             </input>
 
-            {/*Detail.css*/}
+            {/*Detail.css에 buy-button 있음, direct.js로 이동, state로 상품 정보와 주문갯수 전달*/}
             <button className="buy-button"
-            onClick={() => navigator('/direct')}
+            onClick={() => {
+              if (orderNum <= 0) {
+                console.log('한개이상 주문해야합니다')
+              }
+              else {
+                navigator('/direct', { state : [findProduct, orderNum] })
+              }
+            }}
             >
               바로구매</button>
             <button

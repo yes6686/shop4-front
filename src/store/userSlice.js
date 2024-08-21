@@ -6,6 +6,6 @@ let user = createSlice({
     reducers : { // Redux의 state 변경하는 함수 만드는 곳
         
     }
-})  
+})
 
 export default user

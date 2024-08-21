@@ -9,6 +9,6 @@ export const createGoods = (goods) => axios.post(REST_API_BASE_URL, goods);
 
 export const getGoods = (goodsId) => axios.get(REST_API_BASE_URL + '/'+ goodsId);
 
-export const updateGoods = (goodsId, goods) => axios.put(REST_API_BASE_URL + '/'+ goodsId, goods);
+export const updateGoods = (goodsId, goods) => axios.patch(REST_API_BASE_URL + '/'+ goodsId, goods);
 
 export const deleteGoods = (goodsId) =>axios.delete(REST_API_BASE_URL+'/'+ goodsId);

@@ -1,123 +1,148 @@
-import { useSelector } from "react-redux"
+import { useLocation, useNavigate } from "react-router-dom";
+import { getMember, updateMember } from "../services/MemberService";
+import { useEffect, useState } from "react";
+import { getGoods, updateGoods } from "../services/GoodsService";
 
+//direct.css에 테이블 밑 버튼 정보 있음
 function Direct() {
-    let userInfo = useSelector((state) => { return state.user})
-    console.log(userInfo)
+    //유저정보, detail 페이지에서 상품 정보, 주문수량 전달받는 코드
+    const userInfo = JSON.parse(sessionStorage.getItem('user'));
+    const {state} = useLocation();
+    //state[0], state[1]은 detail.js에서 각각 findProduct, orderNum
+    const productInfo = state[0];
+    const orderNum = state[1];
+    let [copyUser, setCopyUser] = useState([]);
+    let [copyProduct, setCopyProduct] = useState([]);
+
+    useEffect(() => {
+        getMember(userInfo.id).then((response) => {
+            setCopyUser(response.data)
+        })
+
+        getGoods(productInfo.id).then((response) => {
+            setCopyProduct(response.data)
+        })
+    }, []) 
+
+    let navigator = useNavigate();
 
     return (
-        <div style={{width :  "40%", textAlign : "left",  margin:'0 auto'}}>
+        <div className="direct-body" style={{width : "50%", textAlign : "left",  margin:'0 auto'}}>
             <br/>
+
+
             <h2>결제</h2>
             <hr style={{height : '3px', background : 'black'}}/>
             <br/>
+
+
             <h2>구매자 정보</h2>
             <hr/>
-            <table style={{ margin:'0 auto', width : '100%'
-            }}>
-                <thead>
-                    <tr>
-                    <th>Number</th>
-                    <th>Player</th>
-                    <th>Position</th>
-                    <th>Height</th>
-                    <th>Weight</th>
-                    </tr>
-                </thead>
+
+            {/*구매자정보 테이블*/}
+            <table className="direct-table" style={{ margin:'0 auto', width : '100%'}}>
                 <tbody>
                     <tr>
-                    <td>8</td>
-                    <td>Marco Belinelli</td>
-                    <td>G</td>
-                    <td>6-5</td>
-                    <td>195</td>
+                        <td></td>
+                        <td></td>
                     </tr>
                     <tr>
-                    <td>5</td>
-                    <td>Carlos Boozer</td>
-                    <td>F</td>
-                    <td>6-9</td>
-                    <td>266</td>
+                        <td>이름</td>
+                        <td>{copyUser.name}</td>
                     </tr>
                     <tr>
-                    <td>21</td>
-                    <td>Jimmy Butler</td>
-                    <td>G-F</td>
-                    <td>6-7</td>
-                    <td>220</td>
+                        <td>이메일</td>
+                        <td>{copyUser.email}</td>
                     </tr>
                     <tr>
-                    <td>9</td>
-                    <td>Luol Deng</td>
-                    <td>F</td>
-                    <td>6-9</td>
-                    <td>220</td>
-                    </tr>
-                    <tr>
-                    <td>22</td>
-                    <td>Taj Gibson</td>
-                    <td>F</td>
-                    <td>6-9</td>
-                    <td>225</td>
-                    </tr>
-                    <tr>
-                    <td>32</td>
-                    <td>Richard Hamilton</td>
-                    <td>G</td>
-                    <td>6-7</td>
-                    <td>193</td>
-                    </tr>
-                    <tr>
-                    <td>12</td>
-                    <td>Kirk Hinrich</td>
-                    <td>G</td>
-                    <td>6-4</td>
-                    <td>190</td>
-                    </tr>
-                    <tr>
-                    <td>48</td>
-                    <td>Nazr Mohammed</td>
-                    <td>C</td>
-                    <td>6-10</td>
-                    <td>250</td>
-                    </tr>
-                    <tr>
-                    <td>13</td>
-                    <td>Joakim Noah</td>
-                    <td>C</td>
-                    <td>6-11</td>
-                    <td>232</td>
-                    </tr>
-                    <tr>
-                    <td>77</td>
-                    <td>Vladimir Radmanovic</td>
-                    <td>F</td>
-                    <td>6-10</td>
-                    <td>235</td>
-                    </tr>
-                    <tr>
-                    <td>2</td>
-                    <td>Nate Robinson</td>
-                    <td>G</td>
-                    <td>5-9</td>
-                    <td>180</td>
-                    </tr>
-                    <tr>
-                    <td>1</td>
-                    <td>Derrick Rose</td>
-                    <td>G</td>
-                    <td>6-3</td>
-                    <td>190</td>
-                    </tr>
-                    <tr>
-                    <td>25</td>
-                    <td>Marquis Teague</td>
-                    <td>G</td>
-                    <td>6-2</td>
-                    <td>190</td>
+                        <td>휴대폰번호</td>
+                        <td>{copyUser.phone}</td>
                     </tr>
                 </tbody>
             </table>
+            <hr/>
+
+
+            {/*배송정보 테이블*/}
+            <h2>배송 정보</h2>
+            <table className="direct-table" style={{ margin:'0 auto', width : '100%'}}>
+                <tbody>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>이름</td>
+                        <td>{copyUser.name}</td>
+                    </tr>
+                    <tr>
+                        <td>연락처</td>
+                        <td>{copyUser.phone}</td>
+                    </tr>
+                    <tr>
+                        <td>주소</td>
+                        <td>{copyUser.address}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <hr/>
+
+
+            {/*결제정보 테이블*/}
+            <h2>결제 정보</h2>
+            <table className="direct-table" style={{ margin:'0 auto', width : '100%'}}>
+                <tbody>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>상품명</td>
+                        <td>{productInfo.name}</td>
+                    </tr>
+                    <tr>
+                        <td>수량</td>
+                        <td>{orderNum}</td>
+                    </tr>
+                    <tr>
+                        <td>가격</td>
+                        <td>{orderNum * productInfo.price}</td>
+                    </tr>
+                    <tr>
+                        <td>잔액</td>
+                        <td>{copyUser.cash}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+
+
+            <div style={{margin : '0 auto'}}>
+                <button className="buy-button" style={{ textAlign : 'center', margin : '5px'}}
+                    onClick={() => {
+                        console.log(copyUser);
+                        //잔액 많으면 돈 까고 재고도 깜
+                        if (copyUser.cash >= productInfo.price * orderNum) {
+                            updateMember(userInfo.id, {
+                                cash : copyUser.cash - productInfo.price * orderNum
+                            });
+                            
+                            updateGoods(productInfo.id, {
+                                stock : copyProduct.stock - orderNum
+                            });
+                            //그리고 홈으로 이동
+                            navigator('/');
+                        }
+                        else {
+                            console.log('잔액이 부족합니다..');
+                        }
+                    }}
+                >구매하다</button>
+                {/*cancel-button : direct.css에있음*/}
+                <button className="cancel-button" style={{textAlign : 'center',  margin : '5px'}}>취소하다</button>
+            </div>
         </div>
+
     )
 }
 
