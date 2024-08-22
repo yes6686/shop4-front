@@ -192,5 +192,4 @@ function TabContent({ tab }) {
 		</div>
 	);
 }
-
 export default Detail;
