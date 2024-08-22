@@ -17,7 +17,7 @@ import CheckBox from '../components/CheckBox';
 
 const Cart = () => {
 	let navigate = useNavigate();
-	const [cartData, setCartData] = useState([]);
+	let [cartData, setCartData] = useState([]);
 	const user = sessionStorage.getItem('user');
 	const [checkGoods, setcheckGoods] = useState(new Set()); //Set 은 중복없이 유일한값만 저장하는 배열임,cartId가 저장됨 구매시 이용
 
@@ -77,7 +77,7 @@ const Cart = () => {
 	const iconStyle = {
 		fontSize: '24px',
 	};
-
+	console.log(cartData)
 	return (
 		<div>
 			<Table
