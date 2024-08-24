@@ -14,12 +14,13 @@ import { MdOutlineDeleteForever } from 'react-icons/md';
 import { deleteCart } from '../services/CartService';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import CheckBox from '../components/CheckBox';
+
 const Cart = () => {
   let navigate = useNavigate();
-  const [cartData, setCartData] = useState([]);
+  let [cartData, setCartData] = useState([]);
   const user = sessionStorage.getItem('user');
   const [checkGoods, setcheckGoods] = useState(new Set()); //Set 은 중복없이 유일한값만 저장하는 배열임,cartId가 저장됨 구매시 이용
-  const [showAlert, setShowAlert] = useState(false);
+
   useEffect(() => {
     if (user) {
       const userData = JSON.parse(user);
@@ -30,6 +31,7 @@ const Cart = () => {
       console.log('로그인 정보가 없습니다.');
     }
   }, [user]);
+
   function getAllCart(member_id) {
     listCarts(member_id)
       .then((response) => {
@@ -39,16 +41,11 @@ const Cart = () => {
         console.error(error);
       });
   }
+
   const updateQuantity = (item, delta) => {
     //수량증감 핸들러
     const newQuantity = item.quantity + delta;
-    if (newQuantity > item.goods.stock) {
-      console.log('stock:' + item.goods.stock);
-      setShowAlert(true);
-      setTimeout(() => {
-        setShowAlert(false);
-      }, 1000);
-    } else if (newQuantity <= 0) {
+    if (newQuantity <= 0) {
       deleteCart(item.id);
       setCartData((prev) => {
         return prev.filter((goods) => goods.id !== item.id);
@@ -64,6 +61,7 @@ const Cart = () => {
       updateCart(item.id, { quantity: newQuantity });
     }
   };
+
   const checkGoodsHandler = (cartId, isChecked) => {
     if (isChecked) {
       checkGoods.add(cartId); //set은 add로 추가
@@ -75,16 +73,13 @@ const Cart = () => {
       console.log(checkGoods);
     }
   };
+
   const iconStyle = {
     fontSize: '24px',
   };
+  console.log(cartData);
   return (
     <div>
-      {showAlert && (
-        <div className="alert alert-danger text-center" role="alert">
-          해당 상품의 재고가 부족합니다..!
-        </div>
-      )}
       <Table
         bordered
         hover
@@ -111,7 +106,7 @@ const Cart = () => {
               <PiPackageDuotone style={iconStyle} />
             </th>
           </tr>
-        </thead>{' '}
+        </thead>
         <tbody>
           {cartData.map((item) => (
             <tr key={item.id} style={{ textAlign: 'center', fontSize: '22px' }}>
@@ -139,9 +134,7 @@ const Cart = () => {
               <td>
                 <button
                   style={{ marginRight: '10px' }}
-                  onClick={() => {
-                    updateQuantity(item, 1);
-                  }}
+                  onClick={() => updateQuantity(item, 1)}
                 >
                   <BsCartPlus />
                 </button>
@@ -172,9 +165,17 @@ const Cart = () => {
         className="d-flex justify-content-center align-items-center"
         style={{ height: '20vh' }}
       >
-        <button className="btn btn-warning btn-lg">구매하기(미구현)</button>
+        <button
+          className="buy-button"
+          onClick={() => {
+            navigate('/payment', { state: checkGoods });
+          }}
+        >
+          선택된 상품 구매하기
+        </button>
       </div>
     </div>
   );
 };
+
 export default Cart;
