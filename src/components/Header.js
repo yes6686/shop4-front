@@ -1,12 +1,14 @@
 import './../App.css';
 import React from 'react';
-import { Navbar, Container, Nav, Dropdown } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
+import { Navbar, Container, Nav } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import { IoLogInOutline,IoLogOutOutline } from "react-icons/io5";
+import { PiFinnTheHumanLight } from "react-icons/pi";
+import { BsClockHistory } from "react-icons/bs";
+import { FiShoppingCart } from "react-icons/fi";
 
 const Header = () => {
     const navigate = useNavigate();
-    const state = useSelector((state) => state);
     const handleNavigation = (path) => {
         navigate(path);
     };
@@ -37,55 +39,56 @@ const Header = () => {
                     </Nav>
                     {/* 사용자 이름 표시 */}
                     <Nav className="ms-auto">
-                        <Dropdown>
-                            <Dropdown.Toggle
-                                className="user-name"
-                                variant="success"
-                                id="dropdown-basic"
-                                style={{ cursor: 'pointer' }}
-                            >
-                                {/* 로그인 되어있을땐 유저이름, 안되어있으면 마이쇼핑 */}
-                                {isLoggedIn ? user.name+'님' : '마이 쇼핑'}
-                            </Dropdown.Toggle>
-
-                            <Dropdown.Menu className="custom-dropdown-menu">
-                                <Dropdown.Item onClick={() => handleNavigation('/mypage')}>
-                                    마이페이지
-                                </Dropdown.Item>
-                                <Dropdown.Item onClick={() => handleNavigation('/cart')}>
-                                    장바구니
-                                </Dropdown.Item>
-                                <Dropdown.Item onClick={() => handleNavigation('/recentlyViewed')}>
-                                    최근 본 상품
-                                </Dropdown.Item>
-                                {/* You can add more items here */}
-                            </Dropdown.Menu>
-                        </Dropdown>
-
-                        {/* 로그인 되어 있으면 유저이름이랑 로그아웃 버튼,
-                            안되어 있으면 로그인 버튼만! */}
                         {isLoggedIn ? ( 
                             <Nav.Item className="me-2">
                                 <button
                                     onClick={handleLogout}
-                                    className="btn btn-outline-light"
+                                    className="btn"
                                     style={{ cursor: 'pointer'
 
-                                }}>로그아웃
+                                }}><IoLogOutOutline style={{height:'30px', width:'30px'}} />
+                                <br/>로그아웃
                                 </button>
                             </Nav.Item>
                         ) : (
                             <Nav.Item className="me-3">
                                 <button
                                     onClick={handleLogin}
-                                    className="btn btn-outline-light"
+                                    className="btn"
                                     style={{ cursor: 'pointer' }}
                                 >
-                                    로그인
+                                    <IoLogInOutline style={{height:'30px', width:'30px'}}/>
+                                    <br/>로그인
                                 </button>
                             </Nav.Item>
                         )}
+                        <Nav.Item className="me-3 btn"
+                                style={{ cursor: 'pointer' }}
+                                onClick={()=>{
+                                    handleNavigation('/mypage')
+                                }}>       
+                                <PiFinnTheHumanLight style={{height:'30px', width:'30px'}}/>
+                                <br/>마이페이지
+                        </Nav.Item>
+                        <Nav.Item className="me-3 btn"
+                                style={{ cursor: 'pointer' }}
+                                onClick={()=>{
+                                    handleNavigation('/recentlyViewed')
+                                }}>       
+                                <BsClockHistory style={{height:'30px', width:'30px'}}/>
+                                <br/>최근본상품
+                        </Nav.Item>
+                        <Nav.Item className="me-3 btn"
+                                style={{ cursor: 'pointer' }}
+                                onClick={()=>{
+                                    handleNavigation('/cart')
+                                }}>       
+                                <FiShoppingCart style={{height:'30px', width:'30px'}}/>
+                                <br/>장바구니
+                        </Nav.Item>
                     </Nav>
+                    <h2 style={{color:'white'}}>{isLoggedIn ? user.name+'님' : ''}</h2>
+                    
                 </Container>
             </Navbar>
         </div>
