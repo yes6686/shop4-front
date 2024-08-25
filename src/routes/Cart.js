@@ -32,7 +32,6 @@ const Cart = () => {
       console.log('로그인 정보가 없습니다.');
     }
   }, [user]);
-
   function getAllCart(member_id) {
     listCarts(member_id)
       .then((response) => {
