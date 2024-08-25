@@ -1,0 +1,59 @@
+.myPageTitle {
+    margin-top:40px;
+    width:100%;
+    text-align: center;
+    color: #28a745; /* 초록색 텍스트 */
+    font-weight: bold; /* 글씨 굵게 */
+    font-size: 35px; /* 글씨 크기 (필요에 따라 조정 가능) */
+    margin-bottom: 20px;
+
+}
+
+.table-wrapper {
+    display: flex;
+    align-items: center; /* 세로 중앙 정렬 */
+    height: 50vh; /* 화면 전체 높이 */
+    width: 50%;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.myPageTable tbody th {
+    background-color: #28a745; /* 배경색 설정 */
+    color: white; /* 글씨 색상 설정 */
+    padding : 15px 0px 15px 10px; /* 위, 오른쪽, 아래, 왼쪽*/
+    text-align: left; /* 왼쪽 정렬 */
+    font-weight: 700; /* 굵은 글씨 */
+    font-size : 15px;
+}
+
+.myPageTable tbody td {
+    font-weight: bold;
+    font-size : 15px;
+    padding-left: 25px;
+}
+
+
+.table-wrapper {
+    display: flex;
+    align-items: center; /* 세로 중앙 정렬 */
+    height: 50vh; /* 화면 전체 높이 */
+    width: 50%;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.myPageTable tbody th {
+    background-color: #28a745; /* 배경색 설정 */
+    color: white; /* 글씨 색상 설정 */
+    padding : 15px 0px 15px 10px; /* 위, 오른쪽, 아래, 왼쪽*/
+    text-align: left; /* 왼쪽 정렬 */
+    font-weight: 700; /* 굵은 글씨 */
+    font-size : 15px;
+}
+
+.myPageTable tbody td {
+    font-weight: bold;
+    font-size : 15px;
+    padding-left: 25px;
+}
