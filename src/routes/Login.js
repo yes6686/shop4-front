@@ -53,7 +53,7 @@ function Login() {
 
   return (
       <>
-        <form className="memberForm" onSubmit={onSubmit} encType="multipart/form">
+        <form className="loginForm" onSubmit={onSubmit} encType="multipart/form">
           
           {/* 아이디 입력 칸 */}
           <div className="mb-3">

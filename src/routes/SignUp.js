@@ -79,7 +79,7 @@ function SignUp() {
 
     return (
         <>
-            <form className="memberForm" onSubmit={onSubmit}>
+            <form className="signUpForm" onSubmit={onSubmit}>
                 <h2 className="title">회원가입</h2>
                 
                 {/* 아이디 입력 및 중복확인 태그 */}

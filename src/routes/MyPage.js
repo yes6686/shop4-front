@@ -1,3 +1,4 @@
+import './MyPage.css'
 import React, { useEffect } from 'react'
 import { Image} from 'react-bootstrap';
 import {useNavigate} from 'react-router-dom'
@@ -9,7 +10,6 @@ const MyPage = () => {
     
     let navigate = useNavigate();
     useEffect(() => {
-        console.log(user);
         if (!isLoggedIn || !user) {
             navigate('/login'); // 로그인되지 않았거나 사용자 정보가 없는 경우 로그인 페이지로 이동
             return;
@@ -24,25 +24,34 @@ const MyPage = () => {
 
     return (
         <>
-            <div style={{border : '3px solid blue',  height : 'auto', display : "flex"}}>
+        <h2>마이페이지</h2><br/><hr/>
+        
+        <div className="table-wrapper">
+        <table className="table myPageTable">
+            
+            <tbody>
+                {[
+                    { label: '아이디', value: user.userId },
+                    { label: '이름', value: user.name },
+                    { label: '연락처', value: user.phone },
+                    { label: '주소', value: user.address },
+                    { label: '이메일', value: user.email },
+                    { label: '잔액', value: user.cash+'원' }
+                ].map((item, index) => (
+                    <tr key={index} style={index === 0 ? { borderTop: '2px solid #000' } : {}}>
+                        <th scope="row">{item.label}</th>
+                        <td>{item.value}</td>
+                    </tr>
+                ))}
+            </tbody>
+            </table>
+        </div>
+            {/*<div style={{border : '3px solid blue',  height : 'auto', display : "flex"}}>
                 <div style={{width : '30%', border : '1px solid red', margin : '60px', float : "left", boxSizing : "border-box"}}>
                     <Image src="doraemon.jpg" rounded></Image>
                     <div style={{textAlign: 'center'}}>{user.name}</div>
                 </div>
-
-                <div style={{border : '1px solid red', width : '50%', margin : '60px', float : "right"}}>
-                    <div style={{height : 'auto', border : '1px solid green', margin : '15px'}}>이름 : {user.name}</div>
-                    <div style={{height : 'auto', border : '1px solid green', margin : '15px'}}>이메일 : {user.email} </div>
-                    <div style={{height : 'auto', border : '1px solid green', margin : '15px'}}>주소 : {user.address}</div>
-                    <div style={{height : 'auto', border : '1px solid green', margin : '15px'}}>전화번호 : {user.phone}</div>
-                    <div style={{height : 'auto', border : '1px solid green', margin : '15px'}}>나이 : {user.age}</div>
-                    <div style={{height : 'auto', border : '1px solid green', margin : '15px'}}>생일 : {user.birth}</div>
-                    <div style={{height : 'auto', border : '1px solid green', margin : '15px'}}>성별 : {user.gender}</div>
-                    <div style={{height : 'auto', border : '1px solid green', margin : '15px'}}>아이디 : {user.userId}</div>
-                    <div style={{height : 'auto', border : '1px solid green', margin : '15px'}}>비밀번호 : {user.userPw}</div>
-                    <div style={{height : 'auto', border : '1px solid green', margin : '15px'}}>잔액 : {user.cash}</div>
-                </div>
-            </div>
+            </div>*/}
         </>
     )
 }
