@@ -17,9 +17,10 @@ import CheckBox from '../components/CheckBox';
 
 const Cart = () => {
   let navigate = useNavigate();
-  let [cartData, setCartData] = useState([]);
+  const [cartData, setCartData] = useState([]);
   const user = sessionStorage.getItem('user');
   const [checkGoods, setcheckGoods] = useState(new Set()); //Set 은 중복없이 유일한값만 저장하는 배열임,cartId가 저장됨 구매시 이용
+  const [showAlert, setShowAlert] = useState(false);
 
   useEffect(() => {
     if (user) {
@@ -45,7 +46,13 @@ const Cart = () => {
   const updateQuantity = (item, delta) => {
     //수량증감 핸들러
     const newQuantity = item.quantity + delta;
-    if (newQuantity <= 0) {
+    if (newQuantity > item.goods.stock) {
+      console.log('stock:' + item.goods.stock);
+      setShowAlert(true);
+      setTimeout(() => {
+        setShowAlert(false);
+      }, 1000);
+    } else if (newQuantity <= 0) {
       deleteCart(item.id);
       setCartData((prev) => {
         return prev.filter((goods) => goods.id !== item.id);
@@ -80,6 +87,11 @@ const Cart = () => {
   console.log(cartData);
   return (
     <div>
+      {showAlert && (
+        <div className="alert alert-danger text-center" role="alert">
+          해당 상품의 재고가 부족합니다..!
+        </div>
+      )}
       <Table
         bordered
         hover
