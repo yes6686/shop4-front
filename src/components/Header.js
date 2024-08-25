@@ -100,7 +100,7 @@ const Header = () => {
                         <Nav.Item className="me-3 btn"
                                 style={{ cursor: 'pointer' }}
                                 onClick={()=>{
-                                    isLoggedIn == true ? handleNavigation('/cart') : handleLogin() 
+                                    isLoggedIn ? handleNavigation('/cart') : handleLogin() 
                                 }}>       
                                 <FiShoppingCart style={{height:'30px', width:'30px'}}/>
                                 <br/>장바구니
