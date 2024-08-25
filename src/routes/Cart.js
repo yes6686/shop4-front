@@ -20,15 +20,6 @@ const Cart = () => {
 	let [cartData, setCartData] = useState([]);
 	const user = sessionStorage.getItem('user');
 	const [checkGoods, setcheckGoods] = useState(new Set()); //Set 은 중복없이 유일한값만 저장하는 배열임,cartId가 저장됨 구매시 이용
-	const isLoggedIn = sessionStorage.getItem('isLoggedIn'); // 로그인 여부 확인
-    
-    useEffect(() => {
-        console.log(user);
-        if (!isLoggedIn || !user) {
-            navigate('/login'); // 로그인되지 않았거나 사용자 정보가 없는 경우 로그인 페이지로 이동
-            return;
-        }
-    }, [isLoggedIn, user, navigate]);
 	
 	useEffect(() => {
 		if (user) {

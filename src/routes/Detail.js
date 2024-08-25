@@ -31,13 +31,6 @@ function Detail() {
 	const member_id = userData.id;
 	console.log('로그인한 사용자의 member_id :', member_id);
 
-	useEffect(() => {
-		// 천천히 보여주기 효과
-		setFade('end');
-		return () => {
-			setFade('');
-		};
-	}, []);
 
 	useEffect(() => {
 		// 상품 데이터 get으로 가져오기
@@ -87,7 +80,7 @@ function Detail() {
 
 	return (
 		<>
-			<div className={'container start ' + fade}>
+			<div className={'container'}>
 				<div className="row">
 					<div className="col-md-6">
 						<img
