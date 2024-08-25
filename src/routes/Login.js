@@ -1,3 +1,4 @@
+import './Login.css'
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -52,7 +53,7 @@ function Login() {
 		<>
 			<div>
 				<form
-					className="memberForm"
+					className="loginForm"
 					onSubmit={onSubmit}
 					encType="multipart/form"
 				>
