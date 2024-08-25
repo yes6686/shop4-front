@@ -1,55 +1,52 @@
-import './Login.css'
-import {useState} from 'react'
-import axios from 'axios'
-import {useNavigate} from 'react-router-dom'
+import { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
+	const navigate = useNavigate();
 
-  const navigate = useNavigate();
+	let [userId, setUserId] = useState('');
+	let [userPw, setUserPw] = useState('');
 
-  let [userId,setUserId] = useState("");
-  let [userPw,setUserPw] = useState("");
+	// 아이디와 비밀번호 입력받는 값 저장
+	const userIdChange = (e) => setUserId(e.target.value);
+	const userPwChange = (e) => setUserPw(e.target.value);
 
-  // 아이디와 비밀번호 입력받는 값 저장
-  const userIdChange = (e) => setUserId(e.target.value);
-  const userPwChange = (e) => setUserPw(e.target.value);
+	//formData를 JSON으로 변환하는 함수
+	const formDataToJSON = (formData) => {
+		const obj = {};
+		formData.forEach((value, key) => {
+			obj[key] = value;
+		});
+		return obj;
+	};
 
-  //formData를 JSON으로 변환하는 함수
-  const formDataToJSON = (formData) => {
-    const obj = {};
-    formData.forEach((value, key) => {
-      obj[key] = value;
-    });
-    return obj;
-  };
+	// 로그인 버튼 누르면 로그인 기능 실행
+	const onSubmit = (e) => {
+		e.preventDefault();
 
-  // 로그인 버튼 누르면 로그인 기능 실행
-  const onSubmit = (e) => {
-    e.preventDefault();
+		let formData = new FormData();
+		formData.append('userId', userId);
+		formData.append('userPw', userPw);
 
-    let formData = new FormData();
-    formData.append("userId", userId);
-    formData.append("userPw", userPw);
+		const data = formDataToJSON(formData);
 
-    const data = formDataToJSON(formData);  
-
-    //포스트 요청으로 아이디 비밀번호 값 보내기
-    axios.post("http://localhost:8080/api/members/login",{
-     userId:userId,
-     userPw:userPw 
-    })
-    .then((res)=>{
-      sessionStorage.setItem('user', JSON.stringify(res.data)); //session에 값 추가
-      sessionStorage.setItem('isLoggedIn', true);
-      navigate('/');
-    })
-    .catch(function(error) {
-      alert("로그인에 실패하였습니다.");
-      window.location.reload();
-    })
-  }
-
-
+		//포스트 요청으로 아이디 비밀번호 값 보내기
+		axios
+			.post('http://localhost:8080/api/members/login', {
+				userId: userId,
+				userPw: userPw,
+			})
+			.then((res) => {
+				sessionStorage.setItem('user', JSON.stringify(res.data)); //session에 값 추가
+				sessionStorage.setItem('isLoggedIn', true);
+				navigate('/');
+			})
+			.catch(function (error) {
+				alert('로그인에 실패하였습니다.');
+				window.location.reload();
+			});
+	};
 
   return (
       <>

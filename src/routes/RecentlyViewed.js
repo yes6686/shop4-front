@@ -62,6 +62,9 @@ const RecentlyViewed = () => {
   const handleDeleteClick = (index) => {
     dispatch(deleteRecentlyViewedGoods(index));
   };
+  const handleBuyClick = (item) => {
+    navigate('/direct', { state: [item, 1] });
+  };
 
   return (
     <div>
@@ -108,7 +111,7 @@ const RecentlyViewed = () => {
                           variant="success"
                           className="me-2"
                           onClick={() => {
-                            /* Handle order action */
+                            handleBuyClick(shoe);
                           }}
                         >
                           주문하기
