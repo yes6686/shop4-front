@@ -1,16 +1,13 @@
 import './../App.css';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Navbar, Container, Nav } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { IoLogInOutline,IoLogOutOutline } from "react-icons/io5";
 import { PiFinnTheHumanLight } from "react-icons/pi";
 import { BsClockHistory } from "react-icons/bs";
 import { FiShoppingCart } from "react-icons/fi";
-import { searchInfo } from '../store/searchSlice';
-import { useDispatch } from 'react-redux';
-import { CiSearch } from "react-icons/ci";
+
 const Header = () => {
-    let dispatch = useDispatch();
     const navigate = useNavigate();
     const handleNavigation = (path) => {
         navigate(path);
@@ -32,18 +29,7 @@ const Header = () => {
         navigate('/login');
     };
 
-    const [search, setSearch] = useState('')
-
-    useEffect(()=>{
-        dispatch(searchInfo(search))
-    }, [search])
-
-    const onChange = (e) => {
-        setSearch(e.target.value)
-    }
-
     return (
-        <>
         <div className="App">
             <Navbar bg="success" data-bs-theme="dark">
                 <Container>
@@ -51,11 +37,6 @@ const Header = () => {
                     <Nav className="me-auto">
                         <Nav.Link onClick={() => navigate('/')}>Home</Nav.Link>
                     </Nav>
-                    <CiSearch style={{width:'30px', height:'30px'}}/>
-                    <input type="text" value={search} onChange={onChange} placeholder='Search...'                       
-                    className='search-input'
-                    />
-                    
                     {/* 사용자 이름 표시 */}
                     <Nav className="ms-auto">
                         {isLoggedIn ? ( 
@@ -111,7 +92,6 @@ const Header = () => {
                 </Container>
             </Navbar>
         </div>
-        </>
     );
 }
 

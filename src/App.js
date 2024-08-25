@@ -14,8 +14,6 @@ import Direct from './routes/Direct';
 import Login from './routes/Login';
 import SignUp from './routes/SignUp';
 import Payment from './routes/Payment';
-import Login from './routes/Login'
-import SignUp from './routes/SignUp'
 import UpdateMember from './routes/UpdateMember'
 
 function App() {
