@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Nav } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { getGoods } from '../services/GoodsService';
 import { addRecentlyViewedGoods } from '../store/recentlyViewedSlice';
@@ -11,13 +10,10 @@ import { createcart } from '../services/CartService';
 function Detail() {
 	let { id } = useParams();
 	let [findProduct, setFindProduct] = useState([]);
-	let [alert, setAlert] = useState(true);
 	let dispatch = useDispatch();
-	const [message, setMessage] = useState('');
 	let [stock, setStock] = useState();
 	let [orderNum, setOrderNum] = useState(1);
 	const navigator = useNavigate();
-	const isLoggedIn = sessionStorage.getItem('isLoggedIn');
 
 	//숫자만 입력받는 로직 위해 있는 코드
 	function chkCharCode(event) {
@@ -58,8 +54,6 @@ function Detail() {
 
 	//장바구니에 담기 온클릭리스너
 	const handleOrderClick = () => {
-		setMessage('상품이 장바구니에 추가되었습니다!'); // 메시지 설정
-		setTimeout(() => setMessage(''), 10000); // 2초 후 메시지 제거
 		setCartItem({
 			quantity: orderNum,
 			member: {
@@ -76,9 +70,8 @@ function Detail() {
 			createcart(cartItem)
 				.then((response) => {
 					console.log('Cart item added successfully:', response.data);
-					setMessage('상품이 장바구니에 추가되었습니다!'); // 메시지 설정
-					setTimeout(() => setMessage(''), 2000); // 2초 후 메시지 제거
-					console.log('cartItem:', cartItem);
+					alert('상품이 장바구니에 추가되었습니다!'); // 메시지 설정
+					
 				})
 				.catch((error) => {
 					console.error('There was an error adding the cart item:', error);
@@ -144,10 +137,10 @@ function Detail() {
 							className="buy-button"
 							onClick={() => {
 								if (stock == 0) {
-									console.log('품절');
+									alert("품절입니다.");
 								} else {
 									if (orderNum <= 0) {
-										console.log('한개이상 주문해야합니다');
+										alert("한개이상 주문해야합니다");
 									} else {
 										navigator('/direct', { state: [findProduct, orderNum] });
 									}
@@ -164,32 +157,9 @@ function Detail() {
 							장바구니에 담기
 						</button>
 					</div>
-					{/* 메시지 표시 */}
-					{message && <div className="alert alert-success">{message}</div>}
 				</div>
 			</div>
 		</>
-	);
-}
-
-function TabContent({ tab }) {
-	let [fade, setFade] = useState('');
-
-	useEffect(() => {
-		// automatic batching 기능 방지를 위한 setTimeout() 사용
-		let timer = setTimeout(() => {
-			setFade('end');
-		}, 100);
-		return () => {
-			clearTimeout(timer);
-			setFade('');
-		};
-	}, [tab]);
-
-	return (
-		<div className={'start ' + fade}>
-			{[<div>내용0</div>, <div>내용1</div>, <div>내용2</div>][tab]}
-		</div>
 	);
 }
 export default Detail;
