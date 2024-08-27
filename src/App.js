@@ -1,7 +1,5 @@
 import './App.css';
-import './Detail.css';
-import './Direct.css';
-import './Login.css';
+
 import { Route, Routes } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -14,6 +12,7 @@ import Direct from './routes/Direct';
 import Login from './routes/Login';
 import SignUp from './routes/SignUp';
 import Payment from './routes/Payment';
+import AddGoods from './routes/AddGoods';
 
 function App() {
 	return (
@@ -29,6 +28,7 @@ function App() {
 				<Route path="/login" element={<Login />} />
 				<Route path="/signUp" element={<SignUp />} />
 				<Route path="/payment" element={<Payment />} />
+				<Route path="/addgoods" element={<AddGoods />}></Route>
 			</Routes>
 			{/* footer 박스로 클릭안되는 현상 처리 */}
 			<br />

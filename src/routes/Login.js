@@ -1,10 +1,13 @@
-import './Login.css'
+import './css/Login.css';
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { setIsAdmin, setIsNotAdmin } from '../store/adminSlice.js';
+import { useDispatch } from 'react-redux';
 
 function Login() {
 	const navigate = useNavigate();
+	let dispatch = useDispatch();
 
 	let [userId, setUserId] = useState('');
 	let [userPw, setUserPw] = useState('');
@@ -41,6 +44,12 @@ function Login() {
 			.then((res) => {
 				sessionStorage.setItem('user', JSON.stringify(res.data)); //session에 값 추가
 				sessionStorage.setItem('isLoggedIn', true);
+				//관리자 판별 후 관리자인지 isAdmin Slice 번경
+				if (userId == 'admin' || userId == 'dbwjdrbs') {
+					dispatch(setIsAdmin());
+				} else {
+					dispatch(setIsNotAdmin());
+				}
 				navigate('/');
 			})
 			.catch(function (error) {
