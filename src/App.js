@@ -16,7 +16,6 @@ import SignUp from './routes/SignUp';
 import Payment from './routes/Payment';
 
 function App() {
-	//안녕
 	return (
 		<>
 			<Header />
