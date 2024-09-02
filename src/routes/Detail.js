@@ -64,7 +64,7 @@ function Detail() {
           alert('상품이 장바구니에 추가되었습니다!'); // 메시지 설정
         })
         .catch((error) => {
-          console.error('There was an error adding the cart item:', error);
+          navigator("/Login")
         });
     }
   }, [cartItem]);
@@ -126,9 +126,13 @@ function Detail() {
             <button
               className="buy-button"
               onClick={() => {
-                if (stock == 0) {
+                if(userData.id == null){
+                  navigator("/Login");
+                }
+                else if (stock == 0) {
                   alert('품절입니다.');
-                } else {
+                } 
+                else {
                   if (orderNum <= 0) {
                     alert('한개이상 주문해야합니다');
                   } else {
