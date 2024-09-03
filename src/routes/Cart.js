@@ -16,6 +16,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import CheckBox from '../components/CheckBox';
 
 const Cart = () => {
+
   let navigate = useNavigate();
   const [cartData, setCartData] = useState([]);
   const user = sessionStorage.getItem('user');
@@ -32,7 +33,6 @@ const Cart = () => {
       console.log('로그인 정보가 없습니다.');
     }
   }, [user]);
-
   function getAllCart(member_id) {
     listCarts(member_id)
       .then((response) => {
@@ -84,7 +84,7 @@ const Cart = () => {
   const iconStyle = {
     fontSize: '24px',
   };
-
+  console.log(cartData);
   return (
     <div>
       {showAlert && (
@@ -146,13 +146,10 @@ const Cart = () => {
               <td>
                 <button
                   style={{ marginRight: '10px' }}
-                  onClick={() => {
-                    updateQuantity(item, 1);
-                  }}
+                  onClick={() => updateQuantity(item, 1)}
                 >
                   <BsCartPlus />
                 </button>
-
                 <button
                   style={{ marginRight: '10px' }}
                   onClick={() => updateQuantity(item, -1)}
@@ -180,7 +177,14 @@ const Cart = () => {
         className="d-flex justify-content-center align-items-center"
         style={{ height: '20vh' }}
       >
-        <button className="btn btn-warning btn-lg">구매하기(미구현)</button>
+        <button
+          className="buy-button"
+          onClick={() => {
+            navigate('/payment', { state: checkGoods });
+          }}
+        >
+          선택된 상품 구매하기
+        </button>
       </div>
     </div>
   );
