@@ -187,6 +187,9 @@ function Payment() {
 				<button
 					className="cancel-button"
 					style={{ textAlign: 'center', margin: '5px' }}
+					onClick={() => {
+						navigator('/cart');
+					}}
 				>
 					취소하다
 				</button>
