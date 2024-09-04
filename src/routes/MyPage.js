@@ -25,34 +25,29 @@ const MyPage = () => {
 
     return (
         <>
-        <h2 className="myPageTitle">마이페이지</h2><br/><hr/>
-        
-        <div className="table-wrapper">
-        <table className="table myPageTable">
+        <div>
+            <h2 className="myPageTitle">마이페이지</h2><br/><hr/>
             
-            <tbody>
-                {[
-                    { label: '아이디', value: user.userId },
-                    { label: '이름', value: user.name },
-                    { label: '연락처', value: user.phone },
-                    { label: '주소', value: user.address },
-                    { label: '이메일', value: user.email },
-                    { label: '잔액', value: user.cash+'원' }
-                ].map((item, index) => (
-                    <tr key={index} style={index === 0 ? { borderTop: '2px solid #000' } : {}}>
-                        <th scope="row">{item.label}</th>
-                        <td>{item.value}</td>
-                    </tr>
-                ))}
-            </tbody>
-            </table>
+            <div className="table-wrapper">
+            <table className="table myPageTable">
+                <tbody>
+                    {[
+                        { label: '아이디', value: user.userId },
+                        { label: '이름', value: user.name },
+                        { label: '연락처', value: user.phone },
+                        { label: '주소', value: user.address },
+                        { label: '이메일', value: user.email },
+                        { label: '잔액', value: user.cash+'원' }
+                    ].map((item, index) => (
+                        <tr key={index} style={index === 0 ? { borderTop: '2px solid #000' } : {}}>
+                            <th scope="row">{item.label}</th>
+                            <td>{item.value}</td>
+                        </tr>
+                    ))}
+                </tbody>
+                </table>
+            </div>
         </div>
-            {/*<div style={{border : '3px solid blue',  height : 'auto', display : "flex"}}>
-                <div style={{width : '30%', border : '1px solid red', margin : '60px', float : "left", boxSizing : "border-box"}}>
-                    <Image src="doraemon.jpg" rounded></Image>
-                    <div style={{textAlign: 'center'}}>{user.name}</div>
-                </div>
-            </div>*/}
         </>
     )
 }
