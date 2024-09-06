@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { getGoods } from '../services/GoodsService';
 import { addRecentlyViewedGoods } from '../store/recentlyViewedSlice';
 import { createcart } from '../services/CartService';
+import Comments from '../components/Comments';
 
 //수량 입력받는칸의 수치 조정하면 'orderNum' state 변경되고, 바로구매 / 장바구니 누르면 이 값 전달함
 
@@ -58,6 +59,7 @@ function Detail() {
 
   useEffect(() => {
     if (cartItem && cartItem.member && cartItem.goods) {
+      console.log(cartItem)
       createcart(cartItem)
         .then((response) => {
           console.log('Cart item added successfully:', response.data);
@@ -72,7 +74,6 @@ function Detail() {
   // 처음 detail페이제에 로드할때 해당상품 id 최근본항목에 저장하기
   useEffect(() => {
     dispatch(addRecentlyViewedGoods(id));
-    console.log(id);
   }, []);
 
 	return (
@@ -153,6 +154,7 @@ function Detail() {
           </div>
         </div>
       </div>
+     <Comments goods_id={findProduct.id} member_id={member_id}/>
     </>
   );
 }
