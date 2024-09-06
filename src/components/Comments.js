@@ -157,8 +157,10 @@ const Comments = ({ goods_id, member_id }) => {
                                         onChange={handleEditChange}
                                         className="comment-input"
                                     />
-                                    <button onClick={() => handleUpdate(comment.id)}>저장</button>
-                                    <button onClick={() => setEditCommentId(null)}>취소</button>
+                                    <div className="update-actions">
+                                        <button onClick={() => handleUpdate(comment.id)}>저장</button>
+                                        <button onClick={() => setEditCommentId(null)}>취소</button>
+                                    </div>
                                 </div>
                             ) : (
                                 <>
