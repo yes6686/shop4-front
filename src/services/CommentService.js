@@ -14,3 +14,6 @@ export const updateComment = (commentId, comment) =>
 
 export const deleteComment = (commentId) =>
 	axios.delete(REST_API_BASE_URL + '/' + commentId);
+
+export const getLike = (commentId, memeberId) => 
+	axios.post(REST_API_BASE_URL+'/like/'+commentId+'/'+memeberId);

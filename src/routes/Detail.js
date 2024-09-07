@@ -153,6 +153,7 @@ function Detail() {
 					</div>
 				</div>
 			</div>
+      <br></br>
 			<Comments goods_id={findProduct.id} member_id={member_id} />
 		</>
 	);

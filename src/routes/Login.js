@@ -2,14 +2,11 @@ import './css/Login.css';
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { setIsAdmin, setIsNotAdmin } from '../store/adminSlice.js';
-import { useDispatch } from 'react-redux';
 import kakaoImg from '../images/kakao_login.png';
 import { KAKAO_AUTH_URL } from '../oauth/Oauth';
 
 function Login() {
 	const navigate = useNavigate();
-	let dispatch = useDispatch();
 
 	const [userId, setUserId] = useState('');
 	const [userPw, setUserPw] = useState('');
