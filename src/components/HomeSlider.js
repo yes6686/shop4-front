@@ -3,10 +3,7 @@
 
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-
 import Slider from 'react-slick';
-import { useState } from 'react';
-import { Image } from 'react-bootstrap';
 
 //called slick, slider, carousel
 
@@ -24,12 +21,13 @@ function HomeSlider() {
 	const imageURL = `${process.env.PUBLIC_URL}/images/`;
 
 	const imageList = [
-		`${imageURL}/옷.jpg`,
+		//`${imageURL}/옷.jpg`,
 		`${imageURL}/옷2.jpg`,
 		`${imageURL}/신발.jpg`,
-		`${imageURL}/바지.jpg`,
+		//`${imageURL}/바지.jpg`,
 	];
 	return (
+		
 		<div
 			style={{
 				width: '80%',
