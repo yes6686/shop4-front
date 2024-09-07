@@ -1,17 +1,37 @@
 .AddDiv {
-    margin: 0 auto;
-    width: 40%;
+	margin: 0 auto;
+	width: 40%;
 	height: 60%;
 	border: 1px solid grey;
 	display: flex;
 	flex-direction: column;
 	position: relative;
 	margin-top: 2%;
-    align-content: center;
+	align-content: center;
 }
 
-.AddDiv input {
-    margin: 0 auto;
-    width: 15%;
-    align-content: center;
+.AddDiv label {
+	margin: 0 auto;
+	width: 15%;
+	align-content: center;
+}
+
+.direct-table tr td input {
+	width: 500px;
+	height: 32px;
+	margin: 0 auto;
+	font-size: 15px;
+	border: 1px solid grey;
+	border-radius: 5px;
+	outline: none;
+	padding-left: 10px;
+	background-color: rgb(233, 233, 233);
+}
+
+.direct-table tr:nth-child(even) td input {
+	background: white;
+}
+
+.AddBody button {
+	margin: 5px;
 }

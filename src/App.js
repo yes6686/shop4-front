@@ -13,6 +13,7 @@ import Login from './routes/Login';
 import SignUp from './routes/SignUp';
 import Payment from './routes/Payment';
 import AddGoods from './routes/AddGoods';
+import UserManagement from './routes/UserManagement';
 
 function App() {
 	return (
@@ -29,6 +30,7 @@ function App() {
 				<Route path="/signUp" element={<SignUp />} />
 				<Route path="/payment" element={<Payment />} />
 				<Route path="/addgoods" element={<AddGoods />}></Route>
+				<Route path="/userManagement" element={<UserManagement />}></Route>
 			</Routes>
 			{/* footer 박스로 클릭안되는 현상 처리 */}
 			<br />

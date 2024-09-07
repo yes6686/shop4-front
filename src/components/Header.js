@@ -48,23 +48,27 @@ const Header = () => {
 	return (
 		<>
 			<div className="App">
-				<Navbar bg="success" data-bs-theme="dark">
+				<Navbar
+					style={{
+						background: 'white',
+						borderBottom: '1px solid #D8D8D8',
+						cursor: 'pointer',
+					}}
+				>
 					<Container>
-						<Navbar.Brand onClick={() => navigate('/')}>Shop</Navbar.Brand>
-						<Nav className="me-auto">
-							<Nav.Link onClick={() => navigate('/')}>Home</Nav.Link>
-						</Nav>
+						<Navbar.Brand onClick={() => navigate('/')}>Shop4</Navbar.Brand>
+						<Nav className="me-auto"></Nav>
 						<CiSearch style={{ width: '30px', height: '30px' }} />
 						<input
 							type="text"
 							value={search}
 							onChange={onChange}
 							placeholder="Search..."
-							className="search-input"
+							className="search-input me-auto"
 						/>
 
 						{/* 사용자 이름 표시 */}
-						<Nav className="ms-auto">
+						<Nav className="me-auto">
 							{isLoggedIn ? (
 								<Nav.Item className="me-2">
 									<button
@@ -80,7 +84,7 @@ const Header = () => {
 									</button>
 								</Nav.Item>
 							) : (
-								<Nav.Item className="me-3">
+								<Nav.Item className="me-2">
 									<button
 										onClick={handleLogin}
 										className="btn"
@@ -127,9 +131,10 @@ const Header = () => {
 								<br />
 								장바구니
 							</Nav.Item>
+							<Nav.Item></Nav.Item>
 						</Nav>
-						<h2 style={{ color: 'white' }}>
-							{isLoggedIn ? user.name + '님' : ''}
+						<h2 style={{ color: 'black' }}>
+							{isLoggedIn ? <div>{user.name + '님'}</div> : <div>Guest</div>}
 						</h2>
 					</Container>
 				</Navbar>

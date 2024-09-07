@@ -4,6 +4,7 @@ import './../App.css';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { listGoods } from '../services/GoodsService';
 import { useSelector } from 'react-redux';
+import HomeSlider from '../components/HomeSlider';
 
 const Home = () => {
 	let navigate = useNavigate();
@@ -44,7 +45,11 @@ const Home = () => {
 
 	return (
 		<div className="App">
-			<div className="main-bg"></div>
+			<HomeSlider className=""></HomeSlider>
+			<br />
+			<br />
+			<br />
+			<br />
 			<div className="container">
 				<div className="row">
 					{filterTitle.map((a, index) => {
@@ -68,7 +73,13 @@ const Home = () => {
 						>
 							상품추가
 						</button>
-						<button className="btn btn-danger" style={{ width: '5%' }}>
+						<button
+							className="btn btn-danger"
+							style={{ width: '5%' }}
+							onClick={() => {
+								navigate('/userManagement');
+							}}
+						>
 							유저 관리
 						</button>
 					</div>
