@@ -1,3 +1,4 @@
+import './css/Direct.css';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { getMember, updateMember } from '../services/MemberService';
 import { useEffect, useState } from 'react';
