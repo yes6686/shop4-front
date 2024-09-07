@@ -1,11 +1,8 @@
 import './css/MyPage.css';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Image } from 'react-bootstrap';
 import { useNavigate, Link } from 'react-router-dom';
 import defaultImage from '../images/bg.jpg';
-
-import './MyPage.css';
-import React, { useEffect, useState } from 'react';
 
 const MyPage = () => {
 	const user = JSON.parse(sessionStorage.getItem('user')); // 세션에서 사용자 이름 가져오기

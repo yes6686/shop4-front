@@ -4,7 +4,6 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { setIsAdmin, setIsNotAdmin } from '../store/adminSlice.js';
 import { useDispatch } from 'react-redux';
-import axios from 'axios';
 import kakaoImg from '../images/kakao_login.png';
 import { KAKAO_AUTH_URL } from '../oauth/Oauth';
 

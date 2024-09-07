@@ -23,12 +23,7 @@ function HomeSlider() {
 
 	const imageURL = `${process.env.PUBLIC_URL}/images/`;
 
-	const imageList = [
-		`${imageURL}/옷.jpg`,
-		`${imageURL}/옷2.jpg`,
-		`${imageURL}/신발.jpg`,
-		`${imageURL}/바지.jpg`,
-	];
+	const imageList = [`${imageURL}/신발.jpg`, `${imageURL}/바지.jpg`];
 	return (
 		<div
 			style={{
