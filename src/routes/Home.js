@@ -29,7 +29,7 @@ const Home = () => {
     filterTitle = shoes.filter((p) => {
       return p.name.replace(" ","").toLocaleLowerCase().includes(state.search.toLocaleLowerCase().replace(" ",""))
   });
-  },[state.search])
+  },[state.search, shoes])
   
 
   return (
