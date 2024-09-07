@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { getMember, updateMember } from '../services/MemberService';
 import { useEffect, useState } from 'react';
 import { getGoods, updateGoods } from '../services/GoodsService';
+import Comments from '../components/Comments';
 
 //direct.css에 테이블 밑 버튼 정보 있음
 function Direct() {
@@ -152,10 +153,14 @@ function Direct() {
 				<button
 					className="cancel-button"
 					style={{ textAlign: 'center', margin: '5px' }}
+					onClick={() => {
+						navigator(-1);  // 이전 페이지로 이동
+					}}
 				>
 					취소하다
 				</button>
 			</div>
+			<Comments></Comments>
 		</div>
 	);
 }

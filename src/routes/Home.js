@@ -41,7 +41,7 @@ const Home = () => {
 				.toLocaleLowerCase()
 				.includes(state.search.toLocaleLowerCase().replace(' ', ''));
 		});
-	}, [state.search]);
+	}, [state.search, shoes]);
 
 	return (
 		<div className="App">

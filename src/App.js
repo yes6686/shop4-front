@@ -12,6 +12,7 @@ import Direct from './routes/Direct';
 import Login from './routes/Login';
 import SignUp from './routes/SignUp';
 import Payment from './routes/Payment';
+import LoginHandeler from './components/LoginHandeler';
 import AddGoods from './routes/AddGoods';
 import UserManagement from './routes/UserManagement';
 
@@ -31,6 +32,7 @@ function App() {
 				<Route path="/payment" element={<Payment />} />
 				<Route path="/addgoods" element={<AddGoods />}></Route>
 				<Route path="/userManagement" element={<UserManagement />}></Route>
+				<Route path="/login/kakao" element={<LoginHandeler />} />
 			</Routes>
 			{/* footer 박스로 클릭안되는 현상 처리 */}
 			<br />
