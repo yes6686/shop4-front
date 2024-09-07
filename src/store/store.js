@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
-import user from './store/userSlice.js';
-import recentlyViewed from './store/recentlyViewedSlice.js';
-import search from './store/searchSlice.js';
+import user from './userSlice.js';
+import recentlyViewed from './recentlyViewedSlice.js';
+import search from './searchSlice.js';
 
 export default configureStore({
   reducer: {
