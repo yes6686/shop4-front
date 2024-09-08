@@ -1,13 +1,17 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const CheckBox = (props) => {
 	const { id, checkGoodsHandler } = props;
-	const [checked, setChecked] = useState(false);
+	const [checked, setChecked] = useState(true);
 
 	const checkHandled = ({ target }) => {
 		setChecked(!checked);
-		checkGoodsHandler(target.id, target.checked);
+		checkGoodsHandler(id, target.checked);
 	};
+
+	useEffect(() => {
+		checkGoodsHandler(id, checked);
+	});
 
 	return (
 		<label>

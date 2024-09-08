@@ -122,7 +122,11 @@ function SignUp() {
 					<div className="mb-3" key={key}>
 						<input
 							type={
-								key === 'email' ? 'email' : key === 'birth' ? 'date' : 'text'
+								key === 'email'
+									? 'email'
+									: key === 'birth'
+									? 'date'
+									: 'text'
 							}
 							name={key}
 							value={formData[key]}
