@@ -22,9 +22,9 @@ function HomeSlider() {
 
 	const imageList = [
 		//`${imageURL}/옷.jpg`,
-		`${imageURL}/옷2.jpg`,
+		//`${imageURL}/옷2.jpg`,
 		`${imageURL}/신발.jpg`,
-		//`${imageURL}/바지.jpg`,
+		`${imageURL}/바지.jpg`,
 	];
 	return (
 		

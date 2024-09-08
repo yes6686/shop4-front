@@ -1,25 +1,24 @@
-import React, { useState, useEffect } from 'react';
-import { Table } from 'react-bootstrap';
-import './../App.css';
-import { useNavigate } from 'react-router-dom';
-import { FiShoppingCart } from 'react-icons/fi';
-import { AiOutlinePicture } from 'react-icons/ai';
-import { GiClothes } from 'react-icons/gi';
-import { FaMoneyBillWave } from 'react-icons/fa';
-import { PiPackageDuotone } from 'react-icons/pi';
-import { FaCartArrowDown } from 'react-icons/fa6';
-import { BsCartPlus, BsCartDash } from 'react-icons/bs';
-import { listCarts, updateCart } from '../services/CartService';
-import { MdOutlineDeleteForever } from 'react-icons/md';
-import { deleteCart } from '../services/CartService';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import CheckBox from '../components/CheckBox';
+import React, { useState, useEffect } from "react";
+import { Table } from "react-bootstrap";
+import "./../App.css";
+import { useNavigate } from "react-router-dom";
+import { FiShoppingCart } from "react-icons/fi";
+import { AiOutlinePicture } from "react-icons/ai";
+import { GiClothes } from "react-icons/gi";
+import { FaMoneyBillWave } from "react-icons/fa";
+import { PiPackageDuotone } from "react-icons/pi";
+import { FaCartArrowDown } from "react-icons/fa6";
+import { BsCartPlus, BsCartDash } from "react-icons/bs";
+import { listCarts, updateCart } from "../services/CartService";
+import { MdOutlineDeleteForever } from "react-icons/md";
+import { deleteCart } from "../services/CartService";
+import "bootstrap/dist/css/bootstrap.min.css";
+import CheckBox from "../components/CheckBox";
 
 const Cart = () => {
-
   let navigate = useNavigate();
   const [cartData, setCartData] = useState([]);
-  const user = sessionStorage.getItem('user');
+  const user = sessionStorage.getItem("user");
   const [checkGoods, setcheckGoods] = useState(new Set()); //Set 은 중복없이 유일한값만 저장하는 배열임,cartId가 저장됨 구매시 이용
   const [showAlert, setShowAlert] = useState(false);
 
@@ -28,9 +27,9 @@ const Cart = () => {
       const userData = JSON.parse(user);
       const member_id = userData.id;
       getAllCart(member_id);
-      console.log('로그인한 사용자의 member_id :', member_id);
+      console.log("로그인한 사용자의 member_id :", member_id);
     } else {
-      console.log('로그인 정보가 없습니다.');
+      console.log("로그인 정보가 없습니다.");
     }
   }, [user]);
   function getAllCart(member_id) {
@@ -47,7 +46,7 @@ const Cart = () => {
     //수량증감 핸들러
     const newQuantity = item.quantity + delta;
     if (newQuantity > item.goods.stock) {
-      console.log('stock:' + item.goods.stock);
+      console.log("stock:" + item.goods.stock);
       setShowAlert(true);
       setTimeout(() => {
         setShowAlert(false);
@@ -73,18 +72,15 @@ const Cart = () => {
     if (isChecked) {
       checkGoods.add(cartId); //set은 add로 추가
       setcheckGoods(checkGoods);
-      console.log(checkGoods);
     } else if (!isChecked) {
       checkGoods.delete(cartId);
       setcheckGoods(checkGoods);
-      console.log(checkGoods);
     }
   };
 
   const iconStyle = {
-    fontSize: '24px',
+    fontSize: "24px",
   };
-  console.log(cartData);
   return (
     <div>
       {showAlert && (
@@ -95,33 +91,33 @@ const Cart = () => {
       <Table
         bordered
         hover
-        style={{ width: '100%', borderCollapse: 'collapse' }}
+        style={{ width: "100%", borderCollapse: "collapse" }}
       >
         <thead>
           <tr>
-            <th style={{ textAlign: 'center', verticalAlign: 'middle' }}>
+            <th style={{ textAlign: "center", verticalAlign: "middle" }}>
               <FaCartArrowDown style={iconStyle} />
             </th>
-            <th style={{ textAlign: 'center', verticalAlign: 'middle' }}>
+            <th style={{ textAlign: "center", verticalAlign: "middle" }}>
               <AiOutlinePicture style={iconStyle} />
             </th>
-            <th style={{ textAlign: 'center', verticalAlign: 'middle' }}>
+            <th style={{ textAlign: "center", verticalAlign: "middle" }}>
               <GiClothes style={iconStyle} />
             </th>
-            <th style={{ textAlign: 'center', verticalAlign: 'middle' }}>
+            <th style={{ textAlign: "center", verticalAlign: "middle" }}>
               <FiShoppingCart style={iconStyle} />
             </th>
-            <th style={{ textAlign: 'center', verticalAlign: 'middle' }}>
+            <th style={{ textAlign: "center", verticalAlign: "middle" }}>
               <FaMoneyBillWave style={iconStyle} />
             </th>
-            <th style={{ textAlign: 'center', verticalAlign: 'middle' }}>
+            <th style={{ textAlign: "center", verticalAlign: "middle" }}>
               <PiPackageDuotone style={iconStyle} />
             </th>
           </tr>
         </thead>
         <tbody>
           {cartData.map((item) => (
-            <tr key={item.id} style={{ textAlign: 'center', fontSize: '22px' }}>
+            <tr key={item.id} style={{ textAlign: "center", fontSize: "22px" }}>
               <td>
                 <CheckBox
                   id={item.id}
@@ -145,19 +141,19 @@ const Cart = () => {
               <td>무료</td>
               <td>
                 <button
-                  style={{ marginRight: '10px' }}
+                  style={{ marginRight: "10px" }}
                   onClick={() => updateQuantity(item, 1)}
                 >
                   <BsCartPlus />
                 </button>
                 <button
-                  style={{ marginRight: '10px' }}
+                  style={{ marginRight: "10px" }}
                   onClick={() => updateQuantity(item, -1)}
                 >
                   <BsCartDash />
                 </button>
                 <button
-                  style={{ marginRight: '10px' }}
+                  style={{ marginRight: "10px" }}
                   onClick={() => {
                     deleteCart(item.id);
                     let delete_id = item.id;
@@ -175,12 +171,12 @@ const Cart = () => {
       </Table>
       <div
         className="d-flex justify-content-center align-items-center"
-        style={{ height: '20vh' }}
+        style={{ height: "20vh" }}
       >
         <button
           className="buy-button"
           onClick={() => {
-            navigate('/payment', { state: checkGoods });
+            navigate("/payment", { state: checkGoods });
           }}
         >
           선택된 상품 구매하기
