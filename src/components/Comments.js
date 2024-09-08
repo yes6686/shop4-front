@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import './Comments_module.css';
-import { createComment, listComments, updateComment, deleteComment } from '../services/CommentService';
-import { FaRegComment } from "react-icons/fa6";
+import { createComment, listComments, updateComment, deleteComment, getLike } from '../services/CommentService';
+import { FaRegComment } from "react-icons/fa";
+import { FaRegHeart } from "react-icons/fa";
 
 const Comments = ({ goods_id, member_id }) => {
     const [comment, setComment] = useState('');
@@ -9,6 +10,7 @@ const Comments = ({ goods_id, member_id }) => {
     const [commentsList, setCommentsList] = useState([]);
     const [editCommentId, setEditCommentId] = useState(null);
     const [editedText, setEditedText] = useState('');
+    const [likedComments, setLikedComments] = useState(new Set()); // Store liked comment IDs
 
     useEffect(() => {
         if (goods_id) {
@@ -72,15 +74,13 @@ const Comments = ({ goods_id, member_id }) => {
 
     const handleUpdate = (id) => {
         if (editedText.trim()) {
-            console.log(editedText)
-            updateComment(id, { comment:editedText })
+            updateComment(id, { comment: editedText })
                 .then(() => {
                     console.log('Comment updated successfully');
                     return listComments(goods_id);
                 })
                 .then((response) => {
                     const sortedComments = response.data.reverse();
-                    console.log(sortedComments)
                     setCommentsList(sortedComments);
                     setEditCommentId(null);
                     setEditedText('');
@@ -107,19 +107,26 @@ const Comments = ({ goods_id, member_id }) => {
     };
 
     const handleLike = (id) => {
-        commentsList.map((comment) =>
-            comment.id === id
-                ? updateComment(id, {like : (comment.like+1)})
-                .then(()=>{
-                    return listComments(goods_id);
-                })
-                .then((response) => {
-                    const sortedComments = response.data.reverse();
-                    console.log(sortedComments)
-                    setCommentsList(sortedComments);
-                })
-                : comment
-        );
+        getLike(id, member_id)
+            .then((response) => {
+                if (response.data === 1) { // response.data가 1이면 하트 색칠
+                    setLikedComments(prev => new Set(prev.add(id)));
+                } else {
+                    setLikedComments(prev => {
+                        const updated = new Set(prev);
+                        updated.delete(id);
+                        return updated;
+                    });
+                }
+                return listComments(goods_id);
+            })
+            .then((response) => {
+                const sortedComments = response.data.reverse();
+                setCommentsList(sortedComments);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
     };
 
     return (
@@ -142,7 +149,7 @@ const Comments = ({ goods_id, member_id }) => {
                                 {member_id === comment.member.id && (
                                     <>
                                         <button onClick={() => handleEditClick(comment.id, comment.comment)}>수정</button> 
-                                        <button onClick={() => handleDelete(comment.id)}> 삭제</button>
+                                        <button onClick={() => handleDelete(comment.id)}>삭제</button>
                                     </>
                                 )}
                             </div>
@@ -164,10 +171,15 @@ const Comments = ({ goods_id, member_id }) => {
                                 </div>
                             ) : (
                                 <>
-                                    <div className="like-box" onClick={() => handleLike(comment.id)}>
-                                        ❤️ {comment.like}
+                                    <div
+                                        className={`like-box ${likedComments.has(comment.id) ? 'liked' : ''}`}
+                                        onClick={() => handleLike(comment.id)}
+                                    >   
+                                        <FaRegHeart/> {comment.like}
                                     </div>
-                                    <div className="comment-text"><FaRegComment /> {comment.comment}</div>
+                                    <div className="comment-text">
+                                        <FaRegComment /> {comment.comment}
+                                    </div>
                                 </>
                             )}
                         </div>
