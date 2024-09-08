@@ -8,7 +8,7 @@ const MyPage = () => {
 	const user = JSON.parse(sessionStorage.getItem('user')); // 세션에서 사용자 이름 가져오기
 	const isLoggedIn = sessionStorage.getItem('isLoggedIn'); // 로그인 여부 확인
 	const [isEditingEmail, setIsEditingEmail] = useState(false);
-	const [email, setEmail] = useState('guest@gmail.com');
+	const [email, setEmail] = useState(user.Email);
 
 	// 유저 이미지 관리 변수 및 함수
 	const [image, setImage] = useState(defaultImage);
@@ -44,7 +44,7 @@ const MyPage = () => {
 
 	return (
 		<>
-			<div className="myPageContainer">
+            <div className="myPageContainer">
             {/* 왼쪽 부분 */}
 			<div className="leftContent">
 				<h4 style={{ fontWeight: 'bold', marginLeft: '30px' }}>마이페이지</h4>{' '}
@@ -75,14 +75,7 @@ const MyPage = () => {
 			{/* 오른쪽 부분 */}
 			<div className="rightContent">
 				<h4 style={{ marginTop: '20px', fontWeight: 'bold' }}>프로필 정보</h4>
-				<hr
-					style={{
-						border: 'none',
-						width: '80%',
-						height: '5px',
-						backgroundColor: 'black',
-					}}
-				/>
+				<hr	style={{ border: 'none', width: '80%', height: '5px', backgroundColor: 'black'}}/>
 
 				{/* 이미지랑 이름 */}
 				<div className="myPageSection1">
@@ -108,8 +101,7 @@ const MyPage = () => {
 								fontSize: '26px',
 								display: 'inline-block',
 								marginBottom: '10px',
-							}}
-						>
+						}}>
 							{user.name} 님
 						</span>
 						<br />
@@ -123,8 +115,8 @@ const MyPage = () => {
 						<label
 							htmlFor="imageUpload"
 							className="btn"
-							style={{ fontSize: '12px', cursor: 'pointer' }}
-						>
+							style={{ fontSize: '12px', cursor: 'pointer' 
+                        }}>
 							이미지 변경
 						</label>
 						<button
@@ -132,9 +124,7 @@ const MyPage = () => {
 							style={{ fontSize: '12px', marginLeft: '15px' }}
 							onClick={() => {
 								console.log(image);
-							}}
-						>
-							{' '}
+						}}>
 							삭제
 						</button>
 					</div>
@@ -143,7 +133,7 @@ const MyPage = () => {
 				<hr style={{ width: '80%' }} />
 				<br />
 
-				{/* 로그인 정보 칸 */}
+				{/* 로그인 정보 블록 */}
 				<div className="myPageSection2">
 					<h5 style={{ fontWeight: 'bold' }}>로그인 정보</h5>
 
