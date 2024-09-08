@@ -52,11 +52,15 @@ const Header = () => {
 					style={{
 						background: 'white',
 						borderBottom: '1px solid #D8D8D8',
-						cursor: 'pointer',
 					}}
 				>
 					<Container>
-						<Navbar.Brand onClick={() => navigate('/')}>Shop4</Navbar.Brand>
+						<Navbar.Brand
+							onClick={() => navigate('/')}
+							style={{ cursor: 'pointer' }}
+						>
+							Shop4
+						</Navbar.Brand>
 						<Nav className="me-auto"></Nav>
 						<CiSearch style={{ width: '30px', height: '30px' }} />
 						<input

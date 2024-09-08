@@ -143,7 +143,9 @@ function AddGoods() {
 								onChange={(e) => {
 									handleFilesChange(e);
 									if (e.target.files[0].name) {
-										setUrl(`${imageUrl}/${e.target.files[0].name}`);
+										setUrl(
+											`${imageUrl}/${e.target.files[0].name}`
+										);
 										console.log(url);
 									} else {
 									}
@@ -174,7 +176,11 @@ function AddGoods() {
 				</tbody>
 			</table>
 			<div
-				style={{ margin: '0 auto', display: 'flex', justifyContent: 'center' }}
+				style={{
+					margin: '0 auto',
+					display: 'flex',
+					justifyContent: 'center',
+				}}
 			>
 				<button
 					className="buy-button"
@@ -208,7 +214,9 @@ function AddGoods() {
 					<Toast.Header>
 						<strong className="me-auto">Warning</strong>
 					</Toast.Header>
-					<Toast.Body className={'text-white'}>Form is Empty.</Toast.Body>
+					<Toast.Body className={'text-white'}>
+						Form is Empty.
+					</Toast.Body>
 				</Toast>
 			</ToastContainer>
 

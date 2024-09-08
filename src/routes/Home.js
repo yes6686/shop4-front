@@ -53,7 +53,13 @@ const Home = () => {
 			<div className="container">
 				<div className="row">
 					{filterTitle.map((a, index) => {
-						return <Card key={index} shoes={filterTitle} index={index}></Card>;
+						return (
+							<Card
+								key={index}
+								shoes={filterTitle}
+								index={index}
+							></Card>
+						);
 					})}
 				</div>
 			</div>
