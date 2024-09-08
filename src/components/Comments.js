@@ -131,6 +131,7 @@ const Comments = ({ goods_id, member_id }) => {
         setCommentsList(sortedComments);
       })
       .catch((error) => {
+        alert("로그인해주세요");
         console.error(error);
       });
   };
