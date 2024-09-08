@@ -188,7 +188,7 @@ function Payment() {
 					className="cancel-button"
 					style={{ textAlign: 'center', margin: '5px' }}
 					onClick={() => {
-						navigator(-1);  // 이전 페이지로 이동
+						navigator(-1); // 이전 페이지로 이동
 					}}
 				>
 					취소하다
