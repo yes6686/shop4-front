@@ -66,7 +66,10 @@ function Detail() {
 					alert('상품이 장바구니에 추가되었습니다!'); // 메시지 설정
 				})
 				.catch((error) => {
-					console.error('There was an error adding the cart item:', error);
+					console.error(
+						'There was an error adding the cart item:',
+						error
+					);
 				});
 		}
 	}, [cartItem]);
@@ -74,7 +77,6 @@ function Detail() {
 	// 처음 detail페이제에 로드할때 해당상품 id 최근본항목에 저장하기
 	useEffect(() => {
 		dispatch(addRecentlyViewedGoods(id));
-		console.log(id);
 	}, []);
 
 	return (
@@ -89,12 +91,18 @@ function Detail() {
 						/>
 					</div>
 					<div className="col-md-6">
-						<h4 className="pt-5 product-title">name : {findProduct.name}</h4>
+						<h4 className="pt-5 product-title">
+							name : {findProduct.name}
+						</h4>
 						<p className="product-content">
 							description : {findProduct.description}
 						</p>
-						<p className="product-price">price : {findProduct.price}</p>
-						<p className="product-count">stock : {findProduct.stock}</p>
+						<p className="product-price">
+							price : {findProduct.price}
+						</p>
+						<p className="product-count">
+							stock : {findProduct.stock}
+						</p>
 
 						{/*수량입력*/}
 						<input
@@ -136,7 +144,9 @@ function Detail() {
 									if (orderNum <= 0) {
 										alert('한개이상 주문해야합니다');
 									} else {
-										navigator('/direct', { state: [findProduct, orderNum] });
+										navigator('/direct', {
+											state: [findProduct, orderNum],
+										});
 									}
 								}
 							}}
@@ -153,7 +163,7 @@ function Detail() {
 					</div>
 				</div>
 			</div>
-      <br></br>
+			<br></br>
 			<Comments goods_id={findProduct.id} member_id={member_id} />
 		</>
 	);

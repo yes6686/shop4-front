@@ -31,7 +31,10 @@ function App() {
 				<Route path="/signUp" element={<SignUp />} />
 				<Route path="/payment" element={<Payment />} />
 				<Route path="/addgoods" element={<AddGoods />}></Route>
-				<Route path="/userManagement" element={<UserManagement />}></Route>
+				<Route
+					path="/userManagement"
+					element={<UserManagement />}
+				></Route>
 				<Route path="/login/kakao" element={<LoginHandeler />} />
 			</Routes>
 			{/* footer 박스로 클릭안되는 현상 처리 */}

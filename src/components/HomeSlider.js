@@ -27,7 +27,6 @@ function HomeSlider() {
 		`${imageURL}/바지.jpg`,
 	];
 	return (
-		
 		<div
 			style={{
 				width: '80%',
