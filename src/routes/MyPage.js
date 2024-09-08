@@ -44,33 +44,7 @@ const MyPage = () => {
 
 	return (
 		<>
-			<h2 className="myPageTitle">마이페이지</h2>
-			<br />
-			<hr />
-
-			<div className="table-wrapper">
-				<table className="table myPageTable">
-					<tbody>
-						{[
-							{ label: '아이디', value: user.userId },
-							{ label: '이름', value: user.name },
-							{ label: '연락처', value: user.phone },
-							{ label: '주소', value: user.address },
-							{ label: '이메일', value: user.email },
-							{ label: '잔액', value: user.cash + '원' },
-						].map((item, index) => (
-							<tr
-								key={index}
-								style={index === 0 ? { borderTop: '2px solid #000' } : {}}
-							>
-								<th scope="row">{item.label}</th>
-								<td>{item.value}</td>
-							</tr>
-						))}
-					</tbody>
-				</table>
-			</div>
-            
+			<div className="myPageContainer">
             {/* 왼쪽 부분 */}
 			<div className="leftContent">
 				<h4 style={{ fontWeight: 'bold', marginLeft: '30px' }}>마이페이지</h4>{' '}
@@ -244,6 +218,7 @@ const MyPage = () => {
 					</div>
 				</div>
 			</div>
+            </div>
 		</>
 	);
 };
