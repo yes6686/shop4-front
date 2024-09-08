@@ -2,9 +2,13 @@ import './css/MyPage.css';
 import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import defaultImage from '../images/bg.jpg';
+import {updateMember} from '../services/MemberService.js'
 
 
 const MyPage = () => {
+    // user 객체가 null일 경우를 대비한 체크
+	
+
 	const user = JSON.parse(sessionStorage.getItem('user')); // 세션에서 사용자 이름 가져오기
 	const isLoggedIn = sessionStorage.getItem('isLoggedIn'); // 로그인 여부 확인
 	
@@ -21,24 +25,28 @@ const MyPage = () => {
 		}
 	};
 
-    // 이메일 변경
+    
+    // 이메일 변경const [email, setEmail] = useState(user.email);
+    const [email, setEmail] = useState('');
+    const [userPw, setUserPw] = useState('');
+    const [userName, setUserName] = useState('');
+
+    const setUserState = () => {
+        setEmail(user.email);
+        setUserPw(user.userPw);
+        setUserName(user.name);
+    }
+
     const [isEditingEmail, setIsEditingEmail] = useState(false);
-    const [email, setEmail] = useState(user.email);
+    
 	const handleSaveEmail = () => {
 		// 이메일 저장 로직 추가
 		setIsEditingEmail(false);
 	};
-
-    //비밀번호 변경
-    const [isEditingUserPw, setIsEditingUserPw] = useState(false);
-    const [userPw, setUserPw] = useState(user.userPw);
-    const handleSaveUserPw = () => {
-        setIsEditingUserPw(false);
-    }
     
-    //유저 닉네임? 이름? 변경
+    //유저 이름름 변경
     const [isEditingUserName, setIsEditingUserName] = useState(false);
-    const [userName, setUserName] = useState(user.name);
+    
     const handleSaveUserName = () => {
         setIsEditingUserName(false);
     }
@@ -49,33 +57,6 @@ const MyPage = () => {
         setModalOpen(false);
     };
 
-
-    //비밀번호 변경 변수들 (현재 비밀번호, 새 비밀번호, 새 비밀번호 확인용)
-    const [currentUserPw, setCurrentUserPw] = useState('');
-    const maxLength = 20; // 최대 글자 수 설정
-    const handleCurrentUserPw = (event) => {
-        setCurrentUserPw(event.target.value);
-    };
-    const [newUserPw, setNewUserPw] = useState('');
-    const [confirmUserPw, setConfirmUserPw] = useState('');
-
-    const handleNewUserPw = (e) => {
-        setNewUserPw(e.target.value);
-    }
-    const handleConfirmUserPw = (e) => {
-        setConfirmUserPw(e.target.value);
-    }
-    const clearUserPw = () => {
-        setCurrentUserPw('');
-        setNewUserPw('');
-        setConfirmUserPw('');
-    }
-
-    const changeUserPw = () => {
-        
-    }
-
-
 	let navigate = useNavigate();
 	useEffect(() => {
 		if (!isLoggedIn || !user) {
@@ -83,14 +64,16 @@ const MyPage = () => {
 			navigate('/login'); // 로그인되지 않았거나 사용자 정보가 없는 경우 로그인 페이지로 이동
 			return;
 		}
-	}, [isLoggedIn, user, navigate]);
+        if(user){
+            setUserState();
+        }
+	}, [isLoggedIn, user]);
 
-
-	// user 객체가 null일 경우를 대비한 체크
-	if (!user) {
+    if (!user) {
 		return null; // user가 null일 경우 컴포넌트를 렌더링하지 않음
 	}
 
+	
     
 
 	return (
@@ -227,49 +210,8 @@ const MyPage = () => {
                             변경
 						</button>
                         
-                        
                         {modalOpen &&
-                            <div className={'modal-container'}>
-                                <div className={'modal-content'}>
-                                    <h3>비밀번호 변경</h3>
-                                    
-                                    <hr/><br/>
-                                    
-                                    <div className="input-container">
-                                        <input type="text" value={currentUserPw} placeholder='현재 비밀번호' 
-                                            onChange={handleCurrentUserPw} className="input-underline"/>
-                                        <span className="char-count">
-                                            {currentUserPw.length}/{maxLength}
-                                        </span>
-                                    </div>
-
-                                    <br/>
-                                    
-                                    <div className="input-container">
-                                        <input type="text" value={newUserPw} placeholder="새 비밀번호"
-                                            onChange={handleNewUserPw} className="input-underline"/>
-                                            <span className="char-count">
-                                            {newUserPw.length}/{maxLength}
-                                        </span>
-                                    </div>
-                                    <br/>
-                                    
-                                    <div className="input-container">
-                                        <input type="text" value={confirmUserPw} placeholder="비밀번호 확인"
-                                            onChange={handleConfirmUserPw} className="input-underline"/>
-                                        <span className="char-count">
-                                            {confirmUserPw.length}/{maxLength}
-                                        </span>  
-                                    </div>
-                                    <button className={'modal-close-btn'} onClick={()=>{
-                                        closeModal();
-                                        clearUserPw();
-                                        changeUserPw();
-                                    }}>
-                                        모달 닫기
-                                    </button>
-                                </div>
-                            </div>
+                            <MemberPwUpdate userPw={userPw} closeModal={closeModal} user={user}/>
                         }
                     </div>
 				</div>
@@ -327,6 +269,109 @@ const MyPage = () => {
 	);
 };
 
+
+
+
+
+
+function MemberPwUpdate({userPw, closeModal, user}) {
+    //비밀번호 변경 변수들 (현재 비밀번호, 새 비밀번호, 새 비밀번호 확인용)
+    const [currentUserPw, setCurrentUserPw] = useState('');
+    const [newUserPw, setNewUserPw] = useState('');
+    const [confirmUserPw, setConfirmUserPw] = useState('');
+    const maxLength = 20; // 최대 글자 수 설정
+    const [confirmCurrentUserPw, setConfirmCurrentUserPw] = useState(false);
+    const [confirmNewUserPw,setConfirmNewUserPw] = useState(false);
+
+    const handleCurrentUserPw = (event) => { 
+        setCurrentUserPw(event.target.value); }
+    const handleNewUserPw = (e) => { setNewUserPw(e.target.value); }
+    const handleConfirmUserPw = (e) => { setConfirmUserPw(e.target.value); }
+
+    const changeUserPw = () => {
+        if(currentUserPw != userPw){
+            setConfirmCurrentUserPw(true);
+        }
+        if(newUserPw != confirmUserPw) {
+            setConfirmNewUserPw(true);
+            
+        }
+        
+        if(userPw == currentUserPw && newUserPw == confirmUserPw){
+            let member = {userPw : newUserPw}
+            //axios로 비밀번호 변경
+            updateMember(user.id,member)
+            .then((res)=> {
+                console.log("비밀번호 변경 성공!")
+                sessionStorage.setItem('user', JSON.stringify(res.data));             
+                closeModal();
+            });
+        }   
+            
+        
+    }
+    
+    // 현재 비밀번호 비교,  새비밀번호랑 비밀번호 확인 비교
+
+    return(
+        <>
+        <div className={'modal-container'}>
+            <div className={'modal-content'}>
+                <h3>비밀번호 변경</h3>
+
+                <hr/><br/>
+
+                <div className="input-container">
+                    <input type="text" value={currentUserPw} placeholder='현재 비밀번호' 
+                    onChange={handleCurrentUserPw} className="input-underline"/>
+
+                    {confirmCurrentUserPw && <span className="error-message">
+                    현재 비밀번호가 일치하지 않습니다.</span>}
+                    
+                    <span className="char-count">
+                    {currentUserPw.length}/{maxLength}
+                    </span>
+                </div>
+
+                <div className="input-container">
+                    <input type="text" value={newUserPw} placeholder="새 비밀번호"
+                    onChange={handleNewUserPw} className="input-underline"/>
+                    
+                    
+                    
+                    <span className="char-count">
+                    {newUserPw.length}/{maxLength}
+                    </span>
+                </div>
+
+                <div className="input-container">
+                    <input type="text" value={confirmUserPw} placeholder="비밀번호 확인"
+                    onChange={handleConfirmUserPw} className="input-underline"/>
+                    
+                    {confirmNewUserPw && <span className="error-message">
+                        현재 비밀번호가 일치하지 않습니다.</span>}
+                    
+                    <span className="char-count">
+                    {confirmUserPw.length}/{maxLength}
+                    </span>  
+                </div>
+
+                <div className="button-container">
+                    <button className='btn modal-close-btn' onClick={()=>{
+                            
+                            changeUserPw();
+                        
+                    }}>
+                        변경
+                    </button>
+                    <button className='btn modal-close-btn' onClick={()=>closeModal() }>닫기</button>
+                </div>
+            </div>
+        </div>
+        </>
+    )
+    
+}
 
 
 

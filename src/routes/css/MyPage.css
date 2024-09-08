@@ -70,10 +70,15 @@
 }
 
 
-.modal-close-btn {
+.button-container {
+    display: flex;
+    gap : 15px;
+    margin-top: 30px;
+    margin-left : auto;
+    
     cursor:pointer;
-    margin-left: auto;
-}
+  }
+  
   
 .modal-container {
     width: 100%;
@@ -84,36 +89,41 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background: rgba(0, 0, 0, 0.5);
-    cursor: default; /* 기본 커서로 설정 */
-    z-index: 1000; /* 모달이 다른 콘텐츠 위에 표시되도록 설정 */
+    background: #00000080;
 }
   
 .modal-content {
     background-color: #ffffff;
-    width: 700px;
-    height: 800px;
+    width: 650px;
+    height: 500px;
     padding: 15px;
-    z-index: 1001; /* 모달 콘텐츠가 모달 배경 위에 표시되도록 설정 */
 }
 
 .input-container {
     position: relative;
     margin-bottom: 20px; /* 원하는 간격 조절 */
-    width:50%;
+    width:80%;
+    padding : 15px;
 }
 
 .input-underline {
     border: none;
     border-bottom: 1px solid black; /* 밑줄의 색상과 두께를 조절 */
     outline: none; /* 포커스 시 기본 테두리 제거 */
-    padding: 5px; /* 원하는 패딩 조절 */
+    padding: 10px; /* 원하는 패딩 조절 */
     width: 100%; /* 너비를 원하는 대로 조절 */
 }
 .char-count {
     position: absolute;
-    bottom: -20px; /* input의 밑줄 아래 위치 조절 */
+    bottom: -10px; /* input의 밑줄 아래 위치 조절 */
     right: 0; /* 오른쪽 끝에 위치 */
     font-size: 12px; /* 글자 크기 조절 */
     color: gray; /* 글자 색상 조절 */
+}
+.error-message {
+    position: absolute;
+    bottom: -10px; /* input의 밑줄 아래 위치 조절 */
+    left: 20px; /* 왼쪽 끝에 위치 */
+    font-size: 14px; /* 글자 크기 조절 */
+    color: red; /* 글자 색상 조절 */
 }
