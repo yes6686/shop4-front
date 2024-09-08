@@ -20,7 +20,12 @@ function HomeSlider() {
 
 	const imageURL = `${process.env.PUBLIC_URL}/images/`;
 
-	const imageList = [`${imageURL}/신발.jpg`, `${imageURL}/바지.jpg`];
+	const imageList = [
+		//`${imageURL}/옷.jpg`,
+		//`${imageURL}/옷2.jpg`,
+		`${imageURL}/신발.jpg`,
+		`${imageURL}/바지.jpg`,
+	];
 	return (
 		<div
 			style={{
@@ -30,13 +35,21 @@ function HomeSlider() {
 				overflow: 'hidden',
 			}}
 		>
-			<Slider {...settings}>
+			<Slider {...settings} style={{}}>
 				{imageList.map((item) => {
 					return (
-						<img
-							src={item}
-							style={{ verticalAlign: 'middle' }}
-						></img>
+						<div>
+							<img
+								style={{
+									width: '100%',
+									height: '700px',
+									lineHeight: '700px',
+									objectFit: 'cover',
+									verticalAlign: 'middle',
+								}}
+								src={item}
+							></img>
+						</div>
 					);
 				})}
 			</Slider>

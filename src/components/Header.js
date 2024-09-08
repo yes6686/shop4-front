@@ -10,6 +10,7 @@ import { searchInfo } from '../store/searchSlice';
 import { useDispatch } from 'react-redux';
 import { CiSearch } from 'react-icons/ci';
 import { setIsNotAdmin } from '../store/adminSlice';
+import { MdStoreMallDirectory } from 'react-icons/md';
 const Header = () => {
 	let dispatch = useDispatch();
 	const navigate = useNavigate();
@@ -57,9 +58,9 @@ const Header = () => {
 					<Container>
 						<Navbar.Brand
 							onClick={() => navigate('/')}
-							style={{ cursor: 'pointer' }}
+							style={{ cursor: 'pointer', fontSize: '30px' }}
 						>
-							Shop4
+							<MdStoreMallDirectory /> Shop4
 						</Navbar.Brand>
 						<Nav className="me-auto"></Nav>
 						<CiSearch style={{ width: '30px', height: '30px' }} />

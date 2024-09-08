@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 import './../App.css';
+import './css/Home.css';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { listGoods } from '../services/GoodsService';
 import { useSelector } from 'react-redux';
@@ -49,19 +50,48 @@ const Home = () => {
 			<br />
 			<br />
 			<br />
-			<div className="container">
+
+			<div className="container" style={{ width: '100%' }}>
 				<div className="row">
 					{filterTitle.map((a, index) => {
+						console.log(a);
 						return (
-							<Card
-								key={index}
-								shoes={filterTitle}
-								index={index}
-							></Card>
+							<div className="col">
+								<figure class="snip1200">
+									<img src={`${a.url}`} alt="sq-sample27" />
+									<figcaption>
+										<p>
+											{a.description}
+											<br />
+											<br />
+											<br />
+											{a.price}
+										</p>
+
+										<div class="heading">
+											<h2>
+												<span> {a.name}</span>
+											</h2>
+										</div>
+									</figcaption>
+									<a href={'/detail/' + (index + 1)}></a>
+								</figure>
+							</div>
 						);
 					})}
 				</div>
 			</div>
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
 
 			{/*관리자일때만 뜸*/}
 			{isAdmin == true ? (
