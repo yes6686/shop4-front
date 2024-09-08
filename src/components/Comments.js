@@ -5,10 +5,12 @@ import {
   listComments,
   updateComment,
   deleteComment,
+  postLike,
   getLike,
 } from "../services/CommentService";
 import { FaRegComment } from "react-icons/fa";
 import { FaRegHeart } from "react-icons/fa";
+import { FcLike } from "react-icons/fc";
 
 const Comments = ({ goods_id, member_id }) => {
   const [comment, setComment] = useState("");
@@ -24,12 +26,26 @@ const Comments = ({ goods_id, member_id }) => {
         .then((response) => {
           const sortedComments = response.data.reverse();
           setCommentsList(sortedComments);
+          // Fetch like states for the comments
+          Promise.all(
+            sortedComments.map((comment) =>
+              getLike(comment.id, member_id).then((response) => ({
+                id: comment.id,
+                liked: response.data === 1,
+              }))
+            )
+          ).then((likes) => {
+            const likedSet = new Set(
+              likes.filter((like) => like.liked).map((like) => like.id)
+            );
+            setLikedComments(likedSet);
+          });
         })
         .catch((error) => {
           console.error(error);
         });
     }
-  }, [goods_id]);
+  }, [goods_id, member_id]);
 
   const handleChange = (e) => {
     setComment(e.target.value);
@@ -67,7 +83,7 @@ const Comments = ({ goods_id, member_id }) => {
           console.error(error);
         });
     }
-  }, [newComment]);
+  }, [newComment, goods_id]);
 
   const handleEditClick = (id, text) => {
     setEditCommentId(id);
@@ -111,8 +127,9 @@ const Comments = ({ goods_id, member_id }) => {
         console.error(error);
       });
   };
+
   const handleLike = (id) => {
-    getLike(id, member_id)
+    postLike(id, member_id)
       .then((response) => {
         if (response.data === 1) {
           // response.data가 1이면 하트 색칠
@@ -131,29 +148,10 @@ const Comments = ({ goods_id, member_id }) => {
         setCommentsList(sortedComments);
       })
       .catch((error) => {
+        alert("로그인해주세요");
         console.error(error);
       });
   };
-
-  // useEffect(()=>{
-  //     commentsList.map((comment)=>{
-  //         console.log(comment.id)
-  //         getLike(comment.id, member_id)
-  //             .then((response)=>{
-  //                 if (response.data === 1) { // response.data가 1이면 하트 색칠
-  //                     setLikedComments(prev => new Set(prev.add(comment.id)));
-  //                 }
-  //                 return listComments(goods_id);
-  //             })
-  //             .then((response) => {
-  //                 const sortedComments = response.data.reverse();
-  //                 setCommentsList(sortedComments);
-  //             })
-  //             .catch((error) => {
-  //                 console.error(error);
-  //             });
-  //     })
-  // },[])
 
   return (
     <div className="comments-section">
@@ -214,7 +212,12 @@ const Comments = ({ goods_id, member_id }) => {
                     }`}
                     onClick={() => handleLike(comment.id)}
                   >
-                    <FaRegHeart /> {comment.like}
+                    {likedComments.has(comment.id) ? (
+                      <FcLike />
+                    ) : (
+                      <FaRegHeart />
+                    )}{" "}
+                    {comment.like}
                   </div>
                   <div className="comment-text">
                     <FaRegComment /> {comment.comment}
