@@ -35,10 +35,7 @@ function HomeSlider() {
 					return (
 						<img
 							src={item}
-							style={{
-								width: '100%',
-								objectFit: 'cover',
-							}}
+							style={{ verticalAlign: 'middle' }}
 						></img>
 					);
 				})}

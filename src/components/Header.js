@@ -81,7 +81,10 @@ const Header = () => {
 										style={{ cursor: 'pointer' }}
 									>
 										<IoLogOutOutline
-											style={{ height: '30px', width: '30px' }}
+											style={{
+												height: '30px',
+												width: '30px',
+											}}
 										/>
 										<br />
 										로그아웃
@@ -94,7 +97,12 @@ const Header = () => {
 										className="btn"
 										style={{ cursor: 'pointer' }}
 									>
-										<IoLogInOutline style={{ height: '30px', width: '30px' }} />
+										<IoLogInOutline
+											style={{
+												height: '30px',
+												width: '30px',
+											}}
+										/>
 										<br />
 										로그인
 									</button>
@@ -120,7 +128,9 @@ const Header = () => {
 									handleNavigation('/recentlyViewed');
 								}}
 							>
-								<BsClockHistory style={{ height: '30px', width: '30px' }} />
+								<BsClockHistory
+									style={{ height: '30px', width: '30px' }}
+								/>
 								<br />
 								최근본상품
 							</Nav.Item>
@@ -128,17 +138,25 @@ const Header = () => {
 								className="me-3 btn"
 								style={{ cursor: 'pointer' }}
 								onClick={() => {
-									isLoggedIn ? handleNavigation('/cart') : handleLogin();
+									isLoggedIn
+										? handleNavigation('/cart')
+										: handleLogin();
 								}}
 							>
-								<FiShoppingCart style={{ height: '30px', width: '30px' }} />
+								<FiShoppingCart
+									style={{ height: '30px', width: '30px' }}
+								/>
 								<br />
 								장바구니
 							</Nav.Item>
 							<Nav.Item></Nav.Item>
 						</Nav>
 						<h2 style={{ color: 'black' }}>
-							{isLoggedIn ? <div>{user.name + '님'}</div> : <div>Guest</div>}
+							{isLoggedIn ? (
+								<div>{user.name + '님'}</div>
+							) : (
+								<div>Guest</div>
+							)}
 						</h2>
 					</Container>
 				</Navbar>

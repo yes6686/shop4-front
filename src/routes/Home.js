@@ -9,7 +9,6 @@ import HomeSlider from '../components/HomeSlider';
 const Home = () => {
 	let navigate = useNavigate();
 	let isAdmin = useSelector((state) => state.isAdmin);
-	console.log(isAdmin);
 
 	let [shoes, setShoes] = useState([]);
 	useEffect(() => {
