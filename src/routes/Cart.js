@@ -43,12 +43,6 @@ const Cart = () => {
 			});
 	}
 
-	useEffect(() => {
-		cartData.map((item) => {
-			checkGoodsHandler(item.id, true);
-		});
-	}, [cartData]);
-
 	const updateQuantity = (item, delta) => {
 		//수량증감 핸들러
 		const newQuantity = item.quantity + delta;
@@ -218,6 +212,7 @@ const Cart = () => {
 				<button
 					className="buy-button"
 					onClick={() => {
+						console.log(checkGoods);
 						//체크수량없으면 토스트 띄우고 안넘어감
 						if (checkGoods.size == 0) {
 							setToast(true);
