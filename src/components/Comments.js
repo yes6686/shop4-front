@@ -26,20 +26,23 @@ const Comments = ({ goods_id, member_id }) => {
         .then((response) => {
           const sortedComments = response.data.reverse();
           setCommentsList(sortedComments);
-          // Fetch like states for the comments
-          Promise.all(
-            sortedComments.map((comment) =>
-              getLike(comment.id, member_id).then((response) => ({
-                id: comment.id,
-                liked: response.data === 1,
-              }))
-            )
-          ).then((likes) => {
-            const likedSet = new Set(
-              likes.filter((like) => like.liked).map((like) => like.id)
-            );
-            setLikedComments(likedSet);
-          });
+
+          // Fetch like states for the comments if member_id is available
+          if (member_id) {
+            Promise.all(
+              sortedComments.map((comment) =>
+                getLike(comment.id, member_id).then((response) => ({
+                  id: comment.id,
+                  liked: response.data === 1,
+                }))
+              )
+            ).then((likes) => {
+              const likedSet = new Set(
+                likes.filter((like) => like.liked).map((like) => like.id)
+              );
+              setLikedComments(likedSet);
+            });
+          }
         })
         .catch((error) => {
           console.error(error);
@@ -129,6 +132,8 @@ const Comments = ({ goods_id, member_id }) => {
   };
 
   const handleLike = (id) => {
+    if (!member_id) return; // No action if member_id is not available
+
     postLike(id, member_id)
       .then((response) => {
         if (response.data === 1) {
@@ -208,11 +213,11 @@ const Comments = ({ goods_id, member_id }) => {
                 <>
                   <div
                     className={`like-box ${
-                      likedComments.has(comment.id) ? "liked" : ""
+                      member_id && likedComments.has(comment.id) ? "liked" : ""
                     }`}
-                    onClick={() => handleLike(comment.id)}
+                    onClick={() => member_id && handleLike(comment.id)}
                   >
-                    {likedComments.has(comment.id) ? (
+                    {member_id && likedComments.has(comment.id) ? (
                       <FcLike />
                     ) : (
                       <FaRegHeart />
@@ -229,7 +234,7 @@ const Comments = ({ goods_id, member_id }) => {
         ))}
       </div>
 
-      {member_id != null ? ( // 로그인하면 댓글 등록 가능
+      {member_id ? ( // 로그인하면 댓글 등록 가능
         <div className="comment-form">
           <input
             type="text"
@@ -246,9 +251,7 @@ const Comments = ({ goods_id, member_id }) => {
             등록
           </button>
         </div>
-      ) : (
-        ""
-      )}
+      ) : null}
     </div>
   );
 };
