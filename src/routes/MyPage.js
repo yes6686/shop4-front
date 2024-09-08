@@ -41,10 +41,7 @@ const MyPage = () => {
 	if (!user) {
 		return null; // user가 null일 경우 컴포넌트를 렌더링하지 않음
 	}
-	// user 객체가 null일 경우를 대비한 체크
-	if (!user) {
-		return null; // user가 null일 경우 컴포넌트를 렌더링하지 않음
-	}
+	
 
 	return (
 		<>
