@@ -22,36 +22,12 @@ const MyPage = () => {
 			reader.readAsDataURL(file); // 이미지 파일을 base64 URL로 변환
 		}
 	};
-	// 유저 이미지 관리 변수 및 함수
-	const [image, setImage] = useState(defaultImage);
-	const handleImageChange = (event) => {
-		const file = event.target.files[0];
-		if (file) {
-			const reader = new FileReader();
-			reader.onloadend = () => {
-				setImage(reader.result);
-			};
-			reader.readAsDataURL(file); // 이미지 파일을 base64 URL로 변환
-		}
-	};
 
 	const handleSaveEmail = () => {
 		// 이메일 저장 로직 추가
 		setIsEditingEmail(false);
 	};
-	const handleSaveEmail = () => {
-		// 이메일 저장 로직 추가
-		setIsEditingEmail(false);
-	};
 
-	let navigate = useNavigate();
-	useEffect(() => {
-		if (!isLoggedIn || !user) {
-			alert('로그인을 하셔야합니다.');
-			navigate('/login'); // 로그인되지 않았거나 사용자 정보가 없는 경우 로그인 페이지로 이동
-			return;
-		}
-	}, [isLoggedIn, user, navigate]);
 	let navigate = useNavigate();
 	useEffect(() => {
 		if (!isLoggedIn || !user) {
