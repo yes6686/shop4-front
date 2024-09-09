@@ -291,6 +291,8 @@ const MyPage = () => {
   );
 };
 
+
+
 function MemberPwUpdate({ userPw, closeModal, user }) {
   // 비밀번호 변경 변수들 (현재 비밀번호, 새 비밀번호, 새 비밀번호 확인용)
   const [currentUserPw, setCurrentUserPw] = useState("");
@@ -314,50 +316,11 @@ function MemberPwUpdate({ userPw, closeModal, user }) {
     setConfirmCurrentUserPw(false); // Reset error state
     setConfirmNewUserPw(false); // Reset error state
 
-<<<<<<< HEAD
-// 비밀번호 변경 모달창
-function MemberPwUpdate({userPw, closeModal, user}) {
-    //비밀번호 변경 변수들 (현재 비밀번호, 새 비밀번호, 새 비밀번호 확인용)
-    const [currentUserPw, setCurrentUserPw] = useState('');
-    const [newUserPw, setNewUserPw] = useState('');
-    const [confirmUserPw, setConfirmUserPw] = useState('');
-    const maxLength = 20; // 최대 글자 수 설정
-    const [confirmCurrentUserPw, setConfirmCurrentUserPw] = useState(false);
-    const [confirmNewUserPw,setConfirmNewUserPw] = useState(false);
-
-    const handleCurrentUserPw = (event) => { 
-        setCurrentUserPw(event.target.value); }
-    const handleNewUserPw = (e) => { setNewUserPw(e.target.value); }
-    const handleConfirmUserPw = (e) => { setConfirmUserPw(e.target.value); }
-
-    const changeUserPw = () => {
-        if(currentUserPw != userPw){
-            setConfirmCurrentUserPw(true);
-        }
-        if(newUserPw != confirmUserPw) {
-            setConfirmNewUserPw(true);
-            
-        }
-        
-        if(userPw == currentUserPw && newUserPw == confirmUserPw){
-            let member = {userPw : newUserPw}
-            //axios로 비밀번호 변경
-            updateMember(user.id,member)
-            .then((res)=> {
-                console.log("비밀번호 변경 성공!")
-                sessionStorage.setItem('user', JSON.stringify(res.data));             
-                closeModal();
-            });
-        }   
-            
-        
-=======
     if (currentUserPw !== userPw) {
       setConfirmCurrentUserPw(true);
     }
     if (newUserPw !== confirmUserPw) {
       setConfirmNewUserPw(true);
->>>>>>> 806023a1f1076eb8c876da1cd45267c9ff2e7eaf
     }
 
     if (currentUserPw === userPw && newUserPw === confirmUserPw) {
@@ -433,40 +396,6 @@ function MemberPwUpdate({userPw, closeModal, user}) {
             </span>
           </div>
 
-<<<<<<< HEAD
-                <div className="input-container">
-                    <input type="text" value={newUserPw} placeholder="새 비밀번호"
-                    onChange={handleNewUserPw} className="input-underline"/>
-                    
-                    <span className="char-count">
-                    {newUserPw.length}/{maxLength}
-                    </span>
-                </div>
-
-                <div className="input-container">
-                    <input type="text" value={confirmUserPw} placeholder="비밀번호 확인"
-                    onChange={handleConfirmUserPw} className="input-underline"/>
-                    
-                    {confirmNewUserPw && <span className="error-message">
-                        현재 비밀번호가 일치하지 않습니다.</span>}
-                    
-                    <span className="char-count">
-                    {confirmUserPw.length}/{maxLength}
-                    </span>  
-                </div>
-
-                <div className="button-container">
-                    <button className='btn modal-close-btn' onClick={()=>{
-                            
-                            changeUserPw();
-                        
-                    }}>
-                        변경
-                    </button>
-                    <button className='btn modal-close-btn' onClick={()=>closeModal() }>닫기</button>
-                </div>
-            </div>
-=======
           <div className="button-container">
             <button className="btn modal-close-btn" onClick={changeUserPw}>
               변경
@@ -475,7 +404,6 @@ function MemberPwUpdate({userPw, closeModal, user}) {
               닫기
             </button>
           </div>
->>>>>>> 806023a1f1076eb8c876da1cd45267c9ff2e7eaf
         </div>
       </div>
     </>
