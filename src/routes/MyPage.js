@@ -272,8 +272,7 @@ const MyPage = () => {
 
 
 
-
-
+// 비밀번호 변경 모달창
 function MemberPwUpdate({userPw, closeModal, user}) {
     //비밀번호 변경 변수들 (현재 비밀번호, 새 비밀번호, 새 비밀번호 확인용)
     const [currentUserPw, setCurrentUserPw] = useState('');
@@ -336,8 +335,6 @@ function MemberPwUpdate({userPw, closeModal, user}) {
                 <div className="input-container">
                     <input type="text" value={newUserPw} placeholder="새 비밀번호"
                     onChange={handleNewUserPw} className="input-underline"/>
-                    
-                    
                     
                     <span className="char-count">
                     {newUserPw.length}/{maxLength}
