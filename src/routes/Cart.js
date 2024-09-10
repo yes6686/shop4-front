@@ -155,7 +155,6 @@ const Cart = () => {
                 />
               </td>
               <td
-                style={{ cursor: "pointer" }}
                 onClick={() => {
                   navigate(`/detail/${item.goods.id}`);
                 }}
