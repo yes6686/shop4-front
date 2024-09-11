@@ -7,12 +7,12 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const MyPage = () => {
-  const userSession = JSON.parse(sessionStorage.getItem("user")); // 세션에서 사용자 이	름 가져오기
-  const isLoggedIn = sessionStorage.getItem("isLoggedIn"); // 로그인 여부 확인
-  let [user,setUser] = useState(userSession);
-console.log(user);
-  let navigate = useNavigate();
-  useEffect(() => {
+	const userSession = JSON.parse(sessionStorage.getItem("user")); // 세션에서 사용자 이	름 가져오기
+	const isLoggedIn = sessionStorage.getItem("isLoggedIn"); // 로그인 여부 확인
+	let [user,setUser] = useState(userSession);
+
+	let navigate = useNavigate();
+  	useEffect(() => {
     if (!isLoggedIn || !user) {
       alert("로그인을 하셔야합니다.");
       navigate("/login"); // 로그인되지 않았거나 사용자 정보가 없는 경우 로그인 페이지로 이동
@@ -151,7 +151,7 @@ function MyPageSection1({user,setUser}) {
 					이미지 변경
 				</label>
 				<button
-					className="btn"
+					className="button button--moema button--text-thick button--text-upper button--size-s"
 					style={{ fontSize: "12px", marginLeft: "15px" }}
 					onClick={() => {
 					console.log(image);
@@ -277,7 +277,7 @@ function MemberPwUpdate({closeModal, user, setUser}) {
 	const maxLength = 20; // 최대 글자 수 설정
 	const [confirmCurrentUserPw, setConfirmCurrentUserPw] = useState(false);
 	const [confirmNewUserPw, setConfirmNewUserPw] = useState(false);
-
+	const [confirmEmptyNewUserPw, setConfirmEmptyNewUserPw] = useState(false);
 	const handleCurrentUserPw = (event) => {
 		setCurrentUserPw(event.target.value);
 	};
@@ -292,31 +292,36 @@ function MemberPwUpdate({closeModal, user, setUser}) {
 		// setConfirmCurrentUserPw(false); // Reset error state
 		// setConfirmNewUserPw(false); // Reset error state
 
-		if (currentUserPw !== userPw) {
-		setConfirmCurrentUserPw(true);
-		}
-		if (newUserPw !== confirmUserPw) {
-		setConfirmNewUserPw(true);
-		}
+		// 먼저 조건을 로컬 변수로 계산
+		const isCurrentPwIncorrect = currentUserPw !== userPw;
+		const isNewPwMismatch = newUserPw !== confirmUserPw;
+		const isNewPwTooShort = newUserPw.length < 8;
 
-		if (currentUserPw === userPw && newUserPw === confirmUserPw) {
-		let member = { userPw: newUserPw };
-		// Update password via API call
-		updateMember(user.id, member)
-			.then((res) => {
-				const updatedUser = { ...user, userPw: newUserPw };
-				setUser(updatedUser);
-				console.log("비밀번호 변경 성공!");
-				sessionStorage.setItem("user", JSON.stringify(res.data));
-				toast.success("비밀번호 변경이 완료되었습니다."); // Show success toast
-				closeModal();
-			})
-			.catch((error) => {
-			console.error("비밀번호 변경 실패", error);
-			toast.error("비밀번호 변경에 실패했습니다."); // Show error toast
-			});
+		// 상태를 업데이트
+		setConfirmCurrentUserPw(isCurrentPwIncorrect);
+		setConfirmNewUserPw(isNewPwMismatch);
+		setConfirmEmptyNewUserPw(isNewPwTooShort);
+		
+		
+		if(!isCurrentPwIncorrect && !isNewPwMismatch && !isNewPwTooShort) {
+			let member = { userPw: newUserPw };
+			// Update password via API call
+			updateMember(user.id, member)
+				.then((res) => {
+					const updatedUser = { ...user, userPw: newUserPw };
+					setUser(updatedUser);
+					console.log("비밀번호 변경 성공!");
+					sessionStorage.setItem("user", JSON.stringify(res.data));
+					toast.success("비밀번호 변경이 완료되었습니다."); // Show success toast
+					closeModal();
+				})
+				.catch((error) => {
+				console.error("비밀번호 변경 실패", error);
+				toast.error("비밀번호 변경에 실패했습니다."); // Show error toast
+				});
 		}
 	};
+	
 
  	return (
     	<>
@@ -351,6 +356,11 @@ function MemberPwUpdate({closeModal, user, setUser}) {
 				onChange={handleNewUserPw}
 				className="input-underline"
 				/>
+				{confirmEmptyNewUserPw && (
+				<span className="error-message">
+					8자 이상 입력해주세요!
+				</span>
+				)}
 				<span className="char-count">
 				{newUserPw.length}/{maxLength}
 				</span>
