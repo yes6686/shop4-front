@@ -7,6 +7,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const MyPage = () => {
+  //c
   const user = JSON.parse(sessionStorage.getItem("user")); // 세션에서 사용자 이름 가져오기
   const isLoggedIn = sessionStorage.getItem("isLoggedIn"); // 로그인 여부 확인
 
