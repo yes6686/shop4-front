@@ -35,16 +35,21 @@ function HomeSlider() {
 				overflow: 'hidden',
 			}}
 		>
-			<Slider {...settings}>
+			<Slider {...settings} style={{}}>
 				{imageList.map((item) => {
 					return (
-						<img
-							src={item}
-							style={{
-								width: '100%',
-								objectFit: 'cover',
-							}}
-						></img>
+						<div>
+							<img
+								style={{
+									width: '100%',
+									height: '700px',
+									lineHeight: '700px',
+									objectFit: 'cover',
+									verticalAlign: 'middle',
+								}}
+								src={item}
+							></img>
+						</div>
 					);
 				})}
 			</Slider>
