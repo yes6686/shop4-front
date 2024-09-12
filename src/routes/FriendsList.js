@@ -4,6 +4,7 @@ import './css/MyPage.css';
 import { FaUserFriends } from 'react-icons/fa';
 import { TiUserDelete } from 'react-icons/ti';
 import { listFriends } from '../services/FriendService';
+import { deleteFriend } from '../services/FriendService';
 import './css/Friends.css';
 import { PiFinnTheHumanDuotone } from 'react-icons/pi';
 import { IoPersonAddSharp } from 'react-icons/io5';
@@ -30,6 +31,16 @@ const FriendsList = () => {
       .catch((error) => {
         console.error(error);
       });
+  }
+
+  // 삭제버튼 클릭 리스너
+  function handleDelete(friendId) {
+    const userData = JSON.parse(user);
+    const member_id = userData.id;
+    deleteFriend(member_id, friendId);
+    setFriendsData((prev) => {
+      return prev.filter((friend) => friend.userId !== friendId);
+    });
   }
 
   return (
@@ -63,7 +74,14 @@ const FriendsList = () => {
                         {friend.name} ({friend.userId})
                       </div>
                       <div className="deleteButton">
-                        <TiUserDelete size={50} />
+                        <button
+                          onClick={() => {
+                            const id = friend.userId;
+                            handleDelete(id);
+                          }}
+                        >
+                          <TiUserDelete size={50} />
+                        </button>
                       </div>
                     </div>
                   </td>
