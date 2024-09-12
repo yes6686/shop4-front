@@ -16,7 +16,6 @@ const MyPage = () => {
   let navigate = useNavigate();
   useEffect(() => {
     if (!isLoggedIn || !user) {
-      alert("로그인을 하셔야합니다.");
       navigate("/login"); // 로그인되지 않았거나 사용자 정보가 없는 경우 로그인 페이지로 이동
       return;
     }
