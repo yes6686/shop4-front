@@ -12,7 +12,7 @@ function Payment() {
 	let [copyUser, setCopyUser] = useState([]); //유저 정보
 	let [cartData, setCartData] = useState([]); //장바구니 정보
 	const { state } = useLocation();
-	let products = state;
+	let products = Array.from(state);
 	let [flag, setFlag] = useState(0);
 
 	const id = userInfo.id;
@@ -20,7 +20,6 @@ function Payment() {
 	//장바구니 상품들 총 결제금액 변수
 	let [totalPrice, setTotalPrice] = useState(0);
 
-	// user의 id값이 바뀔때마다 정보 갱신
 	useEffect(() => {
 		const initMembers = async () => {
 			await getMember(id).then((response) => {
@@ -40,7 +39,6 @@ function Payment() {
 		getCarts();
 	}, []);
 
-	// 결제 금액 계산 : 장바구니 목록 바뀔때마다 가격도 추가 계산
 	useEffect(() => {
 		let tmp = 0;
 		cartData.map((item) => {
