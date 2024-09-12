@@ -215,14 +215,14 @@ function OrderList({cartData}) {
 						<td style={{width:"10%"}}>Quantity</td>
 					</tr>
 				</thead>
-				<tbody style={{fontSize:"14px"}}>
+				<tbody style={{fontSize:"16px"}}>
 					{cartData.map((item) => (
-						<tr key={item.id} style={{height:"100px"}}>	
-							<td>사진</td>
-							<td>{item.goods.name}</td>
-							<td>옵션</td>
-							<td>{item.goods.price}</td>
-							<td>{item.quantity}</td>	
+						<tr key={item.id} style={{height:"80px"}}>	
+							<td style={{paddingLeft: "15px"}}>사진</td>
+							<td style={{paddingLeft: "15px"}}>{item.goods.name}</td>
+							<td style={{paddingLeft: "15px"}}>옵션</td>
+							<td style={{paddingLeft: "15px"}}>{item.goods.price}</td>
+							<td style={{paddingLeft: "15px"}}>{item.quantity}</td>	
 						</tr>
 					))}
 				</tbody>
