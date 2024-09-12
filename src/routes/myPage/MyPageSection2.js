@@ -1,5 +1,5 @@
-import { toast, ToastContainer } from "react-toastify";
-import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import React, { useState } from "react";
 import { updateMember } from "../../services/MemberService.js";
 import MemberPwUpdate from "./MemberPwUpdate.js";
 // 로그인 정보 컴포넌트
