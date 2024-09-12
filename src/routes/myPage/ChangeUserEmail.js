@@ -15,34 +15,41 @@ function ChangeUserEmail({user, setUser}) {
     
     //이메일 변경 로직
     const changeUserEmail = () => {
-        if (!validateEmail(userEmail)) {
-            toast.error("유효하지 않은 이메일 형식입니다.");
-            return;
-        }
+      if (!validateEmail(userEmail)) {
+        toast.error("유효하지 않은 이메일 형식입니다.");
+        return;
+      }
 
-        // 이메일 저장 로직 추가
-        setIsEditingEmail(false);
-        let member = { email: userEmail };
-        
-        // Update email via API call
-        updateMember(user.id, member)
-        .then((res) => {
-            const updatedUser = { ...user, email: userEmail }; //user변수중에 email인 값있으면 변경
-            setUser(updatedUser); //마이페이지의 user변수에 값 저장
-            console.log("이메일 변경 성공!");
-            sessionStorage.setItem("user", JSON.stringify(res.data)); //세션스토리지의 user의 email내용 반영
-            toast.success("이메일 변경이 완료되었습니다."); // Show success toast
-        })
-        .catch((error) => {
-            console.error("이메일 변경 실패", error);
-            toast.error("이메일 변경에 실패했습니다."); // Show error toast
-        });
+      // 이메일 저장 로직 추가
+      setIsEditingEmail(false);
+      let member = { email: userEmail };
+      
+      // Update email via API call
+      updateMember(user.id, member)
+      .then((res) => {
+          const updatedUser = { ...user, email: userEmail }; //user변수중에 email인 값있으면 변경
+          setUser(updatedUser); //마이페이지의 user변수에 값 저장
+          console.log("이메일 변경 성공!");
+          sessionStorage.setItem("user", JSON.stringify(res.data)); //세션스토리지의 user의 email내용 반영
+          toast.success("이메일 변경이 완료되었습니다."); // Show success toast
+      })
+      .catch((error) => {
+          console.error("이메일 변경 실패", error);
+          toast.error("이메일 변경에 실패했습니다."); // Show error toast
+      });
+    };
+
+    // Enter 키가 눌리면 변경 버튼이 클릭되도록 설정
+    const handleKeyDown = (event) => {
+      if (event.key === "Enter") {
+        changeUserEmail();
+      }
     };
 
     return(
         <>
         {/* 이메일 부분 */}
-        <div className="list">
+        <div className="list" onKeyDown={handleKeyDown}>
             <div>
               <label>이메일 주소</label>
               <br />
