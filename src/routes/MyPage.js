@@ -265,11 +265,10 @@ function MemberPwUpdate({ closeModal, user, setUser }) {
   };
 
   const changeUserPw = () => {
-
     // 먼저 조건을 로컬 변수로 계산
     const isCurrentPwIncorrect = currentUserPw !== userPw;
     const isNewPwMismatch = newUserPw !== confirmUserPw;
-    const isNewPwTooShort = newUserPw.length < 8;
+    const isNewPwTooShort = newUserPw.length < 2;
 
     // 상태를 업데이트
     setConfirmCurrentUserPw(isCurrentPwIncorrect);
@@ -329,9 +328,7 @@ function MemberPwUpdate({ closeModal, user, setUser }) {
               className="input-underline"
             />
             {confirmEmptyNewUserPw && (
-            <span className="error-message">
-              8자 이상 입력해주세요!
-            </span>
+              <span className="error-message">8자 이상 입력해주세요!</span>
             )}
             <span className="char-count">
               {newUserPw.length}/{maxLength}
