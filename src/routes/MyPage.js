@@ -1,22 +1,22 @@
-import './css/MyPage.css';
-import React, { useEffect, useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import defaultImage from '../images/default.jpg';
-import { updateMember } from '../services/MemberService.js';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import MyPageLeftSideBar from '../components/MyPageLeftSideBar.js';
+import "./css/MyPage.css";
+import React, { useEffect, useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import defaultImage from "../images/default.jpg";
+import { updateMember } from "../services/MemberService.js";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import MyPageLeftSideBar from "../components/MyPageLeftSideBar.js";
 
 const MyPage = () => {
-  const userSession = JSON.parse(sessionStorage.getItem('user')); // 세션에서 사용자 이	름 가져오기
-  const isLoggedIn = sessionStorage.getItem('isLoggedIn'); // 로그인 여부 확인
+  const userSession = JSON.parse(sessionStorage.getItem("user")); // 세션에서 사용자 이	름 가져오기
+  const isLoggedIn = sessionStorage.getItem("isLoggedIn"); // 로그인 여부 확인
   let [user, setUser] = useState(userSession);
   console.log(user);
   let navigate = useNavigate();
   useEffect(() => {
     if (!isLoggedIn || !user) {
-      alert('로그인을 하셔야합니다.');
-      navigate('/login'); // 로그인되지 않았거나 사용자 정보가 없는 경우 로그인 페이지로 이동
+      alert("로그인을 하셔야합니다.");
+      navigate("/login"); // 로그인되지 않았거나 사용자 정보가 없는 경우 로그인 페이지로 이동
       return;
     }
   }, [isLoggedIn, user]);
@@ -31,20 +31,20 @@ const MyPage = () => {
         <MyPageLeftSideBar />
         {/* 오른쪽 부분 */}
         <div className="rightContent">
-          <h4 style={{ marginTop: '20px', fontWeight: 'bold' }}>프로필 정보</h4>
+          <h4 style={{ marginTop: "20px", fontWeight: "bold" }}>프로필 정보</h4>
           <hr
             style={{
-              border: 'none',
-              width: '80%',
-              height: '5px',
-              backgroundColor: 'black',
+              border: "none",
+              width: "80%",
+              height: "5px",
+              backgroundColor: "black",
             }}
           />
 
           {/* 이미지랑 이름 */}
           <MyPageSection1 user={user} setUser={setUser} />
 
-          <hr style={{ width: '80%' }} />
+          <hr style={{ width: "80%" }} />
           <br />
 
           {/* 로그인 정보 블록 */}
@@ -74,7 +74,7 @@ function MyPageSection1({ user, setUser }) {
         setImage(reader.result);
         const updatedUser = { ...user, userImage: reader.result };
         setUser(updatedUser);
-        sessionStorage.setItem('user', JSON.stringify(updatedUser));
+        sessionStorage.setItem("user", JSON.stringify(updatedUser));
       };
       reader.readAsDataURL(file); // 이미지 파일을 base64 URL로 변환
     }
@@ -83,15 +83,15 @@ function MyPageSection1({ user, setUser }) {
     <>
       <div className="myPageSection1">
         {/* 이미지 부분 */}
-        <div style={{ padding: '15px' }}>
-          <button className="btn" style={{ cursor: 'pointer', border: 'none' }}>
+        <div style={{ padding: "15px" }}>
+          <button className="btn" style={{ cursor: "pointer", border: "none" }}>
             <img
               src={image}
               alt="Description"
               style={{
-                width: '100px',
-                height: '100px',
-                borderRadius: '50%',
+                width: "100px",
+                height: "100px",
+                borderRadius: "50%",
               }}
             />
           </button>
@@ -101,10 +101,10 @@ function MyPageSection1({ user, setUser }) {
         <div>
           <span
             style={{
-              fontWeight: 'bold',
-              fontSize: '26px',
-              display: 'inline-block',
-              marginBottom: '10px',
+              fontWeight: "bold",
+              fontSize: "26px",
+              display: "inline-block",
+              marginBottom: "10px",
             }}
           >
             {user.name} 님
@@ -113,20 +113,20 @@ function MyPageSection1({ user, setUser }) {
           <input
             type="file"
             accept="image/*"
-            style={{ display: 'none' }}
+            style={{ display: "none" }}
             id="imageUpload"
             onChange={handleImageChange}
           />
           <label
             htmlFor="imageUpload"
             className="btn"
-            style={{ fontSize: '12px', cursor: 'pointer' }}
+            style={{ fontSize: "12px", cursor: "pointer" }}
           >
             이미지 변경
           </label>
           <button
             className="btn"
-            style={{ fontSize: '12px', marginLeft: '15px' }}
+            style={{ fontSize: "12px", marginLeft: "15px" }}
             onClick={() => {
               console.log(image);
             }}
@@ -162,20 +162,20 @@ function MyPageSection2({ user, setUser }) {
       .then((res) => {
         const updatedUser = { ...user, email: userEmail };
         setUser(updatedUser);
-        console.log('이메일 변경 성공!');
-        sessionStorage.setItem('user', JSON.stringify(res.data));
-        toast.success('이메일 변경이 완료되었습니다.'); // Show success toast
+        console.log("이메일 변경 성공!");
+        sessionStorage.setItem("user", JSON.stringify(res.data));
+        toast.success("이메일 변경이 완료되었습니다."); // Show success toast
       })
       .catch((error) => {
-        console.error('이메일 변경 실패', error);
-        toast.error('이메일 변경에 실패했습니다.'); // Show error toast
+        console.error("이메일 변경 실패", error);
+        toast.error("이메일 변경에 실패했습니다."); // Show error toast
       });
   };
 
   return (
     <>
       <div className="myPageSection2">
-        <h5 style={{ fontWeight: 'bold' }}>로그인 정보</h5>
+        <h5 style={{ fontWeight: "bold" }}>로그인 정보</h5>
         {/* 이메일 부분 */}
         <div className="list">
           <div>
@@ -206,7 +206,7 @@ function MyPageSection2({ user, setUser }) {
               }
             }}
           >
-            {isEditingEmail ? '저장' : '변경'}
+            {isEditingEmail ? "저장" : "변경"}
           </button>
         </div>
 
@@ -216,7 +216,7 @@ function MyPageSection2({ user, setUser }) {
             <label>비밀번호</label>
             <br />
 
-            <span>{'●'.repeat(8)}</span>
+            <span>{"●".repeat(8)}</span>
           </div>
           <button
             className="btn"
@@ -246,9 +246,9 @@ function MyPageSection2({ user, setUser }) {
 function MemberPwUpdate({ closeModal, user, setUser }) {
   const [userPw, setUserPw] = useState(user.userPw);
   // 비밀번호 변경 변수들 (현재 비밀번호, 새 비밀번호, 새 비밀번호 확인용)
-  const [currentUserPw, setCurrentUserPw] = useState('');
-  const [newUserPw, setNewUserPw] = useState('');
-  const [confirmUserPw, setConfirmUserPw] = useState('');
+  const [currentUserPw, setCurrentUserPw] = useState("");
+  const [newUserPw, setNewUserPw] = useState("");
+  const [confirmUserPw, setConfirmUserPw] = useState("");
   const maxLength = 20; // 최대 글자 수 설정
   const [confirmCurrentUserPw, setConfirmCurrentUserPw] = useState(false);
   const [confirmNewUserPw, setConfirmNewUserPw] = useState(false);
@@ -281,22 +281,22 @@ function MemberPwUpdate({ closeModal, user, setUser }) {
         .then((res) => {
           const updatedUser = { ...user, userPw: newUserPw };
           setUser(updatedUser);
-          console.log('비밀번호 변경 성공!');
-          sessionStorage.setItem('user', JSON.stringify(res.data));
-          toast.success('비밀번호 변경이 완료되었습니다.'); // Show success toast
+          console.log("비밀번호 변경 성공!");
+          sessionStorage.setItem("user", JSON.stringify(res.data));
+          toast.success("비밀번호 변경이 완료되었습니다."); // Show success toast
           closeModal();
         })
         .catch((error) => {
-          console.error('비밀번호 변경 실패', error);
-          toast.error('비밀번호 변경에 실패했습니다.'); // Show error toast
+          console.error("비밀번호 변경 실패", error);
+          toast.error("비밀번호 변경에 실패했습니다."); // Show error toast
         });
     }
   };
 
   return (
     <>
-      <div className={'modal-container'}>
-        <div className={'modal-content'}>
+      <div className={"modal-container"}>
+        <div className={"modal-content"}>
           <h3>비밀번호 변경</h3>
           <hr />
           <br />
@@ -378,19 +378,19 @@ function MyPageSection3({ user }) {
     // Update email via API call
     updateMember(user.id, member)
       .then((res) => {
-        console.log('이메일 변경 성공!');
-        sessionStorage.setItem('user', JSON.stringify(res.data));
-        toast.success('이메일 변경이 완료되었습니다.'); // Show success toast
+        console.log("이메일 변경 성공!");
+        sessionStorage.setItem("user", JSON.stringify(res.data));
+        toast.success("이메일 변경이 완료되었습니다."); // Show success toast
       })
       .catch((error) => {
-        console.error('이메일 변경 실패', error);
-        toast.error('이메일 변경에 실패했습니다.'); // Show error toast
+        console.error("이메일 변경 실패", error);
+        toast.error("이메일 변경에 실패했습니다."); // Show error toast
       });
   };
   return (
     <>
       <div className="myPageSection3">
-        <h5 style={{ fontWeight: 'bold' }}>개인 정보</h5>
+        <h5 style={{ fontWeight: "bold" }}>개인 정보</h5>
 
         <div className="list">
           <div>
@@ -418,7 +418,7 @@ function MyPageSection3({ user }) {
                 }
               }}
             >
-              {isEditingUserName ? '저장' : '변경'}
+              {isEditingUserName ? "저장" : "변경"}
             </button>
           </div>
         </div>
