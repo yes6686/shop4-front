@@ -65,10 +65,10 @@ function MemberPwUpdate({ closeModal, user, setUser }) {
     return (
       <>
         <div className={"modal-container"} onKeyDown={handleKeyDown}>
-          <div className={"modal-content"}>
+          
             <h3>비밀번호 변경</h3>
-            <hr />
-            <br />
+            <hr /><br />
+            
             <div className="input-container">
               <input
                 type="password"
@@ -131,7 +131,6 @@ function MemberPwUpdate({ closeModal, user, setUser }) {
                 닫기
               </button>
             </div>
-          </div>
         </div>
       </>
     );
