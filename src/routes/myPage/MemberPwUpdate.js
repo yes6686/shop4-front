@@ -54,10 +54,17 @@ function MemberPwUpdate({ closeModal, user, setUser }) {
           });
       }
     };
+
+    // Enter 키가 눌리면 변경 버튼이 클릭되도록 설정
+    const handleKeyDown = (event) => {
+      if (event.key === "Enter") {
+        changeUserPw();
+      }
+    };
   
     return (
       <>
-        <div className={"modal-container"}>
+        <div className={"modal-container"} onKeyDown={handleKeyDown}>
           <div className={"modal-content"}>
             <h3>비밀번호 변경</h3>
             <hr />
@@ -117,10 +124,10 @@ function MemberPwUpdate({ closeModal, user, setUser }) {
             </div>
   
             <div className="button-container">
-              <button className="btn modal-close-btn" onClick={changeUserPw}>
+              <button type="submit" className="btn" onClick={changeUserPw}>
                 변경
               </button>
-              <button className="btn modal-close-btn" onClick={closeModal}>
+              <button type="button" className="btn" onClick={closeModal}>
                 닫기
               </button>
             </div>
