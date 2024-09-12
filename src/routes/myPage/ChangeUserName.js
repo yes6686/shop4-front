@@ -8,20 +8,26 @@ function ChangeUserName({user}) {
     const [isEditingUserName, setIsEditingUserName] = useState(false);
     
     const changeUserName = () => {
-        let member = { email: userName };
-        setIsEditingUserName(false);
+        const isUserNameTooShort = userName.length < 1;
 
-        // Update email via API call
-        updateMember(user.id, member)
-        .then((res) => {
-            sessionStorage.setItem("user", JSON.stringify(res.data));
-            console.log("이름 변경 성공!");
-            toast.success("이름 변경이 완료되었습니다."); // Show success toast
-        })
-        .catch((error) => {
-            console.error("이름 변경 실패", error);
-            toast.error("이름 변경에 실패했습니다."); // Show error toast
-        });
+        // 1자라도 입력해야 실행
+        if(!isUserNameTooShort){
+            let member = { email: userName };
+            setIsEditingUserName(false);
+
+            // 이름 변경 API 요청
+            updateMember(user.id, member)
+            .then((res) => {
+                sessionStorage.setItem("user", JSON.stringify(res.data));
+            })
+            .catch((error) => {
+                console.error("이름 변경 실패", error);
+                toast.error("이름 변경에 실패했습니다.");
+            });
+        }
+        else {
+            toast.error("이름을 입력해주세요!");
+        }
     };
     
     // Enter 키가 눌리면 변경 버튼이 클릭되도록 설정

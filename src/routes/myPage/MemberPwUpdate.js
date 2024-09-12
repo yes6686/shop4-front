@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { toast} from "react-toastify";
 import { updateMember } from "../../services/MemberService.js";
 // 비밀번호 변경 모달창
