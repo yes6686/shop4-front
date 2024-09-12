@@ -60,7 +60,7 @@ const Home = () => {
                     <p>{a.description}</p>
                     <p className="price">{a.price} 원</p>
                   </figcaption>
-                  <NavLink to={`/detail/${index + 1}`}></NavLink>
+                  <NavLink to={`/detail/${a.id}`}></NavLink>
                 </figure>
               </div>
             );
