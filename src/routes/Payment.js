@@ -1,4 +1,4 @@
-import './css/Payment.css'
+import './css/Payment.css';
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { getMember, updateMember } from '../services/MemberService';
@@ -11,10 +11,10 @@ function Payment() {
 	let userInfo = JSON.parse(sessionStorage.getItem('user'));
 	let [copyUser, setCopyUser] = useState([]); //유저 정보
 	let [cartData, setCartData] = useState([]); //장바구니 정보
-	const { state } = useLocation(); 
-	let products = Array.from(state);
+	const { state } = useLocation();
+	let products = state;
 	let [flag, setFlag] = useState(0);
-	
+
 	const id = userInfo.id;
 
 	//장바구니 상품들 총 결제금액 변수
@@ -33,10 +33,8 @@ function Payment() {
 	// 장바구니 상품 목록 갱신(추가)
 	useEffect(() => {
 		const getCarts = async () => {
-			products.map(async (id) => {
-				await getCart(id).then((response) => {
-					setCartData((pre) => [...pre, response.data]);
-				});
+			products.map(async (item) => {
+				setCartData((pre) => [...pre, item]);
 			});
 		};
 		getCarts();
@@ -54,81 +52,93 @@ function Payment() {
 	let navigator = useNavigate();
 
 	return (
-		<div className= "paymentContainer">
+		<div className="paymentContainer">
 			<div className="section1">
-				<h2 style={{textAlign:'center', marginTop:"20px"}}>ORDER</h2>
-				<br/><hr/>
-				<OrderList cartData={cartData}/>
-				
+				<h2 style={{ textAlign: 'center', marginTop: '20px' }}>
+					ORDER
+				</h2>
+				<br />
+				<hr />
+				<OrderList cartData={cartData} />
 			</div>
 
 			<div className="section2">
-				<h2 style={{textAlign:"center"}}>INFORMATION</h2>
-				<br/><hr/>
+				<h2 style={{ textAlign: 'center' }}>INFORMATION</h2>
+				<br />
+				<hr />
 				<div className="buyerSection">
 					<h3>Buyer</h3>
-					<hr/>
+					<hr />
 					<span>Name</span>
-					<input type="text" className="form-control" 
+					<input
+						type="text"
+						className="form-control"
 						placeholder={copyUser.name}
 					/>
 
-					<br/>
+					<br />
 
 					<span>TEL</span>
-					<input type="text" className="form-control" 
-						 placeholder={copyUser.phone}
+					<input
+						type="text"
+						className="form-control"
+						placeholder={copyUser.phone}
 					/>
 
-					<br/>
+					<br />
 
 					<span>EMAIL</span>
-					<input type="text" className="form-control"
-						 placeholder={copyUser.email}
+					<input
+						type="text"
+						className="form-control"
+						placeholder={copyUser.email}
 					/>
 
-					<br/>
+					<br />
 
 					<span>ADRESS</span>
-					<input type="text" className="form-control"
-						 placeholder={copyUser.address}
+					<input
+						type="text"
+						className="form-control"
+						placeholder={copyUser.address}
 					/>
 				</div>
 
-					<br/>
-					<hr style={{width:"20%"}}/>
-					<br/>
+				<br />
+				<hr style={{ width: '20%' }} />
+				<br />
 
 				<div className="receiverSection">
 					<h3>RECEIVER</h3>
-					<hr/>
+					<hr />
 
 					<button type="button">위와 통일</button>
 
-					<br/><br/>
+					<br />
+					<br />
 
 					<span>Name</span>
 					<input type="text" className="form-control"></input>
 
-					<br/>
+					<br />
 
 					<span>TEL</span>
 					<input type="text" className="form-control"></input>
 
-					<br/>
+					<br />
 
 					<span>EMAIL</span>
 					<input type="text" className="form-control"></input>
 
-					<br/>
+					<br />
 
 					<span>ADRESS</span>
 					<input type="text" className="form-control"></input>
 				</div>
 			</div>
 
-			<br/><br/>
-
+			<br />
+			<br />
 
 			<div className="section3">
 				{/*결제정보 테이블*/}
@@ -150,87 +160,89 @@ function Payment() {
 							<td>결제방식</td>
 							<td>통합결제?</td>
 						</tr>
-						
-					</tbody> 
+					</tbody>
 				</table>
 
 				<div style={{ margin: '0 auto' }}>
-				<button
-					className="buy-button"
-					style={{ textAlign: 'center', margin: '5px' }}
-					onClick={async () => {
-						//잔액 많으면 돈 까고 재고도 깜
-						if (copyUser.cash >= totalPrice) {
-							await updateMember(userInfo.id, {
-								cash: copyUser.cash - totalPrice,
-							});
-
-							cartData.map(async (item) => {
-								await updateGoods(item.goods.id, {
-									stock: item.goods.stock - item.quantity,
+					<button
+						className="buy-button"
+						style={{ textAlign: 'center', margin: '5px' }}
+						onClick={async () => {
+							//잔액 많으면 돈 까고 재고도 깜
+							if (copyUser.cash >= totalPrice) {
+								await updateMember(userInfo.id, {
+									cash: copyUser.cash - totalPrice,
 								});
-								await deleteCart(item.id);
-							});
-							
-							navigator('/');
-						} else {
-							console.log('잔액이 부족합니다.');
-						}
-						//그리고 홈으로 이동
-					}}
-				>
-					구매하다
-				</button>
-				{/*cancel-button : direct.css에있음*/}
-				<button
-					className="cancel-button"
-					style={{ textAlign: 'center', margin: '5px' }}
-					onClick={() => {
-						navigator(-1); // 이전 페이지로 이동
-					}}
-				>
-					취소하다
-				</button>
-			</div>
-		</div>
 
+								cartData.map(async (item) => {
+									await updateGoods(item.goods.id, {
+										stock: item.goods.stock - item.quantity,
+									});
+									await deleteCart(item.id);
+								});
+
+								navigator('/');
+							} else {
+								console.log('잔액이 부족합니다.');
+							}
+							//그리고 홈으로 이동
+						}}
+					>
+						구매하다
+					</button>
+					{/*cancel-button : direct.css에있음*/}
+					<button
+						className="cancel-button"
+						style={{ textAlign: 'center', margin: '5px' }}
+						onClick={() => {
+							navigator(-1); // 이전 페이지로 이동
+						}}
+					>
+						취소하다
+					</button>
+				</div>
+			</div>
 		</div>
 	);
 }
 
-function OrderList({cartData}) {
-	console.log(cartData)
-	return(
-		<>		
+function OrderList({ cartData }) {
+	console.log(cartData);
+	return (
+		<>
 			{/* 상품 정보들 */}
-			<table style={{width:"90%"}}>
-				<thead style={{backgroundColor:"black",color:"white",height:"40px",
-					fontSize:"20px", fontWeight:'bold'
-				}}>
+			<table style={{ width: '90%' }}>
+				<thead
+					style={{
+						backgroundColor: 'black',
+						color: 'white',
+						height: '40px',
+						fontSize: '20px',
+						fontWeight: 'bold',
+					}}
+				>
 					<tr>
-						<td style={{width:'10%'}}>Item</td>
-						<td style={{width:'30%'}}>Name</td>
-						<td style={{width:"10%"}}>option</td>
-						<td style={{width:"10%"}}>Price</td>
-						<td style={{width:"10%"}}>Quantity</td>
+						<td style={{ width: '10%' }}>Item</td>
+						<td style={{ width: '30%' }}>Name</td>
+						<td style={{ width: '10%' }}>option</td>
+						<td style={{ width: '10%' }}>Price</td>
+						<td style={{ width: '10%' }}>Quantity</td>
 					</tr>
 				</thead>
-				<tbody style={{fontSize:"14px"}}>
+				<tbody style={{ fontSize: '14px' }}>
 					{cartData.map((item) => (
-						<tr key={item.id} style={{height:"100px"}}>	
+						<tr key={item.id} style={{ height: '100px' }}>
 							<td>사진</td>
 							<td>{item.goods.name}</td>
 							<td>옵션</td>
 							<td>{item.goods.price}</td>
-							<td>{item.quantity}</td>	
+							<td>{item.quantity}</td>
 						</tr>
 					))}
 				</tbody>
 			</table>
 		</>
-	)
+	);
 }
-
-
 
 export default Payment;
