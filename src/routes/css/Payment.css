@@ -1,0 +1,38 @@
+.paymentContainer {
+    display:flex;
+    flex-direction: column;
+    height:100vh;
+}
+
+.paymentContainer .section1 {
+    flex:0 1 50%;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.paymentContainer .section2 {
+    flex: 0 1 20%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;     /* 수직 중앙 정렬 */
+}
+
+.paymentContainer .section3 {
+    flex:0 1 50%;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right:200px;
+    margin-left:200px;
+}
+
+.paymentContainer .section2 .buyerSection {
+    width : 40%;
+}
+
+.paymentContainer .section2 .receiverSection {
+    width : 40%;
+}
