@@ -65,10 +65,10 @@
     align-items: center;
 }
 
+/* 오른쪽 영역의 모든 버튼 css */
 .myPageContainer .rightContent .btn {
     border: 1px solid #ccc;
 }
-
 
 .button-container {
     display: flex;
