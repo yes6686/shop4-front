@@ -12,9 +12,22 @@ function MyPageSection3({ user }) {
           <ChangeUserName user={user}/>
   
           <ChangeUserPhone user={user} />
+
+        </div>
+
+        {/* 휴대폰 번호 변경 섹션 */}
+        <div className="list">
+          <div>
+            <label>휴대폰 번호</label>
+            <br />
+            <span>{user.phone}</span>
+          </div>
+          <button className="btn phone-btn" type="button">
+            변경
+          </button>
         </div>
       </>
     );
   }
 
-  export default MyPageSection3;
+export default MyPageSection3;

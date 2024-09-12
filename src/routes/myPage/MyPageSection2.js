@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import MemberPwUpdate from "./MemberPwUpdate.js";
+
 import ChangeUserEmail from "./ChangeUserEmail.js";
 
 // 로그인 정보 컴포넌트 (이메일, 비밀번호)
@@ -41,6 +42,7 @@ function MyPageSection2({ user, setUser }) {
                 closeModal={closeModal}
                 user={user}
                 setUser={setUser}
+
               />
             )}
           </div>
@@ -49,4 +51,4 @@ function MyPageSection2({ user, setUser }) {
     );
   }
 
-  export default MyPageSection2;
+export default MyPageSection2;
