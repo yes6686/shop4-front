@@ -3,8 +3,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { getMember, updateMember } from "../services/MemberService";
 import { deleteCart, getCart, listCarts } from "../services/CartService";
 import { updateGoods } from "../services/GoodsService";
-import requestPay from "../components/RequestPay";
 
+//결제 페이지
 function Payment() {
   //유저정보, 유저정보의 id 키값으로 cart에서 상품들 받아옴
   let userInfo = JSON.parse(sessionStorage.getItem("user"));
@@ -196,6 +196,45 @@ function Payment() {
         </button>
       </div>
     </div>
+  );
+}
+
+function OrderList({ cartData }) {
+  console.log(cartData);
+  return (
+    <>
+      {/* 상품 정보들 */}
+      <table style={{ width: "90%" }}>
+        <thead
+          style={{
+            backgroundColor: "black",
+            color: "white",
+            height: "40px",
+            fontSize: "20px",
+            fontWeight: "bold",
+          }}
+        >
+          <tr>
+            <td style={{ width: "10%" }}>Item</td>
+            <td style={{ width: "30%" }}>Name</td>
+            <td style={{ width: "10%" }}>option</td>
+            <td style={{ width: "10%" }}>Price</td>
+            <td style={{ width: "10%" }}>Quantity</td>
+          </tr>
+        </thead>
+        <tbody style={{ fontSize: "14px" }}>
+          {cartData.map((item) => (
+            <tr key={item.id} style={{ height: "100px" }}>
+              <td>사진</td>
+              <td>{item.goods.name}</td>
+              <td>옵션</td>
+              <td>{item.goods.price}</td>
+              <td>{item.quantity}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </>
   );
 }
 
