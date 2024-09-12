@@ -1,13 +1,13 @@
 import "./css/MyPage.css";
 import React, { useEffect, useState } from "react";
-  import { useNavigate, Link } from "react-router-dom";
-  import { updateMember } from "../services/MemberService.js";
+import { useNavigate, Link } from "react-router-dom";
+import { updateMember } from "../services/MemberService.js";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import MyPageLeftSideBar from "../components/MyPageLeftSideBar.js";
-import MyPageSection1 from './myPage/MyPageSection1.js';
-import MyPageSection2 from './myPage/MyPageSection2.js';
-import MyPageSection3 from './myPage/MyPageSection3.js';
+import MyPageSection1 from "./myPage/MyPageSection1.js";
+import MyPageSection2 from "./myPage/MyPageSection2.js";
+import MyPageSection3 from "./myPage/MyPageSection3.js";
 
 const MyPage = () => {
   const userSession = JSON.parse(sessionStorage.getItem("user")); // 세션에서 사용자 이	름 가져오기
@@ -60,10 +60,5 @@ const MyPage = () => {
     </>
   );
 };
-
-
-
-
-
 
 export default MyPage;
