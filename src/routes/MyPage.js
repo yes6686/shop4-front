@@ -11,7 +11,7 @@ const MyPage = () => {
   const userSession = JSON.parse(sessionStorage.getItem("user")); // 세션에서 사용자 이	름 가져오기
   const isLoggedIn = sessionStorage.getItem("isLoggedIn"); // 로그인 여부 확인
   let [user, setUser] = useState(userSession);
-  console.log(user);
+
   let navigate = useNavigate();
   useEffect(() => {
     if (!isLoggedIn || !user) {
@@ -252,6 +252,7 @@ function MemberPwUpdate({ closeModal, user, setUser }) {
   const maxLength = 20; // 최대 글자 수 설정
   const [confirmCurrentUserPw, setConfirmCurrentUserPw] = useState(false);
   const [confirmNewUserPw, setConfirmNewUserPw] = useState(false);
+  const [confirmEmptyNewUserPw, setConfirmEmptyNewUserPw] = useState(false);
 
   const handleCurrentUserPw = (event) => {
     setCurrentUserPw(event.target.value);
@@ -264,17 +265,18 @@ function MemberPwUpdate({ closeModal, user, setUser }) {
   };
 
   const changeUserPw = () => {
-    // setConfirmCurrentUserPw(false); // Reset error state
-    // setConfirmNewUserPw(false); // Reset error state
 
-    if (currentUserPw !== userPw) {
-      setConfirmCurrentUserPw(true);
-    }
-    if (newUserPw !== confirmUserPw) {
-      setConfirmNewUserPw(true);
-    }
+    // 먼저 조건을 로컬 변수로 계산
+    const isCurrentPwIncorrect = currentUserPw !== userPw;
+    const isNewPwMismatch = newUserPw !== confirmUserPw;
+    const isNewPwTooShort = newUserPw.length < 8;
 
-    if (currentUserPw === userPw && newUserPw === confirmUserPw) {
+    // 상태를 업데이트
+    setConfirmCurrentUserPw(isCurrentPwIncorrect);
+    setConfirmNewUserPw(isNewPwMismatch);
+    setConfirmEmptyNewUserPw(isNewPwTooShort);
+
+    if (!isCurrentPwIncorrect && !isNewPwMismatch && !isNewPwTooShort) {
       let member = { userPw: newUserPw };
       // Update password via API call
       updateMember(user.id, member)
@@ -326,6 +328,11 @@ function MemberPwUpdate({ closeModal, user, setUser }) {
               onChange={handleNewUserPw}
               className="input-underline"
             />
+            {confirmEmptyNewUserPw && (
+            <span className="error-message">
+              8자 이상 입력해주세요!
+            </span>
+            )}
             <span className="char-count">
               {newUserPw.length}/{maxLength}
             </span>
