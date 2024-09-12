@@ -1,7 +1,6 @@
 import "./css/MyPage.css";
 import React, { useEffect, useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import { updateMember } from "../services/MemberService.js";
+import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import MyPageLeftSideBar from "../components/MyPageLeftSideBar.js";
@@ -17,7 +16,6 @@ const MyPage = () => {
   let navigate = useNavigate();
   useEffect(() => {
     if (!isLoggedIn || !user) {
-      alert("로그인을 하셔야합니다.");
       navigate("/login"); // 로그인되지 않았거나 사용자 정보가 없는 경우 로그인 페이지로 이동
       return;
     }
