@@ -1,9 +1,11 @@
 import './css/Payment.css'
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { getMember, updateMember } from '../services/MemberService';
-import { deleteCart, getCart, listCarts } from '../services/CartService';
-import { updateGoods } from '../services/GoodsService';
+import { getMember} from '../services/MemberService';
+import {getCart} from '../services/CartService';
+import OrderList from './payment/OrderList.js';
+import Information from './payment/Information.js';
+import Section3 from './payment/Section3.js';
 
 //결제 페이지
 function Payment() {
@@ -55,182 +57,16 @@ function Payment() {
 
 	return (
 		<div className= "paymentContainer">
-			<div className="section1">
-				<h2 style={{textAlign:'center', marginTop:"20px"}}>ORDER</h2>
-				<br/><hr/>
-				<OrderList cartData={cartData}/>
+			<OrderList cartData={cartData}/>
 				
-			</div>
-
-			<div className="section2">
-				<h2 style={{textAlign:"center"}}>INFORMATION</h2>
-				<br/><hr/>
-				<div className="buyerSection">
-					<h3>Buyer</h3>
-					<hr/>
-					<span>Name</span>
-					<input type="text" className="form-control" 
-						placeholder={copyUser.name}
-					/>
-
-					<br/>
-
-					<span>TEL</span>
-					<input type="text" className="form-control" 
-						 placeholder={copyUser.phone}
-					/>
-
-					<br/>
-
-					<span>EMAIL</span>
-					<input type="text" className="form-control"
-						 placeholder={copyUser.email}
-					/>
-
-					<br/>
-
-					<span>ADRESS</span>
-					<input type="text" className="form-control"
-						 placeholder={copyUser.address}
-					/>
-				</div>
-
-					<br/>
-					<hr style={{width:"20%"}}/>
-					<br/>
-
-				<div className="receiverSection">
-					<h3>RECEIVER</h3>
-					<hr/>
-
-					<button type="button">위와 통일</button>
-
-					<br/><br/>
-
-					<span>Name</span>
-					<input type="text" className="form-control"></input>
-
-					<br/>
-
-					<span>TEL</span>
-					<input type="text" className="form-control"></input>
-
-					<br/>
-
-					<span>EMAIL</span>
-					<input type="text" className="form-control"></input>
-
-					<br/>
-
-					<span>ADRESS</span>
-					<input type="text" className="form-control"></input>
-				</div>
-			</div>
-
+			<Information copyUser={copyUser} />
+			
 			<br/><br/>
 
-
-			<div className="section3">
-				{/*결제정보 테이블*/}
-				<h2>결제 정보</h2>
-				<table
-					className="direct-table"
-					style={{ margin: '0 auto', width: '100%' }}
-				>
-					<tbody>
-						<tr>
-							<td>총액</td>
-							<td>{totalPrice}</td>
-						</tr>
-						<tr>
-							<td>총결제액</td>
-							<td>{totalPrice}</td>
-						</tr>
-						<tr>
-							<td>결제방식</td>
-							<td>통합결제?</td>
-						</tr>
-						
-					</tbody> 
-				</table>
-
-				<div style={{ margin: '0 auto' }}>
-				<button
-					className="buy-button"
-					style={{ textAlign: 'center', margin: '5px' }}
-					onClick={async () => {
-						//잔액 많으면 돈 까고 재고도 깜
-						if (copyUser.cash >= totalPrice) {
-							await updateMember(userInfo.id, {
-								cash: copyUser.cash - totalPrice,
-							});
-
-							cartData.map(async (item) => {
-								await updateGoods(item.goods.id, {
-									stock: item.goods.stock - item.quantity,
-								});
-								await deleteCart(item.id);
-							});
-							
-							navigator('/');
-						} else {
-							console.log('잔액이 부족합니다.');
-						}
-						//그리고 홈으로 이동
-					}}
-				>
-					구매하다
-				</button>
-				{/*cancel-button : direct.css에있음*/}
-				<button
-					className="cancel-button"
-					style={{ textAlign: 'center', margin: '5px' }}
-					onClick={() => {
-						navigator(-1); // 이전 페이지로 이동
-					}}
-				>
-					취소하다
-				</button>
-			</div>
-		</div>
+			<Section3 cartData={cartData} copyUser={copyUser} totalPrice={totalPrice} />
 
 		</div>
 	);
 }
-
-function OrderList({cartData}) {
-	console.log(cartData)
-	return(
-		<>		
-			{/* 상품 정보들 */}
-			<table style={{width:"90%"}}>
-				<thead style={{backgroundColor:"black",color:"white",height:"40px",
-					fontSize:"20px", fontWeight:'bold'
-				}}>
-					<tr>
-						<td style={{width:'10%'}}>Item</td>
-						<td style={{width:'30%'}}>Name</td>
-						<td style={{width:"10%"}}>option</td>
-						<td style={{width:"10%"}}>Price</td>
-						<td style={{width:"10%"}}>Quantity</td>
-					</tr>
-				</thead>
-				<tbody style={{fontSize:"16px"}}>
-					{cartData.map((item) => (
-						<tr key={item.id} style={{height:"80px"}}>	
-							<td style={{paddingLeft: "15px"}}>사진</td>
-							<td style={{paddingLeft: "15px"}}>{item.goods.name}</td>
-							<td style={{paddingLeft: "15px"}}>옵션</td>
-							<td style={{paddingLeft: "15px"}}>{item.goods.price}</td>
-							<td style={{paddingLeft: "15px"}}>{item.quantity}</td>	
-						</tr>
-					))}
-				</tbody>
-			</table>
-		</>
-	)
-}
-
-
 
 export default Payment;
