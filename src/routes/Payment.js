@@ -142,7 +142,7 @@ function Payment() {
 				{/*결제정보 테이블*/}
 				<h2>결제 정보</h2>
 				<table
-					className="direct-table"
+					className="pay-table"
 					style={{ margin: '0 auto', width: '100%' }}
 				>
 					<tbody>
