@@ -4,14 +4,17 @@ import './../App.css';
 import './css/Home.css';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { listGoods } from '../services/GoodsService';
+
 import { useSelector } from 'react-redux';
 import HomeSlider from '../components/HomeSlider';
 
 const Home = () => {
 	let navigate = useNavigate();
 	let isAdmin = useSelector((state) => state.isAdmin);
+	let [searching, setSearching] = useState(false);
 
 	let [shoes, setShoes] = useState([]);
+
 	useEffect(() => {
 		getAllGoods();
 	}, []);
@@ -43,9 +46,17 @@ const Home = () => {
 		});
 	}, [state.search, shoes]);
 
+	useEffect(() => {
+		if (state.search == '') {
+			setSearching(true);
+		} else {
+			setSearching(false);
+		}
+	}, [state.search]);
+
 	return (
 		<div className="App">
-			<HomeSlider className=""></HomeSlider>
+			{searching ? <HomeSlider className=""></HomeSlider> : <></>}
 			<div className="container shoe-container">
 				<div className="row shoe-row">
 					{filterTitle.map((a, index) => {
