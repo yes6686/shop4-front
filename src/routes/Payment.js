@@ -1,8 +1,11 @@
+import "./css/Payment.css";
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { getMember, updateMember } from "../services/MemberService";
-import { deleteCart, getCart, listCarts } from "../services/CartService";
-import { updateGoods } from "../services/GoodsService";
+import { getMember } from "../services/MemberService";
+import { getCart } from "../services/CartService";
+import OrderList from "./payment/OrderList.js";
+import Information from "./payment/Information.js";
+import Section3 from "./payment/Section3.js";
 
 //결제 페이지
 function Payment() {
@@ -49,192 +52,20 @@ function Payment() {
   let navigator = useNavigate();
 
   return (
-    <div
-      className="direct-body"
-      style={{ width: "50%", textAlign: "left", margin: "0 auto" }}
-    >
+    <div className="paymentContainer">
+      <OrderList cartData={cartData} />
+
+      <Information copyUser={copyUser} />
+
+      <br />
       <br />
 
-      <h2>결제</h2>
-      <hr style={{ height: "3px", background: "black" }} />
-      <br />
-
-      <h2>구매자 정보</h2>
-      <hr />
-
-      {/*구매자정보 테이블*/}
-      <table
-        className="direct-table"
-        style={{ margin: "0 auto", width: "100%" }}
-      >
-        <tbody>
-          <tr>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>이름</td>
-            <td>{copyUser.name}</td>
-          </tr>
-          <tr>
-            <td>이메일</td>
-            <td>{copyUser.email}</td>
-          </tr>
-          <tr>
-            <td>휴대폰번호</td>
-            <td>{copyUser.phone}</td>
-          </tr>
-        </tbody>
-      </table>
-      <hr />
-
-      {/*배송정보 테이블*/}
-      <h2>배송 정보</h2>
-      <table
-        className="direct-table"
-        style={{ margin: "0 auto", width: "100%" }}
-      >
-        <tbody>
-          <tr>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>이름</td>
-            <td>{copyUser.name}</td>
-          </tr>
-          <tr>
-            <td>연락처</td>
-            <td>{copyUser.phone}</td>
-          </tr>
-          <tr>
-            <td>주소</td>
-            <td>{copyUser.address}</td>
-          </tr>
-        </tbody>
-      </table>
-      <hr />
-
-      {/*상품정보 테이블*/}
-      <h2>상품 정보</h2>
-      <table
-        className="direct-table"
-        style={{ margin: "0 auto", width: "100%" }}
-      >
-        <tbody>
-          <tr>
-            <td>상품명</td>
-            <td>수량</td>
-          </tr>
-          {cartData.map((item) => (
-            <tr key={item.id}>
-              <td>{item.goods.name}</td>
-              <td>{item.quantity}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <hr />
-
-      {/*결제정보 테이블*/}
-      <h2>결제 정보</h2>
-      <table
-        className="direct-table"
-        style={{ margin: "0 auto", width: "100%" }}
-      >
-        <tbody>
-          <tr>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>결제 금액</td>
-            <td>{totalPrice}</td>
-          </tr>
-          <tr>
-            <td>잔액</td>
-            <td>{copyUser.cash}</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <div style={{ margin: "0 auto" }}>
-        <button
-          className="buy-button"
-          style={{ textAlign: "center", margin: "5px" }}
-          onClick={async () => {
-            //잔액 많으면 돈 까고 재고도 깜
-            if (copyUser.cash >= totalPrice) {
-              await updateMember(userInfo.id, {
-                cash: copyUser.cash - totalPrice,
-              });
-
-              cartData.map(async (item) => {
-                await updateGoods(item.goods.id, {
-                  stock: item.goods.stock - item.quantity,
-                });
-                await deleteCart(item.id);
-              });
-              navigator("/");
-            } else {
-              console.log("잔액이 부족합니다.");
-            }
-            //그리고 홈으로 이동
-          }}
-        >
-          구매하다
-        </button>
-        {/*cancel-button : direct.css에있음*/}
-        <button
-          className="cancel-button"
-          style={{ textAlign: "center", margin: "5px" }}
-          onClick={() => {
-            navigator(-1); // 이전 페이지로 이동
-          }}
-        >
-          취소하다
-        </button>
-      </div>
+      <Section3
+        cartData={cartData}
+        copyUser={copyUser}
+        totalPrice={totalPrice}
+      />
     </div>
-  );
-}
-
-function OrderList({ cartData }) {
-  console.log(cartData);
-  return (
-    <>
-      {/* 상품 정보들 */}
-      <table style={{ width: "90%" }}>
-        <thead
-          style={{
-            backgroundColor: "black",
-            color: "white",
-            height: "40px",
-            fontSize: "20px",
-            fontWeight: "bold",
-          }}
-        >
-          <tr>
-            <td style={{ width: "10%" }}>Item</td>
-            <td style={{ width: "30%" }}>Name</td>
-            <td style={{ width: "10%" }}>option</td>
-            <td style={{ width: "10%" }}>Price</td>
-            <td style={{ width: "10%" }}>Quantity</td>
-          </tr>
-        </thead>
-        <tbody style={{ fontSize: "14px" }}>
-          {cartData.map((item) => (
-            <tr key={item.id} style={{ height: "100px" }}>
-              <td>사진</td>
-              <td>{item.goods.name}</td>
-              <td>옵션</td>
-              <td>{item.goods.price}</td>
-              <td>{item.quantity}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </>
   );
 }
 
