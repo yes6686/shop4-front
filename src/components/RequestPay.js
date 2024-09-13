@@ -24,6 +24,7 @@ const requestPay = () => {
           "http://localhost:8080/verifyIamport/" + rsp.imp_uid
         );
         if (rsp.paid_amount === data.response.amount) {
+          // 결제 금액의 위변조 검증
           alert("결제 성공");
         } else {
           alert("결제 실패");
