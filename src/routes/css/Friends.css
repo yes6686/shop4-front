@@ -44,3 +44,22 @@
   padding-right: 10px; /* 아이콘과 경계선 사이에 패딩 추가 */
   border: none; /* 테이블 헤더의 경계선 숨기기 */
 }
+
+.flex-container {
+  display: flex;
+  justify-content: center; /* 수평 정렬 */
+  align-items: center; /* 수직 정렬 (필요한 경우) */
+  align-items: flex-end; 
+  height: 500px; /* 컨테이너 높이 설정 */
+}
+
+.flex-containerRequestF {
+  display: flex;
+  justify-content: center; /* 수평 정렬 */
+  align-items: center; /* 수직 정렬 (필요한 경우) */
+  align-items: flex-end; 
+  height: 1000px; /* 컨테이너 높이 설정 */
+}
+
+
+

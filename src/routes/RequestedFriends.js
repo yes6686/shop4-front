@@ -6,7 +6,7 @@ function RequestedFriends() {
   return (
     <div className="myPageContainer">
       <MyPageLeftSideBar />
-      <div className="rightContent">ddddddf</div>
+      <div className="rightContent"></div>
     </div>
   );
 }

@@ -9,10 +9,15 @@ import './css/Friends.css';
 import { PiFinnTheHumanDuotone } from 'react-icons/pi';
 import { IoPersonAddSharp } from 'react-icons/io5';
 import { BiSolidUserX } from 'react-icons/bi';
+import FriendsRequestModal from '../components/Friend/FriendsRequestModal';
 
 const FriendsList = () => {
   const [friendsData, setFriendsData] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false); //모달창 관리
   const user = sessionStorage.getItem('user');
+  const memberId = JSON.parse(user)?.id; // 현재 로그인된 사용자 ID
+
+  console.log('isModalOpen :' + isModalOpen);
 
   useEffect(() => {
     if (user) {
@@ -42,6 +47,15 @@ const FriendsList = () => {
       return prev.filter((friend) => friend.userId !== friendId);
     });
   }
+  // 친구 요청 모달 열기
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  // 모달 닫기
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
 
   return (
     <div className="myPageContainer">
@@ -58,7 +72,11 @@ const FriendsList = () => {
             <tr>
               <th></th>
               <th className="tableHeader">
-                <IoPersonAddSharp className="addFriendIcon" size={50} />
+                <IoPersonAddSharp
+                  className="addFriendIcon"
+                  size={60}
+                  onClick={handleOpenModal}
+                />
               </th>
             </tr>
           </thead>
@@ -69,19 +87,18 @@ const FriendsList = () => {
                   <td colSpan="2">
                     <div className="friendRow">
                       <div className="friendItem">
-                        <PiFinnTheHumanDuotone size={150} />
+                        <PiFinnTheHumanDuotone size={160} />
                         &nbsp;&nbsp; &nbsp;&nbsp;
                         {friend.name} ({friend.userId})
                       </div>
                       <div className="deleteButton">
-                        <button
+                        <TiUserDelete
+                          size={65}
                           onClick={() => {
                             const id = friend.userId;
                             handleDelete(id);
                           }}
-                        >
-                          <TiUserDelete size={50} />
-                        </button>
+                        />
                       </div>
                     </div>
                   </td>
@@ -101,7 +118,13 @@ const FriendsList = () => {
             )}
           </tbody>
         </table>
-      </div>
+      </div>{' '}
+      {isModalOpen && (
+        <FriendsRequestModal
+          memberId={memberId}
+          onClose={handleCloseModal} // 모달 닫기 함수 전달
+        />
+      )}
     </div>
   );
 };
