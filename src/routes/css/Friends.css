@@ -1,0 +1,59 @@
+.friendsTable {
+    width: 50%;
+    /* 가로 폭을 더 줄임 */
+    margin: 0;
+    border-collapse: separate;
+    border-spacing: 0 10px;
+    /* 행 간 간격 추가 */
+}
+
+.friendRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 2px solid #ccc;
+    /* 행을 감싸는 테두리 */
+    border-radius: 10px;
+    /* 둥근 모서리 */
+    padding: 10px 0px 10px 10px;
+    /* 위쪽과 아래쪽에 10px, 왼쪽에 10px, 오른쪽에만 20px 추가 */
+    padding-right: 35px;
+    /* 오른쪽에만 100px 패딩 추가 */
+}
+
+.friendItem {
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    font-size: 35px;
+    /* 글씨 크기 설정 (필요에 따라 더 크게 설정 가능) */
+}
+
+.deleteButton {
+    cursor: pointer;
+    margin-left: 10px;
+    /* 삭제 버튼과 텍스트 사이 간격을 더 늘림 */
+    display: flex;
+    align-items: center;
+    /* 삭제 버튼을 텍스트와 수직 중앙 정렬 */
+}
+
+/* 행 간 간격을 추가하기 위해 margin을 적용 */
+.friendsTable tr {
+    margin-bottom: 10px;
+}
+
+.addFriendIcon {
+    cursor: pointer;
+}
+
+.friendsTable th {
+    position: relative;
+    /* 아이콘을 배치하기 위한 상대 위치 */
+    text-align: right;
+    /* 아이콘을 오른쪽으로 정렬 */
+    padding-right: 10px;
+    /* 아이콘과 경계선 사이에 패딩 추가 */
+    border: none;
+    /* 테이블 헤더의 경계선 숨기기 */
+}
