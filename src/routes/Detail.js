@@ -46,6 +46,7 @@ function Detail() {
 	}, []);
 
 	//바로 구매 시 작동하는 핸들러, 현재 구매정보(수량, 구매하는 유저, 상품정보) 따와서 payment에 quantity만 수정해서 보냄
+
 	const handleDirectOrder = () => {
 		setDirectItem({
 			quantity: orderNum,

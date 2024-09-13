@@ -14,7 +14,6 @@ const RecentlyViewed = () => {
 	let navigate = useNavigate();
 	let dispatch = useDispatch();
 	const [cartItem, setCartItem] = useState({});
-	const [modalDisplaying, setModalDisplaying] = useState(false);
 
 	const user = sessionStorage.getItem('user');
 	const userData = user ? JSON.parse(user) : { id: null }; // Null 체크 후 기본값 설정

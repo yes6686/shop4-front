@@ -4,9 +4,9 @@ import './../App.css';
 import './css/Home.css';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { listGoods } from '../services/GoodsService';
-import { useDispatch, useSelector } from 'react-redux';
+
+import { useSelector } from 'react-redux';
 import HomeSlider from '../components/HomeSlider';
-import search from '../store/searchSlice';
 
 const Home = () => {
 	let navigate = useNavigate();
