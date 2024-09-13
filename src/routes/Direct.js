@@ -1,49 +1,30 @@
-import { useState, useEffect } from 'react';
+import './css/Direct.css';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { getMember, updateMember } from '../services/MemberService';
-import { deleteCart, getCart, listCarts } from '../services/CartService';
-import { updateGoods } from '../services/GoodsService';
+import { useEffect, useState } from 'react';
+import { getGoods, updateGoods } from '../services/GoodsService';
+import Comments from '../components/Comments';
 
-function Payment() {
-	//유저정보, 유저정보의 id 키값으로 cart에서 상품들 받아옴
-	let userInfo = JSON.parse(sessionStorage.getItem('user'));
-	let [copyUser, setCopyUser] = useState([]);
-	let [cartData, setCartData] = useState([]);
+//direct.css에 테이블 밑 버튼 정보 있음
+function Direct() {
+	//유저정보, detail 페이지에서 상품 정보, 주문수량 전달받는 코드
+	const userInfo = JSON.parse(sessionStorage.getItem('user'));
 	const { state } = useLocation();
-	let products = Array.from(state);
-	let [flag, setFlag] = useState(0);
-
-	const id = userInfo.id;
-	//장바구니 상품들 총 결제금액 변수
-	let [totalPrice, setTotalPrice] = useState(0);
-
-	useEffect(() => {
-		const initMembers = async () => {
-			await getMember(id).then((response) => {
-				setCopyUser(response.data);
-			});
-		};
-		initMembers();
-	}, [id]);
+	//state[0], state[1]은 detail.js에서 각각 findProduct, orderNum
+	const productInfo = state[0];
+	const orderNum = state[1];
+	let [copyUser, setCopyUser] = useState([]);
+	let [copyProduct, setCopyProduct] = useState([]);
 
 	useEffect(() => {
-		const getCarts = async () => {
-			products.map(async (id) => {
-				await getCart(id).then((response) => {
-					setCartData((pre) => [...pre, response.data]);
-				});
-			});
-		};
-		getCarts();
-	}, []);
-
-	useEffect(() => {
-		let tmp = 0;
-		cartData.map((item) => {
-			tmp += item.quantity * item.goods.price;
+		getMember(userInfo.id).then((response) => {
+			setCopyUser(response.data);
 		});
-		setTotalPrice(tmp);
-	}, [cartData]);
+
+		getGoods(productInfo.id).then((response) => {
+			setCopyProduct(response.data);
+		});
+	}, []);
 
 	let navigator = useNavigate();
 
@@ -114,27 +95,6 @@ function Payment() {
 			</table>
 			<hr />
 
-			{/*상품정보 테이블*/}
-			<h2>상품 정보</h2>
-			<table
-				className="direct-table"
-				style={{ margin: '0 auto', width: '100%' }}
-			>
-				<tbody>
-					<tr>
-						<td>상품명</td>
-						<td>수량</td>
-					</tr>
-					{cartData.map((item) => (
-						<tr key={item.id}>
-							<td>{item.goods.name}</td>
-							<td>{item.quantity}</td>
-						</tr>
-					))}
-				</tbody>
-			</table>
-			<hr />
-
 			{/*결제정보 테이블*/}
 			<h2>결제 정보</h2>
 			<table
@@ -147,8 +107,16 @@ function Payment() {
 						<td></td>
 					</tr>
 					<tr>
-						<td>결제 금액</td>
-						<td>{totalPrice}</td>
+						<td>상품명</td>
+						<td>{productInfo.name}</td>
+					</tr>
+					<tr>
+						<td>수량</td>
+						<td>{orderNum}</td>
+					</tr>
+					<tr>
+						<td>가격</td>
+						<td>{orderNum * productInfo.price}</td>
 					</tr>
 					<tr>
 						<td>잔액</td>
@@ -161,24 +129,24 @@ function Payment() {
 				<button
 					className="buy-button"
 					style={{ textAlign: 'center', margin: '5px' }}
-					onClick={async () => {
+					onClick={() => {
+						console.log(copyUser);
 						//잔액 많으면 돈 까고 재고도 깜
-						if (copyUser.cash >= totalPrice) {
-							await updateMember(userInfo.id, {
-								cash: copyUser.cash - totalPrice,
+						if (copyUser.cash >= productInfo.price * orderNum) {
+							updateMember(userInfo.id, {
+								cash:
+									copyUser.cash -
+									productInfo.price * orderNum,
 							});
 
-							cartData.map(async (item) => {
-								await updateGoods(item.goods.id, {
-									stock: item.goods.stock - item.quantity,
-								});
-								await deleteCart(item.id);
+							updateGoods(productInfo.id, {
+								stock: copyProduct.stock - orderNum,
 							});
+							//그리고 홈으로 이동
 							navigator('/');
 						} else {
-							console.log('잔액이 부족합니다.');
+							console.log('잔액이 부족합니다..');
 						}
-						//그리고 홈으로 이동
 					}}
 				>
 					구매하다
@@ -194,8 +162,9 @@ function Payment() {
 					취소하다
 				</button>
 			</div>
+			<Comments></Comments>
 		</div>
 	);
 }
 
-export default Payment;
+export default Direct;

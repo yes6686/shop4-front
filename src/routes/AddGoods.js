@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import './css/AddGoods.css';
 import './css/Detail.css';
+import './css/Direct.css';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { Toast, ToastContainer } from 'react-bootstrap';
