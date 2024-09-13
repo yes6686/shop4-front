@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./Comments_module.css";
+import "./../routes/css/Comments.css";
 import {
   createComment,
   listComments,
