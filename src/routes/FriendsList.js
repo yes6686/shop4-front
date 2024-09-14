@@ -8,8 +8,8 @@ import { deleteFriend } from '../services/FriendService';
 import './css/Friends.css';
 import { PiFinnTheHumanDuotone } from 'react-icons/pi';
 import { IoPersonAddSharp } from 'react-icons/io5';
-import { BiSolidUserX } from 'react-icons/bi';
 import FriendsRequestModal from '../components/Friend/FriendsRequestModal';
+import style from '../components/Friend/FriendsRequestModal.module.css'; // CSS 모듈 임포트
 
 const FriendsList = () => {
   const [friendsData, setFriendsData] = useState([]);
@@ -112,7 +112,6 @@ const FriendsList = () => {
                 >
                   <br></br>
                   <br></br>
-                  <BiSolidUserX size={350} color="red" />
                 </td>
               </tr>
             )}
