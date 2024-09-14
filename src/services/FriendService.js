@@ -16,7 +16,7 @@ export const requestedListFriends = (myId) =>
 
 //친구 거절
 export const rejectFriend = (myId, friendId) =>
-  axios.get(REST_API_BASE_URL + '/rejectFriend/' + myId + '/' + friendId);
+  axios.delete(REST_API_BASE_URL + '/rejectFriend/' + myId + '/' + friendId);
 
 //친구 요청 수락
 export const acceptFriend = (myId, friendId) =>

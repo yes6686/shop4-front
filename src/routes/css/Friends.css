@@ -61,5 +61,7 @@
   height: 1000px; /* 컨테이너 높이 설정 */
 }
 
-
-
+.grid-center {
+  display: grid;
+  place-items: center; 
+}

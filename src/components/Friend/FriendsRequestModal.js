@@ -40,7 +40,9 @@ const FriendsRequestModal = ({ memberId, onClose }) => {
     <div>
       <div className="modal-container">
         <div className="modal-content">
-          <h2>친구 요청</h2>
+          <div class="grid-center">
+            <h2>친구 요청</h2>
+          </div>
           <div className="input-group input-group-lg">
             <span className="input-group-text" id="inputGroup-sizing-lg">
               ID
