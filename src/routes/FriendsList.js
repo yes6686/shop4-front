@@ -112,7 +112,6 @@ const FriendsList = () => {
                 >
                   <br></br>
                   <br></br>
-                  <BiSolidUserX size={350} color="red" />
                 </td>
               </tr>
             )}
