@@ -1,227 +1,172 @@
-import { useState } from 'react';
-import './css/AddGoods.css';
-import './css/Detail.css';
-import { useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
-import { Toast, ToastContainer } from 'react-bootstrap';
-import axios from 'axios';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import styles from "./css/AddGoods.module.css";
+import { Toast, ToastContainer } from "react-bootstrap";
 
 function AddGoods() {
-	const imageUrl = process.env.PUBLIC_URL;
+  const imageUrl = process.env.PUBLIC_URL;
 
-	let [name, setName] = useState('');
-	let [price, setPrice] = useState('');
-	let [description, setDescription] = useState('');
-	let [stock, setStock] = useState('');
-	let [url, setUrl] = useState('');
-	let [category, setCategory] = useState('');
+  let [name, setName] = useState("");
+  let [price, setPrice] = useState("");
+  let [description, setDescription] = useState("");
+  let [stock, setStock] = useState("");
+  let [url, setUrl] = useState("");
+  let [category, setCategory] = useState("");
+  const [files, setFiles] = useState([]);
 
-	const [files, setFiles] = useState([]);
+  const handleFilesChange = (e) => {
+    setFiles(Array.from(e.target.files));
+  };
 
-	const handleFilesChange = (e) => {
-		setFiles(Array.from(e.target.files));
-	};
+  const uploadFiles = (e) => {
+    if (!files) {
+      return;
+    }
+    e.preventDefault();
+    const formData = new FormData();
+    files.map((file) => {
+      formData.append("files", file);
+    });
 
-	const uploadFiles = (e) => {
-		if (!files) {
-			return;
-		}
-		e.preventDefault();
-		const formData = new FormData();
+    axios
+      .post(`${imageUrl}/upload`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
 
-		files.map((file) => {
-			formData.append('files', file);
-		});
+  let [toast, setToast] = useState(false);
+  let navigate = useNavigate();
 
-		console.log(Array.from(formData));
+  function validateAndSubmit() {
+    if (
+      name === "" ||
+      price === "" ||
+      stock === "" ||
+      description === "" ||
+      category === ""
+    ) {
+      setToast(true);
+    } else {
+      if (description.length <= 10) {
+        console.log("설명이 짧습니다.");
+      } else {
+        let newItem = {
+          name: name,
+          price: price,
+          stock: stock,
+          description: description,
+          category: category,
+          url: url,
+        };
+        // Submit newItem to the backend or handle it as needed
+      }
+    }
+  }
 
-		axios
-			.post(imageUrl, formData, {
-				headers: {
-					'Content-Type': 'multipart/form-data',
-				},
-			})
-			.then((res) => {
-				console.log(res.data);
-			})
-			.catch((err) => {
-				console.error(err);
-			});
-	};
-
-	useEffect(() => {
-		console.log(files);
-	}, [files]);
-
-	let [toast, setToast] = useState(false);
-
-	let navigate = useNavigate();
-
-	function validateAndSubmit() {
-		if (
-			name == '' ||
-			price == '' ||
-			stock == '' ||
-			description == '' ||
-			category == ''
-		) {
-			setToast(true);
-		} else {
-			if (description.length <= 10) {
-				console.log('설명이짧아용');
-			} else {
-				let newItem = {
-					name: name,
-					price: price,
-					stock: stock,
-					description: description,
-					category: category,
-					url: url,
-				};
-			}
-		}
-	}
-
-	return (
-		<div className="AddBody" style={{ width: '40%', margin: '0 auto' }}>
-			<h2 style={{ textAlign: 'center' }}>상품추가페이지임</h2>
-			<table className="direct-table">
-				<tbody>
-					<tr>
-						<td>상품명</td>
-						<td>
-							<input
-								className="form-control"
-								onChange={(e) => {
-									setName(e.target.value);
-								}}
-							></input>
-						</td>
-					</tr>
-					<tr>
-						<td>가격 </td>
-						<td>
-							<input
-								className="form-control"
-								onChange={(e) => {
-									setPrice(e.target.value);
-								}}
-							></input>
-						</td>
-					</tr>
-					<tr>
-						<td>상품 설명</td>
-						<td>
-							<input
-								className="form-control"
-								onChange={(e) => {
-									setDescription(e.target.value);
-								}}
-							></input>
-						</td>
-					</tr>
-					<tr>
-						<td>재고수 </td>
-						<td>
-							<input
-								className="form-control"
-								onChange={(e) => {
-									setStock(e.target.value);
-								}}
-							></input>
-						</td>
-					</tr>
-					<tr>
-						<td>상품 이미지</td>
-						<td>
-							{' '}
-							<input
-								type="file"
-								className="form-control"
-								style={{ width: '80%', margin: '0 auto' }}
-								onChange={(e) => {
-									handleFilesChange(e);
-									if (e.target.files[0].name) {
-										setUrl(
-											`${imageUrl}/${e.target.files[0].name}`
-										);
-										console.log(url);
-									} else {
-									}
-								}}
-							></input>
-						</td>
-					</tr>
-					<tr>
-						<td>카테고리</td>
-						<td>
-							<select
-								onChange={(e) => {
-									console.log(e.target.value);
-									setCategory(e.target.value);
-								}}
-							>
-								<option selected>신발</option>
-								<option>상의</option>
-								<option>하의</option>
-								<option>모자</option>
-							</select>
-						</td>
-					</tr>
-					<tr>
-						<td></td>
-						<td></td>
-					</tr>
-				</tbody>
-			</table>
-			<div
-				style={{
-					margin: '0 auto',
-					display: 'flex',
-					justifyContent: 'center',
-				}}
-			>
-				<button
-					className="buy-button"
-					style={{}}
-					onClick={(e) => {
-						uploadFiles(e);
-						validateAndSubmit();
-					}}
-				>
-					등록하다
-				</button>
-				<button
-					className="cancel-button"
-					onClick={() => {
-						navigate('/');
-					}}
-				>
-					돌아가다
-				</button>
-			</div>
-
-			<ToastContainer position="top-end" style={{ margin: 'auto' }}>
-				<Toast
-					className="d-inline-block m-1"
-					bg="danger"
-					onClose={() => setToast(false)}
-					show={toast}
-					delay={3000}
-					autohide
-				>
-					<Toast.Header>
-						<strong className="me-auto">Warning</strong>
-					</Toast.Header>
-					<Toast.Body className={'text-white'}>
-						Form is Empty.
-					</Toast.Body>
-				</Toast>
-			</ToastContainer>
-
-			<img alt="/logo192.png" src=""></img>
-		</div>
-	);
+  return (
+    <div className={styles.addGoodsContainer}>
+      <br />
+      <br />
+      <h2 className={styles.header}>상품 추가 페이지</h2>
+      <table className={styles.table}>
+        <tbody>
+          <tr>
+            <td>상품명</td>
+            <td>
+              <input type="text" onChange={(e) => setName(e.target.value)} />
+            </td>
+          </tr>
+          <tr>
+            <td>가격</td>
+            <td>
+              <input type="text" onChange={(e) => setPrice(e.target.value)} />
+            </td>
+          </tr>
+          <tr>
+            <td>상품 설명</td>
+            <td>
+              <input
+                type="text"
+                onChange={(e) => setDescription(e.target.value)}
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>재고수</td>
+            <td>
+              <input type="text" onChange={(e) => setStock(e.target.value)} />
+            </td>
+          </tr>
+          <tr>
+            <td>상품 이미지</td>
+            <td>
+              <input
+                type="file"
+                className={styles.fileInput}
+                onChange={(e) => {
+                  handleFilesChange(e);
+                  if (e.target.files[0]) {
+                    setUrl(`${imageUrl}/${e.target.files[0].name}`);
+                  }
+                }}
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>카테고리</td>
+            <td>
+              <select onChange={(e) => setCategory(e.target.value)}>
+                <option>신발</option>
+                <option>상의</option>
+                <option>하의</option>
+                <option>모자</option>
+              </select>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div className={styles.buttonContainer}>
+        <button
+          className={styles.addButton}
+          onClick={(e) => {
+            uploadFiles(e);
+            validateAndSubmit();
+          }}
+        >
+          등록하다
+        </button>
+        <button className={styles.cancelButton} onClick={() => navigate("/")}>
+          돌아가다
+        </button>
+      </div>
+      <ToastContainer className={styles.toastContainer} position="top-end">
+        <Toast
+          bg="danger"
+          onClose={() => setToast(false)}
+          show={toast}
+          delay={3000}
+          autohide
+        >
+          <Toast.Header>
+            <strong className="me-auto">경고</strong>
+          </Toast.Header>
+          <Toast.Body className={styles.toastBody}>
+            모든 필드를 입력해주세요.
+          </Toast.Body>
+        </Toast>
+      </ToastContainer>
+      {url && <img src={url} alt="Preview" className={styles.imgPreview} />}
+    </div>
+  );
 }
 
 export default AddGoods;

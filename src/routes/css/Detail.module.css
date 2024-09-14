@@ -1,0 +1,104 @@
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 20px auto;
+  max-width: 1200px;
+  padding: 20px;
+  background-color: #f5f5f5; /* 조금 더 부드러운 배경 색상 */
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 그림자 강도 약간 증가 */
+}
+
+.imageContainer {
+  flex: 1;
+  max-width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 그림자 강도 약간 증가 */
+}
+
+.detailsContainer {
+  flex: 1;
+  max-width: 50%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* 세로 중앙 정렬 */
+}
+
+.productTitle {
+  font-size: 2.2rem; /* 제목 크기 약간 증가 */
+  font-weight: bold;
+  margin-bottom: 15px;
+  color: #333;
+  text-align: center; /* 제목 중앙 정렬 */
+}
+
+.productDescription,
+.productPrice,
+.productStock {
+  font-size: 1.5rem; /* 글씨 크기 약간 증가 */
+  margin-bottom: 12px;
+  color: #555; /* 색상 약간 밝게 조정 */
+  text-align: center; /* 글씨 중앙 정렬 */
+}
+
+.inputContainer {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center; /* 입력 박스와 버튼 중앙 정렬 */
+}
+
+.quantityInput {
+  height: 40px;
+  width: 80px;
+  padding: 0 10px;
+  font-size: 22px;
+  border: 1px solid #ddd; /* 경계 색상 더 부드럽게 */
+  border-radius: 4px;
+  margin-right: 10px;
+  margin-bottom: -7px;
+  outline: none;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1); /* 내부 그림자 추가 */
+}
+
+.buyButton,
+.orderButton {
+  height: 50px;
+  padding: 0 20px;
+  border: none;
+  border-radius: 4px;
+  font-size: 20px;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease; /* 호버 시 효과 추가 */
+  margin-right: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 버튼에 그림자 추가 */
+}
+
+.buyButton {
+  background-color: #007bff;
+}
+
+.buyButton:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px); /* 호버 시 버튼이 살짝 올라오도록 */
+}
+
+.orderButton {
+  background-color: #28a745;
+}
+
+.orderButton:hover {
+  background-color: #218838;
+  transform: translateY(-2px); /* 호버 시 버튼이 살짝 올라오도록 */
+}
