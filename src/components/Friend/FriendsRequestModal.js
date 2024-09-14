@@ -6,10 +6,17 @@ const FriendsRequestModal = ({ memberId, onClose }) => {
   const [userId, setUserId] = useState('');
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
+  const user = sessionStorage.getItem('user');
+  const selfID = JSON.parse(user)?.userId;
 
   const handleAddFriend = () => {
     if (!userId) {
       setMessage('사용자 ID를 입력해주세요.');
+      setTimeout(() => setMessage(''), 1500);
+      return;
+    }
+    if (userId === selfID) {
+      setMessage('다른 사람의 ID를 입력해주세요.');
       setTimeout(() => setMessage(''), 1500);
       return;
     }
