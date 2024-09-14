@@ -1,0 +1,118 @@
+/* Modal Overlay */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6); /* Darker background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  opacity: 0;
+  animation: fadeIn 0.3s forwards; /* Fade-in animation */
+}
+
+/* Modal Box */
+.modal {
+  background-color: #fff;
+  padding: 40px;
+  border-radius: 15px;
+  max-width: 450px;
+  width: 100%;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  position: relative;
+  z-index: 1001;
+  transform: scale(0.8);
+  animation: scaleUp 0.3s forwards; /* Scale-up animation */
+}
+
+/* Input Fields */
+.inputContainer {
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.input {
+  width: 100%;
+  padding: 12px;
+  font-size: 18px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.3s;
+}
+
+.input:focus {
+  border-color: #007bff;
+}
+
+/* Error Text */
+.error {
+  color: red;
+  font-size: 15px;
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+}
+
+/* Character Count */
+.charCount {
+  font-size: 12px;
+  color: #999;
+  text-align: right;
+  display: block;
+  margin-top: 5px;
+}
+
+/* Button Container */
+.buttonContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Buttons */
+.button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.button:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+}
+
+.buttonSecondary {
+  background-color: #6c757d;
+}
+
+.buttonSecondary:hover {
+  background-color: #5a6268;
+}
+
+/* Animation for Modal */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scaleUp {
+  from {
+    transform: scale(0.8);
+  }
+  to {
+    transform: scale(1);
+  }
+}
