@@ -11,6 +11,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { CiSearch } from 'react-icons/ci';
 import { setIsNotAdmin } from '../store/adminSlice';
 import { MdStoreMallDirectory } from 'react-icons/md';
+import { requestedListFriends } from '../services/FriendService';
+import { setRequestedFriends } from '../store/requestedFriendsSlice'; // 액션 가져오기
 
 const Header = () => {
   const requestedFriends = useSelector(
@@ -20,13 +22,31 @@ const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation(); // 현재 경로를 가져오기 위한 useLocation 훅
-
   const handleNavigation = (path) => {
     navigate(path);
   };
-
-  const user = JSON.parse(sessionStorage.getItem('user')); // 세션에서 사용자 이름 가져오기
+  const user = JSON.parse(sessionStorage?.getItem('user')); // 세션에서 사용자 이름 가져오기
+  const userAlert = sessionStorage.getItem('user');
+  const memberId = JSON.parse(userAlert)?.id;
   const isLoggedIn = sessionStorage.getItem('isLoggedIn'); // 로그인 여부 확인
+
+  //친구요청 알림 세팅
+  useEffect(() => {
+    if (memberId) {
+      getRequestedFriendsData(memberId);
+    }
+  }, [memberId]);
+
+  // 친구 요청 목록 가져오는 함수
+  function getRequestedFriendsData(memberId) {
+    requestedListFriends(memberId)
+      .then((response) => {
+        dispatch(setRequestedFriends(response.data));
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
 
   const handleLogout = () => {
     // 로그아웃 처리 로직 예시
@@ -136,7 +156,7 @@ const Header = () => {
                 <PiFinnTheHumanLight
                   style={{ height: '30px', width: '30px' }}
                 />
-                {friendRequestsCount > 0 && (
+                {isLoggedIn && friendRequestsCount > 0 && (
                   <span
                     style={{
                       position: 'absolute',

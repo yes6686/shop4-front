@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import MyPageLeftSideBar from '../components/MyPageLeftSideBar';
 import './css/MyPage.css';
-import './css/Friends.css';
 import { FaUserFriends } from 'react-icons/fa';
 import { PiFinnTheHumanDuotone } from 'react-icons/pi';
 import { BiSolidUserX } from 'react-icons/bi';
@@ -16,7 +15,7 @@ import { IoPersonAddSharp } from 'react-icons/io5';
 import FriendsRequestModal from '../components/Friend/FriendsRequestModal';
 
 function RequestedFriends() {
-  const [isModalOpen, setIsModalOpen] = useState(false); //모달창 관리
+  const [isModalOpen, setIsModalOpen] = useState(false); // 모달창 관리
   const dispatch = useDispatch();
   const requestedFriends = useSelector(
     (state) => state.friendRequests.requestedFriends
@@ -30,7 +29,7 @@ function RequestedFriends() {
     }
   }, [memberId]);
 
-  //친구 요청 목록 가져오는 함수
+  // 친구 요청 목록 가져오는 함수
   function getRequestedFriendsData(memberId) {
     requestedListFriends(memberId)
       .then((response) => {
@@ -45,7 +44,6 @@ function RequestedFriends() {
   function handleDelete(friendId) {
     rejectFriend(memberId, friendId)
       .then(() => {
-        // API 호출 성공 후 상태 업데이트
         dispatch(
           setRequestedFriends(
             requestedFriends.filter((friend) => friend.userId !== friendId)
@@ -54,7 +52,6 @@ function RequestedFriends() {
       })
       .catch((error) => {
         console.error('Failed to reject friend request:', error);
-        // 에러 처리 로직 추가
       });
   }
 
@@ -62,7 +59,6 @@ function RequestedFriends() {
   function handleAccept(friendId) {
     acceptFriend(memberId, friendId)
       .then(() => {
-        // API 호출 성공 후 상태 업데이트
         dispatch(
           setRequestedFriends(
             requestedFriends.filter((friend) => friend.userId !== friendId)
@@ -71,11 +67,10 @@ function RequestedFriends() {
       })
       .catch((error) => {
         console.error('Failed to accept friend request:', error);
-        // 에러 처리 로직 추가
       });
   }
 
-  // 친구 요청 모달 열기
+  // 모달 열기
   const handleOpenModal = () => {
     setIsModalOpen(true);
   };
@@ -89,9 +84,8 @@ function RequestedFriends() {
     <div className="myPageContainer">
       <MyPageLeftSideBar />
       <div className="rightContent">
-        <br></br>
+        <br />
         <h2>
-          &nbsp;
           <FaUserFriends /> 친구 요청
         </h2>
 
@@ -143,7 +137,7 @@ function RequestedFriends() {
             ))}
           </tbody>
         </table>
-      </div>{' '}
+      </div>
       {isModalOpen && (
         <FriendsRequestModal
           memberId={memberId}
@@ -153,4 +147,5 @@ function RequestedFriends() {
     </div>
   );
 }
+
 export default RequestedFriends;
