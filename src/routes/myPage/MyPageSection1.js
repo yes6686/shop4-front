@@ -69,7 +69,11 @@ function MyPageSection1({ user, setUser }) {
           </label>
           <button
             className="btn delete-btn"
-            style={{ fontSize: "12px", marginLeft: "15px" }}
+            style={{
+              fontSize: "12px",
+              marginLeft: "15px",
+              marginBottom: "10px",
+            }}
             onClick={() => {
               console.log(image);
             }}
