@@ -1,16 +1,23 @@
-import React, { useState } from "react";
-import { requestFriend } from "../../services/FriendService";
-import styles from "./FriendsRequestModal.module.css";
+import React, { useState } from 'react';
+import { requestFriend } from '../../services/FriendService';
+import styles from './FriendsRequestModal.module.css';
 
 const FriendsRequestModal = ({ memberId, onClose }) => {
-  const [userId, setUserId] = useState("");
-  const [message, setMessage] = useState("");
+  const [userId, setUserId] = useState('');
+  const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
+  const user = sessionStorage.getItem('user');
+  const selfID = JSON.parse(user)?.userId;
 
   const handleAddFriend = () => {
     if (!userId) {
-      setMessage("사용자 ID를 입력해주세요.");
-      setTimeout(() => setMessage(""), 1500);
+      setMessage('사용자 ID를 입력해주세요.');
+      setTimeout(() => setMessage(''), 1500);
+      return;
+    }
+    if (userId === selfID) {
+      setMessage('다른 사람의 ID를 입력해주세요.');
+      setTimeout(() => setMessage(''), 1500);
       return;
     }
     setLoading(true);
@@ -20,15 +27,15 @@ const FriendsRequestModal = ({ memberId, onClose }) => {
         if (success) {
           setMessage(`${userId}님에게 친구 요청을 보냈습니다!!`);
         } else {
-          setMessage("이미 친구이거나 없는 ID입니다!");
+          setMessage('이미 친구이거나 없는 ID입니다!');
         }
       })
       .catch(() => {
-        setMessage("친구 요청을 보내는 중 오류가 발생했습니다.");
+        setMessage('친구 요청을 보내는 중 오류가 발생했습니다.');
       })
       .finally(() => {
         setLoading(false);
-        setTimeout(() => setMessage(""), 1500);
+        setTimeout(() => setMessage(''), 1500);
       });
   };
 
@@ -60,7 +67,7 @@ const FriendsRequestModal = ({ memberId, onClose }) => {
             onClick={handleAddFriend}
             disabled={loading}
           >
-            {loading ? "요청 중..." : "친구 요청"}
+            {loading ? '요청 중...' : '친구 요청'}
           </button>
         </div>
         <div className={styles.flexContainer}>
