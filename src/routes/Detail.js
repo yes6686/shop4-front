@@ -6,6 +6,7 @@ import { getGoods } from '../services/GoodsService';
 import { addRecentlyViewedGoods } from '../store/recentlyViewedSlice';
 import { createcart } from '../services/CartService';
 import Comments from '../components/Comments';
+import { toast, ToastContainer } from 'react-toastify';
 
 //수량 입력받는칸의 수치 조정하면 'orderNum' state 변경되고, 바로구매 / 장바구니 누르면 이 값 전달함
 
@@ -43,6 +44,8 @@ function Detail() {
 				console.error(error);
 			});
 	}, []);
+
+	//바로 구매 시 작동하는 핸들러, 현재 구매정보(수량, 구매하는 유저, 상품정보) 따와서 payment에 quantity만 수정해서 보냄
 
 	const handleDirectOrder = () => {
 		setDirectItem({
@@ -91,7 +94,7 @@ function Detail() {
 			createcart(cartItem)
 				.then((response) => {
 					console.log('Cart item added successfully:', response.data);
-					alert('상품이 장바구니에 추가되었습니다!'); // 메시지 설정
+					toast.success('상품이 장바구니에 추가되었습니다!'); // 메시지 설정
 				})
 				.catch((error) => {
 					console.error(
@@ -167,10 +170,10 @@ function Detail() {
 								if (userData.id == null) {
 									navigate('/Login');
 								} else if (stock == 0) {
-									alert('품절입니다.');
+									toast.error('품절입니다.');
 								} else {
 									if (orderNum <= 0) {
-										alert('한개이상 주문해야합니다');
+										toast.error('한개이상 주문해야합니다');
 									} else {
 										handleDirectOrder();
 									}
@@ -193,6 +196,7 @@ function Detail() {
 			<br />
 			<br />
 			<Comments goods_id={findProduct.id} member_id={member_id} />
+			<ToastContainer />
 		</>
 	);
 }
