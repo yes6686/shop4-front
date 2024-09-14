@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { getGoods } from "../services/GoodsService";
 import { addRecentlyViewedGoods } from "../store/recentlyViewedSlice";
-import { createcart } from "../services/CartService";
+import { createcart, listCarts } from "../services/CartService";
 import Comments from "../components/Comments";
 
 //수량 입력받는칸의 수치 조정하면 'orderNum' state 변경되고, 바로구매 / 장바구니 누르면 이 값 전달함
@@ -15,7 +15,9 @@ function Detail() {
   let dispatch = useDispatch();
   let [stock, setStock] = useState();
   let [orderNum, setOrderNum] = useState(1);
-  const navigator = useNavigate();
+  const navigate = useNavigate();
+
+  const [checkGoods, setcheckGoods] = useState(new Set());
 
   //숫자만 입력받는 로직 위해 있는 코드
   function chkCharCode(event) {
@@ -128,16 +130,23 @@ function Detail() {
               className="buy-button"
               onClick={() => {
                 if (userData.id == null) {
-                  navigator("/Login");
+                  navigate("/Login");
                 } else if (stock == 0) {
                   alert("품절입니다.");
                 } else {
                   if (orderNum <= 0) {
                     alert("한개이상 주문해야합니다");
                   } else {
-                    navigator("/direct", {
-                      state: [findProduct, orderNum],
+                    handleOrderClick();
+                    listCarts(member_id).then((response) => {
+                      response.data.map((item) => {
+                        if (item.goods.id == id) {
+                          checkGoods.add(item.id);
+                          setcheckGoods(checkGoods)
+                        }
+                      })
                     });
+                    navigate("/payment", { state: checkGoods })
                   }
                 }
               }}

@@ -8,7 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import MyPageLeftSideBar from "../components/MyPageLeftSideBar.js";
 
 const MyPage = () => {
-  const userSession = JSON.parse(sessionStorage.getItem("user")); // 세션에서 사용자 이	름 가져오기
+  const userSession = JSON.parse(sessionStorage.getItem("user")); // 세션에서 사용자 이름 가져오기
   const isLoggedIn = sessionStorage.getItem("isLoggedIn"); // 로그인 여부 확인
   let [user, setUser] = useState(userSession);
 
