@@ -1,13 +1,9 @@
 import { useState } from "react";
 import defaultImage from "../../images/default.jpg";
 
-// 프로필 사진 컴포넌트
 function MyPageSection1({ user, setUser }) {
-  // 유저 이미지 관리 변수 및 함수
   const [image, setImage] = useState(user.userImage || defaultImage);
 
-  // 이미지 바뀌면 sessionStorage에서 userImage값이 바뀌게 했는데 데이터베이스까지 연동시키려면
-  // 서버에 이미지 저장하고 데이터베이스에는 url만 저장하는게 효과적이라는데 흠...
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -18,90 +14,102 @@ function MyPageSection1({ user, setUser }) {
         setUser(updatedUser);
         sessionStorage.setItem("user", JSON.stringify(updatedUser));
       };
-      reader.readAsDataURL(file); // 이미지 파일을 base64 URL로 변환
+      reader.readAsDataURL(file);
     }
   };
 
   return (
     <>
       <div className="myPageSection1">
-        {/* 이미지 부분 */}
-        <div style={{ padding: "15px" }}>
-          <button className="btn image-btn" style={{ border: "none" }}>
-            <img
-              src={image}
-              alt="Description"
-              style={{
-                width: "100px",
-                height: "100px",
-                borderRadius: "50%",
-              }}
+        <div className="profile-info">
+          <button className="btn image-btn">
+            <img src={image} alt="Profile" className="profile-img" />
+          </button>
+          <div className="text-info">
+            <span className="user-name">{user.name} 님</span>
+            <input
+              type="file"
+              accept="image/*"
+              id="imageUpload"
+              style={{ display: "none" }}
+              onChange={handleImageChange}
             />
-          </button>
-        </div>
-
-        {/* 이름 부분 */}
-        <div>
-          <span
-            style={{
-              fontWeight: "bold",
-              fontSize: "26px",
-              display: "inline-block",
-              marginBottom: "10px",
-            }}
-          >
-            {user.name} 님
-          </span>
-          <br />
-          <input
-            type="file"
-            accept="image/*"
-            style={{ display: "none" }}
-            id="imageUpload"
-            onChange={handleImageChange}
-          />
-          <label
-            htmlFor="imageUpload"
-            className="btn"
-            style={{ fontSize: "12px", cursor: "pointer" }}
-          >
-            이미지 변경
-          </label>
-          <button
-            className="btn delete-btn"
-            style={{
-              fontSize: "12px",
-              marginLeft: "15px",
-              marginBottom: "10px",
-            }}
-            onClick={() => {
-              console.log(image);
-            }}
-          >
-            삭제
-          </button>
+            <label htmlFor="imageUpload" className="btn upload-btn">
+              이미지 변경
+            </label>
+            <button
+              className="btn delete-btn"
+              onClick={() => setImage(defaultImage)}
+            >
+              삭제
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* CSS 스타일 추가 */}
       <style jsx>{`
-        .btn {
-          transition: all 0.3s ease;
+        .myPageSection1 {
+          display: flex;
+          align-items: center;
+          padding: 15px;
+          margin-left: 0;
         }
 
-        .image-btn:hover {
+        .profile-info {
+          display: flex;
+          align-items: center;
+        }
+
+        .profile-img {
+          width: 100px;
+          height: 100px;
+          border-radius: 50%;
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .profile-img:hover {
           transform: scale(1.05);
-          box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
 
-        .delete-btn:hover {
+        .text-info {
+          margin-left: 20px;
+        }
+
+        .user-name {
+          font-weight: bold;
+          font-size: 26px;
+          display: block;
+          margin-bottom: 10px;
+          color: #333;
+        }
+
+        .btn {
+          font-size: 14px;
+          padding: 8px 16px;
+          border-radius: 4px;
+          cursor: pointer;
+          transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .upload-btn {
+          background-color: #4caf50;
+          color: white;
+          margin-right: 10px;
+          margin-bottom: -8px;
+        }
+
+        .upload-btn:hover {
+          background-color: #45a049;
+        }
+
+        .delete-btn {
           background-color: #ff4d4d;
           color: white;
         }
 
-        label.btn:hover {
-          background-color: #4caf50;
-          color: white;
+        .delete-btn:hover {
+          background-color: #e60000;
         }
       `}</style>
     </>
