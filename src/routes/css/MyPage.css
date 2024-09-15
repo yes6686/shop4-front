@@ -1,129 +1,186 @@
 .myPageContainer {
-    display: flex;
-    height: 100vh;
+  display: flex;
+  height: 100vh;
+  font-family: "Arial", sans-serif;
 }
 
 .myPageContainer .leftContent {
-    background-color: floralwhite;
-    flex: 1;
-    padding: 15px;
-    border-right: 1px solid #ccc;
-    /* 구분선 */
-}
-
-.myPageContainer .leftContent li {
-    margin-bottom: 5px;
+  background-color: #f5f5f5;
+  flex: 1;
+  padding: 20px;
+  border-right: 1px solid #ddd;
+  overflow-y: auto;
 }
 
 .myPageContainer .leftContent h5 {
-    font-weight: bold;
-    margin-bottom: 15px;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #333;
 }
 
+.myPageContainer .leftContent ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
 
+.myPageContainer .leftContent li {
+  margin-bottom: 15px;
+}
+
+.myPageContainer .leftContent li a {
+  display: block;
+  padding: 5px 0; /* 여백을 조금만 남김 */
+  background-color: transparent; /* 배경색 제거 */
+  border: none; /* 테두리 제거 */
+  text-decoration: none;
+  color: #333;
+  font-size: 16px;
+  transition: color 0.3s ease;
+}
+
+.myPageContainer .leftContent li a:hover {
+  color: gray; /* 호버 시 글씨 색상만 변경 */
+}
+
+.myPageContainer .leftContent li a.active {
+  color: #007bff; /* 활성화된 상태에서만 색상 강조 */
+  font-weight: bold;
+}
 
 .myPageContainer .rightContent {
-    flex: 6;
-    /* 오른쪽 콘텐츠가 남은 공간을 모두 차지 */
-    padding: 20px;
-    height: 100%;
-    /* 부모 높이에 맞게 설정 */
-    display: flex;
-    flex-direction: column;
+  flex: 3;
+  padding: 30px;
+  background-color: #ffffff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.rightContent .myPageSection1,
+.rightContent .myPageSection2,
+.rightContent .myPageSection3 {
+  margin-bottom: 20px;
 }
 
 .rightContent .myPageSection1 {
-    align-items: center;
-    display: flex;
-    flex: 0 1 15%;
-    /* 각 section이 높이의 100%를 차지하게 설정 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.rightContent .myPageSection2 {
-    flex: 0 1 25%;
-    width: 40%;
-}
-
+.rightContent .myPageSection2,
 .rightContent .myPageSection3 {
-    flex: 0 1 30%;
-    width: 40%;
+  display: flex;
+  flex-direction: column;
 }
 
-.myPageSection2 .list {
-    padding: 10px;
-    border-bottom: 1px solid #ccc;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
+.myPageSection2 .list,
 .myPageSection3 .list {
-    padding: 10px;
-    border-bottom: 1px solid #ccc;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  padding: 15px;
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
 }
 
-.myPageContainer .rightContent .btn {
-    border: 1px solid #ccc;
+.myPageSection2 .list:hover,
+.myPageSection3 .list:hover {
+  background-color: #eaeaea;
 }
-
 
 .button-container {
-    display: flex;
-    gap : 15px;
-    margin-top: 30px;
-    margin-left : auto;
-    
-    cursor:pointer;
-  }
-  
-  
-.modal-container {
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #00000080;
+  display: flex;
+  gap: 15px;
+  margin-top: 30px;
+  justify-content: flex-end;
 }
-  
+
+.button-container .btn {
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.button-container .btn-primary {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.button-container .btn-primary:hover {
+  background-color: #0056b3;
+}
+
+.button-container .btn-secondary {
+  background-color: #6c757d;
+  color: #fff;
+}
+
+.button-container .btn-secondary:hover {
+  background-color: #5a6268;
+}
+
+.modal-container {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.3);
+}
+
 .modal-content {
-    background-color: #ffffff;
-    width: 650px;
-    height: 500px;
-    padding: 15px;
+  background-color: #ffffff;
+  width: 600px;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .input-container {
-    position: relative;
-    margin-bottom: 20px; /* 원하는 간격 조절 */
-    width:80%;
-    padding : 15px;
+  position: relative;
+  margin-bottom: 20px;
 }
 
 .input-underline {
-    border: none;
-    border-bottom: 1px solid black; /* 밑줄의 색상과 두께를 조절 */
-    outline: none; /* 포커스 시 기본 테두리 제거 */
-    padding: 10px; /* 원하는 패딩 조절 */
-    width: 100%; /* 너비를 원하는 대로 조절 */
+  border: none;
+  border-bottom: 2px solid #333;
+  outline: none;
+  padding: 10px;
+  width: 100%;
+  font-size: 16px;
+  color: #333;
+  background-color: #f5f5f5;
+  border-radius: 4px;
 }
+
+.input-underline:focus {
+  border-bottom-color: #007bff;
+}
+
 .char-count {
-    position: absolute;
-    bottom: -10px; /* input의 밑줄 아래 위치 조절 */
-    right: 0; /* 오른쪽 끝에 위치 */
-    font-size: 12px; /* 글자 크기 조절 */
-    color: gray; /* 글자 색상 조절 */
+  position: absolute;
+  bottom: -20px;
+  right: 0;
+  font-size: 12px;
+  color: #999;
 }
+
 .error-message {
-    position: absolute;
-    bottom: -10px; /* input의 밑줄 아래 위치 조절 */
-    left: 20px; /* 왼쪽 끝에 위치 */
-    font-size: 14px; /* 글자 크기 조절 */
-    color: red; /* 글자 색상 조절 */
+  position: absolute;
+  bottom: -20px;
+  left: 0;
+  font-size: 14px;
+  color: #e74c3c;
 }

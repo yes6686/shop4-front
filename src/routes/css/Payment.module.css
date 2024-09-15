@@ -1,0 +1,158 @@
+.paymentContainer {
+  display: grid;
+  grid-template-columns: 2fr 1fr; /* 주문 내역과 구매자 정보를 가로로 배치 */
+  grid-template-rows: auto auto; /* 행을 자동으로 배치 */
+  gap: 20px;
+  width: 80%;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.section1,
+.section2 {
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  height: 100%;
+}
+
+.section1 {
+  grid-column: 1 / 2; /* 주문 내역은 왼쪽 */
+  height: auto; /* 높이를 자동으로 조정 */
+}
+
+.section2 {
+  grid-column: 2 / 3; /* 구매자 정보는 오른쪽 */
+  height: auto; /* 높이를 주문 내역에 맞추기 */
+}
+
+.section3 {
+  grid-column: 1 / 3; /* 결제 정보는 아래에 가로로 꽉 차게 */
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%; /* 결제 정보 박스를 가로로 꽉 차게 */
+}
+
+h2 {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+h3 {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.buyerSection,
+.receiverSection {
+  margin-bottom: 20px;
+}
+
+.buyerSection span,
+.receiverSection span {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.formControl {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.copyButton {
+  display: block;
+  margin-top: 10px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+.copyButton:hover {
+  background-color: #0056b3;
+}
+
+.payTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.payTable td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: right;
+}
+
+.payTable td:first-child {
+  text-align: left;
+}
+
+.buyButton,
+.cancelButton {
+  display: inline-block;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.buyButton {
+  background-color: #28a745;
+}
+
+.buyButton:hover {
+  background-color: #218838;
+}
+
+.cancelButton {
+  background-color: #dc3545;
+  margin-left: 10px;
+}
+
+.cancelButton:hover {
+  background-color: #c82333;
+}
+
+.orderTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.orderTable th,
+.orderTable td {
+  padding: 12px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.orderTable th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+}
+
+.orderTable tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.orderTable tr:hover {
+  background-color: #f1f1f1;
+}

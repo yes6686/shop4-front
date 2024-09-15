@@ -1,27 +1,34 @@
-import React, { useState, useEffect } from "react";
-import { Table } from "react-bootstrap";
-import "./../App.css";
-import { useNavigate } from "react-router-dom";
-import { FiShoppingCart } from "react-icons/fi";
-import { AiOutlinePicture } from "react-icons/ai";
-import { GiClothes } from "react-icons/gi";
-import { FaMoneyBillWave } from "react-icons/fa";
-import { PiPackageDuotone } from "react-icons/pi";
-import { FaCartArrowDown } from "react-icons/fa6";
-import { BsCartPlus, BsCartDash } from "react-icons/bs";
-import { listCarts, updateCart } from "../services/CartService";
-import { MdOutlineDeleteForever } from "react-icons/md";
-import { deleteCart } from "../services/CartService";
-import "bootstrap/dist/css/bootstrap.min.css";
-import CheckBox from "../components/CheckBox";
-import ToastComponent from "../components/ToastComponent";
+import React, { useState, useEffect } from 'react';
+import { Table } from 'react-bootstrap';
+import './../App.css';
+import { useNavigate } from 'react-router-dom';
+import { FiShoppingCart } from 'react-icons/fi';
+import { AiOutlinePicture } from 'react-icons/ai';
+import { GiClothes } from 'react-icons/gi';
+import { FaMoneyBillWave } from 'react-icons/fa';
+import { PiPackageDuotone } from 'react-icons/pi';
+import { FaCartArrowDown } from 'react-icons/fa6';
+import { BsCartPlus, BsCartDash } from 'react-icons/bs';
+import { listCarts, updateCart } from '../services/CartService';
+import { MdOutlineDeleteForever } from 'react-icons/md';
+import { deleteCart } from '../services/CartService';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import CheckBox from '../components/CheckBox';
+import ToastComponent from '../components/ToastComponent';
+
+//20240912 이전 -> Cart.js에서 cartId List(Set)만 넘기고 payment에서 cart를 불러왔음
+//-> detail에서 payment로 cartid만 완전히 개별적으로 넘길수가 없음
+//그래서 20240912~ props로 결제정보 자체를 전달하도록 코드 바꾸겠습니다
 
 const Cart = () => {
   let navigate = useNavigate();
   const [cartData, setCartData] = useState([]);
-  const user = sessionStorage.getItem("user");
+  const user = sessionStorage.getItem('user');
   const [checkGoods, setcheckGoods] = useState(new Set()); //Set 은 중복없이 유일한값만 저장하는 배열임,cartId가 저장됨 구매시 이용
+
+  const [delivGoods, setDelivGoods] = useState([]);
   const [showAlert, setShowAlert] = useState(false);
+
   let [toast, setToast] = useState(false);
 
   useEffect(() => {
@@ -31,17 +38,33 @@ const Cart = () => {
       getAllCart(member_id);
     } else {
     }
-  }, [user]);
+  }, []);
 
-  function getAllCart(member_id) {
-    listCarts(member_id)
-      .then((response) => {
+  async function getAllCart(member_id) {
+    await listCarts(member_id)
+      .then(async (response) => {
         setCartData(response.data);
       })
       .catch((error) => {
         console.error(error);
       });
   }
+
+  async function setCarts() {
+    const filterGoods = await Promise.all(
+      cartData.filter((item) => checkGoods.has(item.id))
+    );
+
+    setDelivGoods((prev) => [...prev, ...filterGoods]);
+  }
+
+  //delivGoods 갱신 끝나서 길이 바뀌면 navigate 해주는 훅. 왜인지 나도 모름
+  //아마 javascript 비동기 문제인듯
+  useEffect(() => {
+    if (delivGoods.length > 0) {
+      navigate('/payment', { state: delivGoods });
+    }
+  }, [delivGoods]);
 
   const updateQuantity = (item, delta) => {
     //수량증감 핸들러
@@ -79,7 +102,7 @@ const Cart = () => {
   };
 
   const iconStyle = {
-    fontSize: "24px",
+    fontSize: '24px',
   };
   return (
     <div>
@@ -91,54 +114,54 @@ const Cart = () => {
       <Table
         bordered
         hover
-        style={{ width: "100%", borderCollapse: "collapse" }}
+        style={{ width: '100%', borderCollapse: 'collapse' }}
       >
         <thead>
           <tr>
             <th
               style={{
-                textAlign: "center",
-                verticalAlign: "middle",
+                textAlign: 'center',
+                verticalAlign: 'middle',
               }}
             >
               <FaCartArrowDown style={iconStyle} />
             </th>
             <th
               style={{
-                textAlign: "center",
-                verticalAlign: "middle",
+                textAlign: 'center',
+                verticalAlign: 'middle',
               }}
             >
               <AiOutlinePicture style={iconStyle} />
             </th>
             <th
               style={{
-                textAlign: "center",
-                verticalAlign: "middle",
+                textAlign: 'center',
+                verticalAlign: 'middle',
               }}
             >
               <GiClothes style={iconStyle} />
             </th>
             <th
               style={{
-                textAlign: "center",
-                verticalAlign: "middle",
+                textAlign: 'center',
+                verticalAlign: 'middle',
               }}
             >
               <FiShoppingCart style={iconStyle} />
             </th>
             <th
               style={{
-                textAlign: "center",
-                verticalAlign: "middle",
+                textAlign: 'center',
+                verticalAlign: 'middle',
               }}
             >
               <FaMoneyBillWave style={iconStyle} />
             </th>
             <th
               style={{
-                textAlign: "center",
-                verticalAlign: "middle",
+                textAlign: 'center',
+                verticalAlign: 'middle',
               }}
             >
               <PiPackageDuotone style={iconStyle} />
@@ -147,7 +170,7 @@ const Cart = () => {
         </thead>
         <tbody>
           {cartData.map((item) => (
-            <tr key={item.id} style={{ textAlign: "center", fontSize: "22px" }}>
+            <tr key={item.id} style={{ textAlign: 'center', fontSize: '22px' }}>
               <td>
                 <CheckBox
                   id={item.id}
@@ -171,19 +194,19 @@ const Cart = () => {
               <td>무료</td>
               <td>
                 <button
-                  style={{ marginRight: "10px" }}
+                  style={{ marginRight: '10px' }}
                   onClick={() => updateQuantity(item, 1)}
                 >
                   <BsCartPlus />
                 </button>
                 <button
-                  style={{ marginRight: "10px" }}
+                  style={{ marginRight: '10px' }}
                   onClick={() => updateQuantity(item, -1)}
                 >
                   <BsCartDash />
                 </button>
                 <button
-                  style={{ marginRight: "10px" }}
+                  style={{ marginRight: '10px' }}
                   onClick={() => {
                     deleteCart(item.id);
                     let delete_id = item.id;
@@ -201,17 +224,16 @@ const Cart = () => {
       </Table>
       <div
         className="d-flex justify-content-center align-items-center"
-        style={{ height: "20vh" }}
+        style={{ height: '20vh' }}
       >
         <button
           className="buy-button"
-          onClick={() => {
-            console.log(checkGoods);
+          onClick={async () => {
             //체크수량없으면 토스트 띄우고 안넘어감
             if (checkGoods.size == 0) {
               setToast(true);
             } else {
-              navigate("/payment", { state: checkGoods });
+              setCarts();
             }
           }}
         >
@@ -226,7 +248,7 @@ const Cart = () => {
           setToast={setToast}
         ></ToastComponent>
       ) : (
-        " "
+        ' '
       )}
     </div>
   );

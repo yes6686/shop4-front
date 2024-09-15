@@ -30,7 +30,8 @@ h2 {
 /* 상품 이미지가 박스에 꽉 차도록 스타일 수정 */
 .product-image {
   width: 50%;
-  height: 220px; /* 고정된 높이 설정으로 이미지가 박스에 맞게 보이도록 */
+  height: 220px;
+  /* 고정된 높이 설정으로 이미지가 박스에 맞게 보이도록 */
   border-radius: 8px;
   object-fit: cover;
   transition: transform 0.2s ease-in-out;
@@ -82,8 +83,9 @@ h2 {
 
 button {
   font-size: 1rem;
-  padding: 8px 16px;
+  padding: 10px 16px;
   border-radius: 4px;
+  margin-top: 10px;
   transition: background-color 0.3s ease;
 }
 
