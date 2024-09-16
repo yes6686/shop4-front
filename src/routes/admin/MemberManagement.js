@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { listMembers } from "../../services/MemberService";
+import "./admincss/MemberManagement.css";
 
 function UserManagement() {
   let [users, setUsers] = useState([]);
@@ -23,9 +24,16 @@ function UserManagement() {
   }, []);
 
   return (
-    <div style={{ width: "50%", display: "inline-grid" }}>
+    <div
+      style={{
+        width: "100%",
+        display: "inline-grid",
+        textAlign: "center",
+        border: "1px solid green",
+      }}
+    >
       <h2>회원 관리 페이지임</h2>
-      <table className="member-manage-table">
+      <table className="member-table">
         <thead>
           <td>이름</td>
           <td>주소</td>

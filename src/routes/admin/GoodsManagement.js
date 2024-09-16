@@ -13,7 +13,12 @@ function GoodsManagement() {
   }, []);
 
   return (
-    <div style={{ width: "50%", display: "inline-grid" }}>
+    <div
+      style={{
+        display: "inline-grid",
+        border: "1px solid green",
+      }}
+    >
       <h2>상품관리컴포넌트임</h2>
       <table>
         {goods.map((item) => {
