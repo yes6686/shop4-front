@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { toast} from "react-toastify";
 import { updateMember } from "../../services/MemberService.js";
+import  "../css/MyPage.css";
 // 비밀번호 변경 모달창
 // !!! 비밀번호 변경 시에 setUser로 user객체 바꾸고 sessionStorage에도 변경된 값으로 set
 function MemberPwUpdate({ closeModal, user, setUser }) {
@@ -64,11 +65,11 @@ function MemberPwUpdate({ closeModal, user, setUser }) {
   
     return (
       <>
-        <div className={"modal-container"} onKeyDown={handleKeyDown}>
-          
+        <div className="modal-container" onKeyDown={handleKeyDown}>
+            <div>
             <h3>비밀번호 변경</h3>
             <hr /><br />
-            
+            </div>
             <div className="input-container">
               <input
                 type="password"
@@ -122,7 +123,7 @@ function MemberPwUpdate({ closeModal, user, setUser }) {
                 {confirmUserPw.length}/{maxLength}
               </span>
             </div>
-  
+                
             <div className="button-container">
               <button type="submit" className="btn" onClick={changeUserPw}>
                 변경
