@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import MyPageLeftSideBar from '../components/MyPageLeftSideBar';
 import './css/MyPage.css';
-import './css/Friends.css';
-import { TiUserDelete } from 'react-icons/ti';
 import { FaUserFriends } from 'react-icons/fa';
 import { PiFinnTheHumanDuotone } from 'react-icons/pi';
 import { BiSolidUserX } from 'react-icons/bi';
@@ -11,9 +9,17 @@ import { rejectFriend } from '../services/FriendService';
 import { FaRegCircleCheck } from 'react-icons/fa6';
 import { FaRegCircleXmark } from 'react-icons/fa6';
 import { acceptFriend } from '../services/FriendService';
+import { useDispatch, useSelector } from 'react-redux';
+import { setRequestedFriends } from '../store/requestedFriendsSlice'; // 액션 가져오기
+import { IoPersonAddSharp } from 'react-icons/io5';
+import FriendsRequestModal from '../components/Friend/FriendsRequestModal';
 
 function RequestedFriends() {
-  const [requestedFriendsData, setRequestedFriendsData] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false); // 모달창 관리
+  const dispatch = useDispatch();
+  const requestedFriends = useSelector(
+    (state) => state.friendRequests.requestedFriends
+  );
   const user = sessionStorage.getItem('user');
   const memberId = JSON.parse(user)?.id;
 
@@ -23,11 +29,11 @@ function RequestedFriends() {
     }
   }, [memberId]);
 
-  //친구 요청 목록 가져오는 함수
+  // 친구 요청 목록 가져오는 함수
   function getRequestedFriendsData(memberId) {
     requestedListFriends(memberId)
       .then((response) => {
-        setRequestedFriendsData(response.data);
+        dispatch(setRequestedFriends(response.data));
       })
       .catch((error) => {
         console.error(error);
@@ -36,32 +42,68 @@ function RequestedFriends() {
 
   // 거절버튼 클릭 리스너
   function handleDelete(friendId) {
-    rejectFriend(memberId, friendId);
-    setRequestedFriendsData((prev) => {
-      return prev.filter((friend) => friend.userId !== friendId);
-    });
+    rejectFriend(memberId, friendId)
+      .then(() => {
+        dispatch(
+          setRequestedFriends(
+            requestedFriends.filter((friend) => friend.userId !== friendId)
+          )
+        );
+      })
+      .catch((error) => {
+        console.error('Failed to reject friend request:', error);
+      });
   }
+
   // 수락버튼 클릭 리스너
   function handleAccept(friendId) {
-    acceptFriend(memberId, friendId);
-    setRequestedFriendsData((prev) => {
-      return prev.filter((friend) => friend.userId !== friendId);
-    });
+    acceptFriend(memberId, friendId)
+      .then(() => {
+        dispatch(
+          setRequestedFriends(
+            requestedFriends.filter((friend) => friend.userId !== friendId)
+          )
+        );
+      })
+      .catch((error) => {
+        console.error('Failed to accept friend request:', error);
+      });
   }
+
+  // 모달 열기
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  // 모달 닫기
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
 
   return (
     <div className="myPageContainer">
       <MyPageLeftSideBar />
       <div className="rightContent">
-        <br></br>
+        <br />
         <h2>
-          &nbsp;
           <FaUserFriends /> 친구 요청
         </h2>
 
         <table className="friendsTable">
+          <thead>
+            <tr>
+              <th></th>
+              <th className="tableHeader">
+                <IoPersonAddSharp
+                  className="addFriendIcon"
+                  size={60}
+                  onClick={handleOpenModal}
+                />
+              </th>
+            </tr>
+          </thead>
           <tbody>
-            {requestedFriendsData.map((friend) => (
+            {requestedFriends.map((friend) => (
               <tr key={friend.id}>
                 <td colSpan="2">
                   <div className="friendRow">
@@ -96,7 +138,14 @@ function RequestedFriends() {
           </tbody>
         </table>
       </div>
+      {isModalOpen && (
+        <FriendsRequestModal
+          memberId={memberId}
+          onClose={handleCloseModal} // 모달 닫기 함수 전달
+        />
+      )}
     </div>
   );
 }
+
 export default RequestedFriends;
