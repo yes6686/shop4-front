@@ -32,7 +32,8 @@
 
 .input-container {
   display: flex;
-  align-items: center;
+  flex-direction: column; /* 세로로 쌓이도록 변경 */
+  align-items: flex-start; /* 왼쪽 정렬 */
 }
 
 .email-prefix {
@@ -45,13 +46,15 @@
 }
 
 .email-domain {
-  width: 200px; /* 도메인 선택 버튼의 너비 조정 */
+  width: 200px;
+  margin-bottom: 10px; /* 아래 여백 추가 */
 }
 
-.date-selector {
-  display: flex;
-  align-items: center;
+.domain-select {
+  width: 200px; /* select 너비 설정 */
+  margin-top: 10px; /* 위 여백 추가 */
 }
+
 .form-select {
   margin-right: 2rem;
   width: 120px; /* 드롭다운 너비 조정 */
@@ -61,4 +64,11 @@
 
 .me-2 {
   margin-right: 0.5rem; /* 각 드롭다운 사이에 간격 추가 */
+}
+
+.date-selector {
+  display: flex;
+  flex-direction: row; /* 가로 방향으로 배치 */
+  align-items: center; /* 세로 중앙 정렬 */
+  gap: 10px; /* 각 드롭다운 간의 간격 */
 }

@@ -14,11 +14,17 @@ function SignUp() {
     name: "",
     phone: "",
     email: "",
-    formattedBirth: "",
+    birth: "",
   });
+
+  // 비밀번호 확인 변수
+  const handleConfirmPwChange = (e) => {
+    setConfirmPw(e.target.value);
+  };
 
   // 중복 되는지 확인하는 변수
   const [isIdUnique, setIsIdUnique] = useState(false);
+  const [confirmPw, setConfirmPw] = useState(""); // 비밀번호 확인 상태 추가
 
   // 생년월일 입력 필드를 별도로 관리
   const handleYearChange = (e) => {
@@ -51,14 +57,6 @@ function SignUp() {
     }));
   };
 
-  // 이메일 입력 필드 처리
-  const handleEmailChange = () => {
-    setFormData((prevState) => ({
-      ...prevState,
-      email: `${emailPrefix}@${domain}`,
-    }));
-  };
-
   // input으로 입력받는 값들 저장
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -68,7 +66,11 @@ function SignUp() {
   // 빈칸있는지 확인
   const validateForm = () => {
     console.log(Object.values(formData).every((value) => value.trim() !== ""));
-    return Object.values(formData).every((value) => value.trim() !== "");
+    return (
+      Object.values(formData).every((value) => value.trim() !== "") &&
+      confirmPw === formData.userPw &&
+      formData.phone.length === 11
+    );
   };
 
   // 회원가입
@@ -123,13 +125,28 @@ function SignUp() {
   //이메일 입력받기
   const [emailPrefix, setEmailPrefix] = useState("");
   const [domain, setDomain] = useState("gmail.com");
+  const [isCustomDomain, setIsCustomDomain] = useState(false); // 직접입력 여부 관리
 
   const handlePrefixChange = (e) => {
     setEmailPrefix(e.target.value);
   };
 
   const handleDomainChange = (e) => {
-    setDomain(e.target.value);
+    const selectedDomain = e.target.value;
+    if (selectedDomain === "none") {
+      setIsCustomDomain(true); // 직접입력을 활성화
+      setDomain(""); // 빈 값으로 설정
+    } else {
+      setIsCustomDomain(false); // 직접입력 비활성화
+      setDomain(selectedDomain); // 선택한 도메인을 설정
+    }
+  };
+
+  const handleEmailChange = () => {
+    setFormData((prevState) => ({
+      ...prevState,
+      email: `${emailPrefix}@${domain}`,
+    }));
   };
 
   // 입력받은 생년월일
@@ -141,15 +158,6 @@ function SignUp() {
   const years = Array.from({ length: 100 }, (_, i) => 2024 - i); // 1924년부터 2024년까지
   const months = Array.from({ length: 12 }, (_, i) => i + 1); // 1월부터 12월까지
   const days = Array.from({ length: 31 }, (_, i) => i + 1); // 1일부터 31일까지
-
-  // 생년월일 값 조합 (YYYY-MM-DD 형식으로)
-  const formattedBirth =
-    year && month && day
-      ? `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(
-          2,
-          "0"
-        )}`
-      : "";
 
   return (
     <>
@@ -205,7 +213,7 @@ function SignUp() {
         </label>
         <div className="mb-3">
           <input
-            type="text"
+            type="password"
             name="userPw"
             onChange={handleChange}
             className="form-control"
@@ -224,8 +232,9 @@ function SignUp() {
         </label>
         <div className="mb-3">
           <input
-            type="text"
+            type="password"
             name="confirmPw"
+            onChange={handleConfirmPwChange}
             className="form-control"
             placeholder="비밀번호 재입력"
             style={{ height: "50px" }}
@@ -279,31 +288,43 @@ function SignUp() {
           이메일
         </label>
         <div className="input-container" name="email">
-          <input
-            type="text"
-            value={emailPrefix}
-            onChange={(e) => {
-              handlePrefixChange(e); // 도메인 변경
-              handleEmailChange(); // formData.email 업데이트
-            }}
-            placeholder="이메일 입력"
-            className="form-control email-prefix"
-            style={{ height: "50px" }}
-          />
-          <span className="at-sign">@</span>
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <input
+              type="text"
+              value={emailPrefix}
+              onChange={(e) => {
+                handlePrefixChange(e);
+                handleEmailChange();
+              }}
+              placeholder="이메일 입력"
+              className="form-control email-prefix"
+              style={{ height: "50px" }}
+            />
+            <span className="at-sign">@</span>
+            <input
+              type="text"
+              value={domain}
+              onChange={(e) => {
+                setDomain(e.target.value);
+                handleEmailChange();
+              }}
+              placeholder="도메인 선택 또는 직접 입력"
+              className="form-control email-domain"
+              style={{ height: "50px" }}
+              disabled={!isCustomDomain}
+            />
+          </div>
           <select
-            value={domain}
             onChange={(e) => {
-              handleDomainChange(e); // 도메인 변경
-              handleEmailChange(); // formData.email 업데이트
+              handleDomainChange(e);
+              handleEmailChange();
             }}
-            className="form-control email-domain"
+            className="form-control domain-select"
           >
             <option value="gmail.com">gmail.com</option>
             <option value="yahoo.com">yahoo.com</option>
             <option value="outlook.com">outlook.com</option>
             <option value="none">직접입력</option>
-            {/* 추가 도메인 옵션 */}
           </select>
         </div>
 
