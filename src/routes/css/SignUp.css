@@ -62,13 +62,33 @@
   max-width: 120px;
 }
 
-.me-2 {
-  margin-right: 0.5rem; /* 각 드롭다운 사이에 간격 추가 */
-}
-
 .date-selector {
   display: flex;
   flex-direction: row; /* 가로 방향으로 배치 */
   align-items: center; /* 세로 중앙 정렬 */
   gap: 10px; /* 각 드롭다운 간의 간격 */
+}
+
+/* select 드롭다운 식으로 만들기*/
+/* 기본 select 화살표 숨기기 */
+.select-container {
+  position: relative;
+}
+
+.select-container select {
+  -webkit-appearance: none; /* Chrome, Safari, Edge */
+  -moz-appearance: none; /* Firefox */
+  appearance: none; /* 표준화된 방법 */
+  background: #fff; /* 배경색 */
+  padding-right: 40px; /* 화살표 공간 확보 */
+}
+
+/* 사용자 정의 화살표 추가 */
+.select-container::after {
+  content: "▼"; /* 화살표 기호 */
+  position: absolute;
+  top: 60%;
+  right: 10px;
+  transform: translateY(-50%);
+  pointer-events: none;
 }

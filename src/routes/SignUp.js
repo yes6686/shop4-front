@@ -314,18 +314,20 @@ function SignUp() {
               disabled={!isCustomDomain}
             />
           </div>
-          <select
-            onChange={(e) => {
-              handleDomainChange(e);
-              handleEmailChange();
-            }}
-            className="form-control domain-select"
-          >
-            <option value="gmail.com">gmail.com</option>
-            <option value="yahoo.com">yahoo.com</option>
-            <option value="outlook.com">outlook.com</option>
-            <option value="none">직접입력</option>
-          </select>
+          <div className="select-container">
+            <select
+              onChange={(e) => {
+                handleDomainChange(e);
+                handleEmailChange();
+              }}
+              className="form-control domain-select"
+            >
+              <option value="gmail.com">gmail.com</option>
+              <option value="yahoo.com">yahoo.com</option>
+              <option value="outlook.com">outlook.com</option>
+              <option value="none">직접입력</option>
+            </select>
+          </div>
         </div>
 
         <label htmlFor="year" className="form-label">
