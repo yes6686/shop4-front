@@ -60,7 +60,23 @@ function SignUp() {
   // input으로 입력받는 값들 저장
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevState) => ({ ...prevState, [name]: value }));
+    // 전화번호 입력값에 대해 포맷팅 적용
+    const formattedValue = name === "phone" ? formatPhoneNumber(value) : value;
+    setFormData((prevState) => ({ ...prevState, [name]: formattedValue }));
+  };
+
+  // 전화번호 포맷 함수
+  const formatPhoneNumber = (value) => {
+    // 숫자만 추출
+    const cleaned = ("" + value).replace(/\D/g, "");
+    // 전화번호 포맷팅
+    if (cleaned.length <= 3) return cleaned;
+    if (cleaned.length <= 7)
+      return `${cleaned.slice(0, 3)}-${cleaned.slice(3)}`;
+    return `${cleaned.slice(0, 3)}-${cleaned.slice(3, 7)}-${cleaned.slice(
+      7,
+      11
+    )}`;
   };
 
   // 빈칸있는지 확인
@@ -69,7 +85,7 @@ function SignUp() {
     return (
       Object.values(formData).every((value) => value.trim() !== "") &&
       confirmPw === formData.userPw &&
-      formData.phone.length === 11
+      formData.phone.length === 13
     );
   };
 
@@ -192,14 +208,13 @@ function SignUp() {
               type="button"
               className="btn btn-primary position-absolute"
               style={{
-                width: "120px",
-                height: "50px",
+                width: "100px",
+                height: "40px",
                 padding: "0",
                 fontSize: "0.875rem",
-                right: "0",
-                top: "50%",
-                transform: "translateY(-50%)",
-                borderRadius: "0",
+                right: "5px",
+                top: "-18px",
+                borderRadius: "25px",
               }}
               onClick={checkDuplicate}
             >

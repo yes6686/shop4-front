@@ -31,6 +31,7 @@
   box-sizing: border-box;
 }
 
+/* 이메일 부분 css */
 .inputContainer {
   display: flex;
   flex-direction: column; /* 세로로 쌓이도록 변경 */
@@ -56,10 +57,6 @@
   position: relative;
   display: inline-block;
 }
-.selectContainer {
-  position: relative;
-  display: inline-block;
-}
 
 .domainSelect {
   width: 200px;
@@ -76,16 +73,17 @@
 }
 
 .selectContainer::after {
-  content: ">"; /* 화살표 문자 */
+  content: "∨"; /* 화살표 문자 */
   position: absolute;
   right: 13px; /* 오른쪽 여백 */
   top: 50%; /* 중앙 정렬 */
-  transform: translateY(-35%) rotate(90deg); /* 아래로 향하게 회전 */
-  font-size: 25px; /* 화살표 크기 조정 */
-  color: #333; /* 화살표 색상 */
+  transform: translateY(-35%); /* 아래로 향하게 회전 */
+  font-size: 22px; /* 화살표 크기 조정 */
+  color: #868e96; /* 화살표 색상 */
   pointer-events: none; /* 화살표 클릭 방지 */
 }
 
+/* 생년월일 입력부분 css */
 .dateSelector {
   display: flex;
   flex-direction: row; /* 가로 방향으로 배치 */
