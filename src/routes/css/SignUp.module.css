@@ -1,0 +1,100 @@
+.signUpContainer {
+  display: flex;
+  justify-content: center; /* 가로 중앙 정렬 */
+  height: 120%; /* 화면 전체 높이 */
+}
+
+.signUpForm {
+  /* 최대 너비 설정 */
+  width: 100%;
+  height: 100%;
+  max-width: 700px;
+
+  /* 폼 내부 여백 */
+  padding: 20px;
+  padding-left: 50px;
+  padding-right: 70px;
+
+  /* 테두리 스타일 */
+  border: 2px solid #ced4da;
+
+  /* 둥근 테두리 */
+  border-radius: 5px;
+
+  /* 배경 색상 */
+  background-color: #ffffff;
+
+  /* 그림자 효과 */
+  box-shadow: 0 2px 4px rgba(141, 126, 126, 0.1);
+
+  box-sizing: border-box;
+}
+
+.inputContainer {
+  display: flex;
+  flex-direction: column; /* 세로로 쌓이도록 변경 */
+  align-items: flex-start; /* 왼쪽 정렬a */
+  margin-bottom: 10px;
+}
+
+.emailPrefix {
+  flex: 1;
+  margin-right: 5px;
+}
+
+.atSign {
+  margin-right: 5px;
+}
+
+.emailDomain {
+  width: 200px;
+  margin-bottom: 10px; /* 아래 여백 추가 */
+}
+
+.selectContainer {
+  position: relative;
+  display: inline-block;
+}
+.selectContainer {
+  position: relative;
+  display: inline-block;
+}
+
+.domainSelect {
+  width: 200px;
+  margin-top: 10px;
+  padding: 10px;
+  padding-left: 20px; /* 왼쪽 여백을 추가하여 텍스트를 왼쪽에서 떨어지게 합니다. */
+  padding-right: 40px; /* 화살표 공간 확보 */
+  border: 1px solid #ccc;
+  font-size: 16px;
+  background: transparent; /* 배경 제거 */
+  -webkit-appearance: none; /* 크롬, 사파리 */
+  -moz-appearance: none; /* 파이어폭스 */
+  appearance: none; /* 기본 브라우저 */
+}
+
+.selectContainer::after {
+  content: ">"; /* 화살표 문자 */
+  position: absolute;
+  right: 13px; /* 오른쪽 여백 */
+  top: 50%; /* 중앙 정렬 */
+  transform: translateY(-35%) rotate(90deg); /* 아래로 향하게 회전 */
+  font-size: 25px; /* 화살표 크기 조정 */
+  color: #333; /* 화살표 색상 */
+  pointer-events: none; /* 화살표 클릭 방지 */
+}
+
+.dateSelector {
+  display: flex;
+  flex-direction: row; /* 가로 방향으로 배치 */
+  align-items: center; /* 세로 중앙 정렬 */
+  gap: 10px; /* 각 드롭다운 간의 간격 */
+}
+
+.formSelect {
+  margin-right: 2rem;
+  width: 120px; /* 드롭다운 너비 조정 */
+  height: 40px; /* 드롭다운 높이 조정 */
+  max-width: 120px;
+}

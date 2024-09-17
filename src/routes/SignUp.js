@@ -1,4 +1,4 @@
-import "./css/SignUp.css";
+import styles from "./css/SignUp.module.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createMember } from "../services/MemberService";
@@ -161,226 +161,231 @@ function SignUp() {
 
   return (
     <>
-      <form className="signUpForm" onSubmit={onSubmit}>
-        <h2 className="title" style={{ marginTop: "20px" }}>
-          회원가입
-        </h2>
-
-        {/* 아이디 입력 및 중복확인 태그 */}
-        <label
-          htmlFor="userId"
-          className="form-label"
-          style={{ marginBottom: "0" }}
-        >
-          아이디
-        </label>
-        <div className="mb-3 position-relative">
-          <input
-            type="text"
-            name="userId"
-            value={formData.userId}
-            onChange={handleChange}
-            className="form-control"
-            placeholder="아이디"
-            style={{ height: "50px", paddingRight: "120px" }}
-          />
-          <button
-            type="button"
-            className="btn btn-primary position-absolute"
-            style={{
-              width: "120px",
-              height: "50px",
-              padding: "0",
-              fontSize: "0.875rem",
-              right: "0",
-              top: "50%",
-              transform: "translateY(-50%)",
-              borderRadius: "0",
-            }}
-            onClick={checkDuplicate}
+      <div className={styles.signUpContainer}>
+        <form className={styles.signUpForm} onSubmit={onSubmit}>
+          <h2
+            className="title"
+            style={{ marginTop: "20px", textAlign: "center" }}
           >
-            중복 확인
-          </button>
-        </div>
+            회원가입
+          </h2>
 
-        {/* 비밀번호 */}
-        <label
-          htmlFor="pw"
-          className="form-label"
-          style={{ marginBottom: "0" }}
-        >
-          비밀번호
-        </label>
-        <div className="mb-3">
-          <input
-            type="password"
-            name="userPw"
-            onChange={handleChange}
-            className="form-control"
-            placeholder="비밀번호 입력(문자, 숫자, 특수문자 포함 8~20자)"
-            style={{ height: "50px" }}
-          />
-        </div>
-
-        {/* 비밀번호 확인 */}
-        <label
-          htmlFor="confirmPw"
-          className="form-label"
-          style={{ marginBottom: "0" }}
-        >
-          비밀번호 확인
-        </label>
-        <div className="mb-3">
-          <input
-            type="password"
-            name="confirmPw"
-            onChange={handleConfirmPwChange}
-            className="form-control"
-            placeholder="비밀번호 재입력"
-            style={{ height: "50px" }}
-          />
-        </div>
-
-        {/* 이름 */}
-        <label
-          htmlFor="name"
-          className="form-label"
-          style={{ marginBottom: "0" }}
-        >
-          이름
-        </label>
-        <div className="mb-3">
-          <input
-            type="text"
-            name="name"
-            onChange={handleChange}
-            className="form-control"
-            placeholder="이름을 입력해주세요."
-            style={{ height: "50px" }}
-          />
-        </div>
-
-        {/* 전화번호 */}
-        <label
-          htmlFor="phone"
-          className="form-label"
-          style={{ marginBottom: "0" }}
-        >
-          전화번호
-        </label>
-        <div className="mb-3">
-          <input
-            type="text"
-            name="phone"
-            onChange={handleChange}
-            className="form-control"
-            placeholder="휴대폰 번호 입력('-'제외 11자리 입력)"
-            style={{ height: "50px" }}
-          />
-        </div>
-
-        {/* 이메일 */}
-        <label
-          htmlFor="email"
-          className="form-label"
-          style={{ marginBottom: "0" }}
-        >
-          이메일
-        </label>
-        <div className="input-container" name="email">
-          <div style={{ display: "flex", alignItems: "center" }}>
+          {/* 아이디 입력 및 중복확인 태그 */}
+          <label
+            htmlFor="userId"
+            className="form-label"
+            style={{ marginBottom: "0" }}
+          >
+            아이디
+          </label>
+          <div className="mb-3 position-relative">
             <input
               type="text"
-              value={emailPrefix}
-              onChange={(e) => {
-                handlePrefixChange(e);
-                handleEmailChange();
-              }}
-              placeholder="이메일 입력"
-              className="form-control email-prefix"
-              style={{ height: "50px" }}
+              name="userId"
+              value={formData.userId}
+              onChange={handleChange}
+              className="form-control"
+              placeholder="아이디"
+              style={{ height: "50px", paddingRight: "120px" }}
             />
-            <span className="at-sign">@</span>
-            <input
-              type="text"
-              value={domain}
-              onChange={(e) => {
-                setDomain(e.target.value);
-                handleEmailChange();
+            <button
+              type="button"
+              className="btn btn-primary position-absolute"
+              style={{
+                width: "120px",
+                height: "50px",
+                padding: "0",
+                fontSize: "0.875rem",
+                right: "0",
+                top: "50%",
+                transform: "translateY(-50%)",
+                borderRadius: "0",
               }}
-              placeholder="도메인 선택 또는 직접 입력"
-              className="form-control email-domain"
+              onClick={checkDuplicate}
+            >
+              중복 확인
+            </button>
+          </div>
+
+          {/* 비밀번호 */}
+          <label
+            htmlFor="pw"
+            className="form-label"
+            style={{ marginBottom: "0" }}
+          >
+            비밀번호
+          </label>
+          <div className="mb-3">
+            <input
+              type="password"
+              name="userPw"
+              onChange={handleChange}
+              className="form-control"
+              placeholder="비밀번호 입력(문자, 숫자, 특수문자 포함 8~20자)"
               style={{ height: "50px" }}
-              disabled={!isCustomDomain}
             />
           </div>
-          <div className="select-container">
+
+          {/* 비밀번호 확인 */}
+          <label
+            htmlFor="confirmPw"
+            className="form-label"
+            style={{ marginBottom: "0" }}
+          >
+            비밀번호 확인
+          </label>
+          <div className="mb-3">
+            <input
+              type="password"
+              name="confirmPw"
+              onChange={handleConfirmPwChange}
+              className="form-control"
+              placeholder="비밀번호 재입력"
+              style={{ height: "50px" }}
+            />
+          </div>
+
+          {/* 이름 */}
+          <label
+            htmlFor="name"
+            className="form-label"
+            style={{ marginBottom: "0" }}
+          >
+            이름
+          </label>
+          <div className="mb-3">
+            <input
+              type="text"
+              name="name"
+              onChange={handleChange}
+              className="form-control"
+              placeholder="이름을 입력해주세요."
+              style={{ height: "50px" }}
+            />
+          </div>
+
+          {/* 전화번호 */}
+          <label
+            htmlFor="phone"
+            className="form-label"
+            style={{ marginBottom: "0" }}
+          >
+            전화번호
+          </label>
+          <div className="mb-3">
+            <input
+              type="text"
+              name="phone"
+              onChange={handleChange}
+              className="form-control"
+              placeholder="휴대폰 번호 입력('-'제외 11자리 입력)"
+              style={{ height: "50px" }}
+            />
+          </div>
+
+          {/* 이메일 */}
+          <label
+            htmlFor="email"
+            className="form-label"
+            style={{ marginBottom: "0" }}
+          >
+            이메일
+          </label>
+          <div className={styles.inputContainer} name="email">
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <input
+                type="text"
+                value={emailPrefix}
+                onChange={(e) => {
+                  handlePrefixChange(e);
+                  handleEmailChange();
+                }}
+                placeholder="이메일 입력"
+                className={`form-control ${styles.emailPrefix}`}
+                style={{ height: "50px" }}
+              />
+              <span className={styles.atSign}>@</span>
+              <input
+                type="text"
+                value={domain}
+                onChange={(e) => {
+                  setDomain(e.target.value);
+                  handleEmailChange();
+                }}
+                placeholder="도메인 선택 또는 직접 입력"
+                className={`form-control ${styles.emailDomain}`}
+                style={{ height: "50px" }}
+                disabled={!isCustomDomain}
+              />
+            </div>
+            <div className={styles.selectContainer}>
+              <select
+                onChange={(e) => {
+                  handleDomainChange(e);
+                  handleEmailChange();
+                }}
+                className={`form-control ${styles.domainSelect}`}
+              >
+                <option value="gmail.com">gmail.com</option>
+                <option value="yahoo.com">yahoo.com</option>
+                <option value="outlook.com">outlook.com</option>
+                <option value="none">직접입력</option>
+              </select>
+            </div>
+          </div>
+
+          <label htmlFor="year" className="form-label">
+            생년월일
+          </label>
+          <div className={styles.dateSelector}>
             <select
-              onChange={(e) => {
-                handleDomainChange(e);
-                handleEmailChange();
-              }}
-              className="form-control domain-select"
+              id="year"
+              value={year}
+              onChange={handleYearChange}
+              className={styles.formSelect}
             >
-              <option value="gmail.com">gmail.com</option>
-              <option value="yahoo.com">yahoo.com</option>
-              <option value="outlook.com">outlook.com</option>
-              <option value="none">직접입력</option>
+              <option value="">년도</option>
+              {years.map((y) => (
+                <option key={y} value={y}>
+                  {y}
+                </option>
+              ))}
+            </select>
+
+            <select
+              id="month"
+              value={month}
+              onChange={handleMonthChange}
+              className={styles.formSelect}
+            >
+              <option value="">월</option>
+              {months.map((m) => (
+                <option key={m} value={m}>
+                  {m}
+                </option>
+              ))}
+            </select>
+
+            <select
+              id="day"
+              value={day}
+              onChange={handleDayChange}
+              className={styles.formSelect}
+            >
+              <option value="">일</option>
+              {days.map((d) => (
+                <option key={d} value={d}>
+                  {d}
+                </option>
+              ))}
             </select>
           </div>
-        </div>
 
-        <label htmlFor="year" className="form-label">
-          생년월일
-        </label>
-        <div className="date-selector">
-          <select
-            id="year"
-            value={year}
-            onChange={handleYearChange}
-            className="form-select"
-          >
-            <option value="">년도</option>
-            {years.map((y) => (
-              <option key={y} value={y}>
-                {y}
-              </option>
-            ))}
-          </select>
-
-          <select
-            id="month"
-            value={month}
-            onChange={handleMonthChange}
-            className="form-select"
-          >
-            <option value="">월</option>
-            {months.map((m) => (
-              <option key={m} value={m}>
-                {m}
-              </option>
-            ))}
-          </select>
-
-          <select
-            id="day"
-            value={day}
-            onChange={handleDayChange}
-            className="form-select"
-          >
-            <option value="">일</option>
-            {days.map((d) => (
-              <option key={d} value={d}>
-                {d}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <button type="submit" className="btn btn-primary">
-          회원가입
-        </button>
-      </form>
+          <button type="submit" className="btn btn-primary">
+            회원가입
+          </button>
+        </form>
+      </div>
     </>
   );
 }
