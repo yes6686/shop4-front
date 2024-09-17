@@ -54,6 +54,9 @@
   width: 200px; /* select 너비 설정 */
   margin-top: 10px; /* 위 여백 추가 */
 }
+.domain-select :hover {
+  cursor: pointer;
+}
 
 .form-select {
   margin-right: 2rem;
