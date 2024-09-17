@@ -41,11 +41,11 @@
 
 .emailPrefix {
   flex: 1;
-  margin-right: 5px;
+  margin-right: 20px;
 }
 
 .atSign {
-  margin-right: 5px;
+  margin-right: 20px;
 }
 
 .emailDomain {
