@@ -339,7 +339,7 @@ function SignUp() {
                   handleDomainChange(e);
                   handleEmailChange();
                 }}
-                className={`form-control ${styles.domainSelect}`}
+                className={`${styles.domainSelect}`}
               >
                 <option value="gmail.com">gmail.com</option>
                 <option value="yahoo.com">yahoo.com</option>
@@ -366,7 +366,7 @@ function SignUp() {
                 </option>
               ))}
             </select>
-
+            년
             <select
               id="month"
               value={month}
@@ -380,7 +380,7 @@ function SignUp() {
                 </option>
               ))}
             </select>
-
+            월
             <select
               id="day"
               value={day}
@@ -394,6 +394,7 @@ function SignUp() {
                 </option>
               ))}
             </select>
+            일
           </div>
 
           <button type="submit" className="btn btn-primary">
