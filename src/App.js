@@ -24,10 +24,7 @@ function App() {
 				<Route path="/cart" element={<Cart />} />
 				<Route path="/myPage" element={<MyPage />} />
 				<Route path="/friendsList" element={<FriendsList />} />
-				<Route
-					path="/requestedFriends"
-					element={<RequestedFriends />}
-				/>
+				<Route path="/requestedFriends" element={<RequestedFriends />} />
 				<Route path="/recentlyViewed" element={<RecentlyViewed />} />
 				<Route path="/login" element={<Login />} />
 				<Route path="/signUp" element={<SignUp />} />
@@ -37,7 +34,6 @@ function App() {
 			</Routes>
 		</>
 	);
-
 }
 
 export default App;
