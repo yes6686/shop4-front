@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { getMember, updateMember } from "../services/MemberService";
 import { deleteCart } from "../services/CartService";
 import { updateGoods } from "../services/GoodsService";
+import requestPay from "../components/RequestPay";
 
 function Payment() {
   // 유저 정보 및 상태 변수
@@ -36,11 +37,8 @@ function Payment() {
 
   // 장바구니 정보 가져오기
   useEffect(() => {
-    const getCarts = async () => {
-      setCartData(products);
-    };
-    getCarts();
-  }, [products]);
+    setCartData(products); // 한 번만 실행되도록 변경
+  }, []); // 빈 배열로 의존성을 제거하여 최초 렌더링 시에만 실행
 
   // 총 결제금액 계산
   useEffect(() => {
@@ -67,6 +65,7 @@ function Payment() {
 
       navigator("/");
     } else {
+      requestPay();
       console.log("잔액이 부족합니다.");
     }
   };
