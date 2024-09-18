@@ -3,10 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { listGoods } from '../services/GoodsService';
 import { Button, Table } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import './css/RecentlyViewed.css';
 import { deleteRecentlyViewedGoods } from '../store/recentlyViewedSlice';
 import { createcart } from '../services/CartService';
 import { toast, ToastContainer } from 'react-toastify';
+import styles from './css/RecentlyViewed.module.css';
 
 const RecentlyViewed = () => {
 	const state = useSelector((state) => state);
@@ -28,10 +28,7 @@ const RecentlyViewed = () => {
 					console.log('cartItem:', cartItem);
 				})
 				.catch((error) => {
-					console.error(
-						'There was an error adding the cart item:',
-						error
-					);
+					console.error('There was an error adding the cart item:', error);
 				});
 		}
 	}, [cartItem]);
@@ -91,28 +88,18 @@ const RecentlyViewed = () => {
 											<img
 												src={shoe.url}
 												alt={shoe.name}
-												className="product-image"
-												onClick={() =>
-													navigate(
-														`/detail/${shoe.id}`
-													)
-												}
+												className={styles.product_image}
+												onClick={() => navigate(`/detail/${shoe.id}`)}
 											/>
 										</td>
 										<td>
-											<div className="product-title">
-												{shoe.name}
-											</div>
-											<div className="product-content">
+											<div className={styles.product_title}>{shoe.name}</div>
+											<div className={styles.product_content}>
 												{shoe.description}
 											</div>
-											<div className="product-price">
-												{shoe.price}원
-											</div>
-											<div className="product-count">
-												{shoe.stock}개
-											</div>
-											<div className="product-buttons">
+											<div className={styles.product_price}>{shoe.price}원</div>
+											<div className={styles.product_count}>{shoe.stock}개</div>
+											<div className={styles.product_buttons}>
 												<Button
 													variant="primary"
 													className="me-2"
@@ -134,9 +121,7 @@ const RecentlyViewed = () => {
 												<Button
 													variant="danger"
 													onClick={() => {
-														handleDeleteClick(
-															index
-														);
+														handleDeleteClick(index);
 													}}
 												>
 													삭제
