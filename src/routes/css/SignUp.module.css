@@ -1,0 +1,99 @@
+.signUpContainer {
+  display: flex;
+  justify-content: center; /* 가로 중앙 정렬 */
+  margin-top: 50px;
+  height: 900px; /* 화면 전체 높이 */
+}
+
+.signUpForm {
+  /* 최대 너비 설정 */
+  width: 100%;
+  height: 100%;
+  max-width: 700px;
+
+  /* 폼 내부 여백 */
+  padding: 20px;
+  padding-left: 50px;
+  padding-right: 70px;
+
+  /* 테두리 스타일 */
+  border: 2px solid #ced4da;
+
+  /* 둥근 테두리 */
+  border-radius: 5px;
+
+  /* 배경 색상 */
+  background-color: #ffffff;
+
+  /* 그림자 효과 */
+  box-shadow: 0 2px 4px rgba(141, 126, 126, 0.1);
+
+  box-sizing: border-box;
+}
+
+/* 이메일 부분 css */
+.inputContainer {
+  display: flex;
+  flex-direction: row; /* 한 줄로 표시 */
+  align-items: center; /* 세로 중앙 정렬 */
+  margin-bottom: 15px;
+}
+
+.emailPrefix {
+  flex: 1;
+  margin-right: 15px;
+  width: 200px;
+}
+
+.atSign {
+  margin-right: 15px;
+}
+
+.emailDomain {
+  width: 155px;
+  margin-right: 15px;
+}
+
+.selectContainer {
+  display: flex; /* Flexbox 사용 */
+  align-items: center; /* 세로 중앙 정렬 */
+  margin-left: auto; /* 오른쪽으로 밀어 붙이기 */
+  position: relative;
+}
+
+.domainSelect {
+  width: 155px;
+  padding: 10px;
+  padding-left: 10px; /* 왼쪽 여백을 추가하여 텍스트를 왼쪽에서 떨어지게 합니다. */
+  padding-right: 40px; /* 화살표 공간 확보 */
+  border: 1px solid #ccc;
+  font-size: 16px;
+  border-radius: 5px; /* 둥근 모서리 추가 */
+}
+
+/* 생년월일 입력부분 css */
+.dateSelector {
+  display: flex; /* Flexbox를 사용하여 한 줄로 배치 */
+  align-items: center; /* 세로 중앙 정렬 */
+  gap: 10px; /* 요소 간의 간격 조정 */
+  margin-bottom: 15px; /* 아래 여백 추가 */
+}
+
+.formSelect {
+  width: 100px; /* 적절한 너비를 설정 */
+  height: 40px; /* 높이 설정 */
+  padding: 5px; /* 패딩 설정 */
+  font-size: 16px; /* 글자 크기 설정 */
+  border: 1px solid #ccc; /* 테두리 설정 */
+}
+
+.dateLabel {
+  margin: 0 5px; /* 왼쪽과 오른쪽 여백 조정 */
+}
+
+/* Error Text */
+.error {
+  color: red;
+  font-size: 15px;
+  margin-left: 30px;
+}
