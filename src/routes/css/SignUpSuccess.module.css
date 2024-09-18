@@ -1,0 +1,88 @@
+/* 배경 및 컨테이너 스타일 */
+.successContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f0f4ff;
+  /* 연한 파란색 배경 */
+  animation: fadeIn 0.5s ease-in-out;
+  /* 페이드 인 애니메이션 */
+}
+
+.messageBox {
+  background-color: white;
+  border-radius: 12px;
+  padding: 50px;
+  text-align: center;
+  box-shadow: 0px 6px 25px rgba(0, 0, 0, 0.15);
+  /* 더 부드러운 그림자 */
+  width: 520px;
+  transition: transform 0.3s ease;
+}
+
+.messageBox:hover {
+  transform: translateY(-10px);
+  /* 호버 시 살짝 올라오는 효과 */
+}
+
+/* 성공 메시지 스타일 */
+.successMessage {
+  font-size: 1.8rem;
+  color: #007bff;
+  margin-bottom: 30px;
+  font-weight: bold;
+}
+
+/* 버튼 컨테이너 */
+.buttonContainer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+/* 버튼 스타일 */
+.homeButton,
+.loginButton {
+  padding: 12px 25px;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.homeButton {
+  background-color: #6c757d;
+  color: white;
+}
+
+.loginButton {
+  background-color: #007bff;
+  color: white;
+}
+
+/* 버튼 호버 효과 */
+.homeButton:hover {
+  background-color: #5a6268;
+  transform: scale(1.05);
+  /* 살짝 커지는 효과 */
+}
+
+.loginButton:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+  /* 살짝 커지는 효과 */
+}
+
+/* 애니메이션 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}

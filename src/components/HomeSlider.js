@@ -1,9 +1,9 @@
 //$ npm install react-slick --save // 라이브러리 설치
 //$ npm install slick-carousel --save // css 설치
 
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
-import Slider from 'react-slick';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import Slider from "react-slick";
 
 //called slick, slider, carousel
 
@@ -29,10 +29,10 @@ function HomeSlider() {
   return (
     <div
       style={{
-        width: '80%',
-        height: '700px',
-        margin: '0 auto',
-        overflow: 'hidden',
+        width: "80%",
+        height: "700px",
+        margin: "0 auto",
+        overflow: "hidden",
       }}
     >
       <Slider {...settings} style={{}}>
@@ -41,11 +41,11 @@ function HomeSlider() {
             <div>
               <img
                 style={{
-                  width: '100%',
-                  height: '700px',
-                  lineHeight: '700px',
-                  objectFit: 'cover',
-                  verticalAlign: 'middle',
+                  width: "100%",
+                  height: "700px",
+                  lineHeight: "700px",
+                  objectFit: "cover",
+                  verticalAlign: "middle",
                 }}
                 src={item}
               ></img>
