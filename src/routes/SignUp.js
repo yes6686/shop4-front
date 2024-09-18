@@ -90,6 +90,7 @@ function SignUp() {
     )}`;
   };
 
+  //생년월일 비어있는 칸 있는지 확인
   const confirmBirth = () => {
     const isEmptyBirth = year === "" || month === "" || day === "";
     setBirthError(isEmptyBirth);
@@ -98,7 +99,7 @@ function SignUp() {
 
   //비밀번호 길이 확인 함수
   const confirmPwLength = () => {
-    const isNewPwTooShort = formData.userPw.length < 8;
+    const isNewPwTooShort = formData.userPw.length < 1;
     setConfirmNewUserPw(isNewPwTooShort);
     return isNewPwTooShort;
   };
@@ -134,7 +135,7 @@ function SignUp() {
       return;
     }
 
-    //비밀번호 길이 8자 이상인지 확인
+    //비밀번호 길이 1자 이상인지 확인
     if (confirmPwLength()) {
       return;
     }
