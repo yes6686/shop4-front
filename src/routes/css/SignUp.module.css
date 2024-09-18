@@ -90,3 +90,10 @@
 .dateLabel {
   margin: 0 5px; /* 왼쪽과 오른쪽 여백 조정 */
 }
+
+/* Error Text */
+.error {
+  color: red;
+  font-size: 15px;
+  margin-left: 30px;
+}
