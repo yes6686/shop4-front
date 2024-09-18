@@ -19,12 +19,16 @@ const requestPay = () => {
       buyer_postcode: "123-456", // 주문자 우편번호(string)
     },
     async (rsp) => {
+      console.log("Payment Response1:", rsp); // 결제 요청 후 받은 데이터 확인
+      console.log("Payment Response2:", rsp.data); // 결제 요청 후 받은 데이터 확인
       try {
         const { data } = await axios.post(
           "http://localhost:8080/verifyIamport/" + rsp.imp_uid
         );
         if (rsp.paid_amount === data.response.amount) {
           // 결제 금액의 위변조 검증
+          console.log("Verification Response:", data); // 서버에서 받은 데이터 확인
+          console.log("Verification Response.data:", data.response); // 서버에서 받은 데이터 확인
           alert("결제 성공");
         } else {
           alert("결제 실패1");

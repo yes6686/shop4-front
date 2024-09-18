@@ -1,0 +1,70 @@
+.paymentSuccessContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(
+    135deg,
+    #e8f0f5,
+    #dcedfc
+  ); /* 세련된 배경 그라데이션 */
+}
+
+.messageContainer {
+  text-align: center;
+  background-color: white;
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  width: 100%;
+}
+
+.icon {
+  color: #4caf50;
+  font-size: 80px;
+  margin-bottom: 20px;
+}
+
+h1 {
+  font-size: 2.5rem;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+p {
+  font-size: 1.2rem;
+  color: #555;
+  margin-bottom: 15px;
+}
+
+.buttonGroup {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+
+.homeButton,
+.ordersButton {
+  background-color: #1976d2;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.homeButton:hover,
+.ordersButton:hover {
+  background-color: #1565c0;
+}
+
+.ordersButton {
+  background-color: #388e3c;
+}
+
+.ordersButton:hover {
+  background-color: #2e7d32;
+}
