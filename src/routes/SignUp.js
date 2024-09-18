@@ -25,6 +25,7 @@ function SignUp() {
   // 중복 되는지 확인하는 변수
   const [isIdUnique, setIsIdUnique] = useState(false);
   const [confirmPw, setConfirmPw] = useState(""); // 비밀번호 확인 상태 추가
+  const [isEqualConfirmPw, setIsEqualConfirmPw] = useState(true);
 
   // 생년월일 입력 필드를 별도로 관리
   const handleYearChange = (e) => {
@@ -60,9 +61,16 @@ function SignUp() {
   // input으로 입력받는 값들 저장
   const handleChange = (e) => {
     const { name, value } = e.target;
-    // 전화번호 입력값에 대해 포맷팅 적용
-    const formattedValue = name === "phone" ? formatPhoneNumber(value) : value;
-    setFormData((prevState) => ({ ...prevState, [name]: formattedValue }));
+    setFormData((formData) => ({ ...formData, [name]: value }));
+  };
+
+  // 전화번호 입력값에 대해 포맷팅 적용
+  const handlePhoneChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: formatPhoneNumber(value),
+    }));
   };
 
   // 전화번호 포맷 함수
@@ -79,12 +87,19 @@ function SignUp() {
     )}`;
   };
 
-  // 빈칸있는지 확인
+  //비밀번호 검증함수
+  const confirmCorrectPw = () => {
+    const isCurrentPwIncorrect = confirmPw !== formData.userPw;
+    setIsEqualConfirmPw(isCurrentPwIncorrect);
+    console.log(isCurrentPwIncorrect);
+    return isCurrentPwIncorrect;
+  };
+
+  // 검증하는 함수
   const validateForm = () => {
     console.log(Object.values(formData).every((value) => value.trim() !== ""));
     return (
       Object.values(formData).every((value) => value.trim() !== "") &&
-      confirmPw === formData.userPw &&
       formData.phone.length === 13
     );
   };
@@ -93,13 +108,21 @@ function SignUp() {
   const onSubmit = async (e) => {
     e.preventDefault();
 
+    // 중복확인 했는지 확인
+    if (!isIdUnique) {
+      alert("중복확인 해주세요");
+      return;
+    }
+
+    //비밀번호 확인이랑 비밀번호랑 같은지 확인
+    if (confirmCorrectPw()) {
+      alert("비밀번호를 확인해주세요");
+      return;
+    }
+
     // 빈칸 확인
     if (!validateForm()) {
       alert("모든 필드를 채워주세요.");
-      return;
-    }
-    if (!isIdUnique) {
-      alert("중복확인 해주세요");
       return;
     }
 
@@ -249,7 +272,13 @@ function SignUp() {
             style={{ marginBottom: "0" }}
           >
             비밀번호 확인
+            {isEqualConfirmPw && (
+              <span className={styles.error}>
+                새 비밀번호가 일치하지 않습니다.
+              </span>
+            )}
           </label>
+
           <div className="mb-3">
             <input
               type="password"
@@ -292,7 +321,7 @@ function SignUp() {
             <input
               type="text"
               name="phone"
-              onChange={handleChange}
+              onChange={handlePhoneChange}
               className="form-control"
               placeholder="휴대폰 번호 입력('-'제외 11자리 입력)"
               style={{ height: "50px" }}
