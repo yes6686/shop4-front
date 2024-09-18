@@ -25,7 +25,10 @@ function SignUp() {
   // 중복 되는지 확인하는 변수
   const [isIdUnique, setIsIdUnique] = useState(false);
   const [confirmPw, setConfirmPw] = useState(""); // 비밀번호 확인 상태 추가
-  const [isEqualConfirmPw, setIsEqualConfirmPw] = useState(true);
+  const [isEqualConfirmPw, setIsEqualConfirmPw] = useState(false);
+  const [isPhoneOnlyNumber, setisPhoneOnlyNumber] = useState(false);
+  const [confirmNewUserPw, setConfirmNewUserPw] = useState(false);
+  const [birthError, setBirthError] = useState(false);
 
   // 생년월일 입력 필드를 별도로 관리
   const handleYearChange = (e) => {
@@ -67,8 +70,8 @@ function SignUp() {
   // 전화번호 입력값에 대해 포맷팅 적용
   const handlePhoneChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevState) => ({
-      ...prevState,
+    setFormData((formData) => ({
+      ...formData,
       [name]: formatPhoneNumber(value),
     }));
   };
@@ -87,6 +90,26 @@ function SignUp() {
     )}`;
   };
 
+  const confirmBirth = () => {
+    const isEmptyBirth = year === "" || month === "" || day === "";
+    setBirthError(isEmptyBirth);
+    return isEmptyBirth;
+  };
+
+  //비밀번호 길이 확인 함수
+  const confirmPwLength = () => {
+    const isNewPwTooShort = formData.userPw.length < 8;
+    setConfirmNewUserPw(isNewPwTooShort);
+    return isNewPwTooShort;
+  };
+
+  //전화번호 검증함수
+  const confirmPhone = () => {
+    const isCurrentPhoneOnlyNumber = formData.phone.length !== 13;
+    setisPhoneOnlyNumber(isCurrentPhoneOnlyNumber);
+    return isCurrentPhoneOnlyNumber;
+  };
+
   //비밀번호 검증함수
   const confirmCorrectPw = () => {
     const isCurrentPwIncorrect = confirmPw !== formData.userPw;
@@ -95,28 +118,39 @@ function SignUp() {
     return isCurrentPwIncorrect;
   };
 
-  // 검증하는 함수
+  // 빈칸 검증하는 함수
   const validateForm = () => {
     console.log(Object.values(formData).every((value) => value.trim() !== ""));
-    return (
-      Object.values(formData).every((value) => value.trim() !== "") &&
-      formData.phone.length === 13
-    );
+    return Object.values(formData).every((value) => value.trim() !== "");
   };
 
   // 회원가입
   const onSubmit = async (e) => {
     e.preventDefault();
 
-    // 중복확인 했는지 확인
+    // 중복확인 했는지 확인ㅎ
     if (!isIdUnique) {
       alert("중복확인 해주세요");
       return;
     }
 
-    //비밀번호 확인이랑 비밀번호랑 같은지 확인
+    //비밀번호 길이 8자 이상인지 확인
+    if (confirmPwLength()) {
+      return;
+    }
+
     if (confirmCorrectPw()) {
-      alert("비밀번호를 확인해주세요");
+      //비밀번호 확인이랑 비밀번호랑 같은지 확인
+      return;
+    }
+
+    //전화번호 숫자로 11자리 입력했는지 확인
+    if (confirmPhone()) {
+      return;
+    }
+
+    //생년월일 다 입력했는지 확인
+    if (confirmBirth()) {
       return;
     }
 
@@ -253,6 +287,11 @@ function SignUp() {
             style={{ marginBottom: "0" }}
           >
             비밀번호
+            {confirmNewUserPw && (
+              <span className={styles.error}>
+                비밀번호가 길이가 너무 짧습니다
+              </span>
+            )}
           </label>
           <div className="mb-3">
             <input
@@ -316,6 +355,9 @@ function SignUp() {
             style={{ marginBottom: "0" }}
           >
             전화번호
+            {isPhoneOnlyNumber && (
+              <span className={styles.error}>숫자로 11자리 입력해주세요.</span>
+            )}
           </label>
           <div className="mb-3">
             <input
@@ -381,6 +423,11 @@ function SignUp() {
 
           <label htmlFor="year" className="form-label">
             생년월일
+            {birthError && (
+              <span className={styles.error}>
+                년, 월, 일 모두 입력해주세요.
+              </span>
+            )}
           </label>
           <div className={styles.dateSelector}>
             <select
