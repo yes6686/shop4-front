@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import styles from './css/AddGoods.module.css';
+import styles from './admincss/AddGoods.module.css';
 import { Toast, ToastContainer } from 'react-bootstrap';
 
 function AddGoods() {

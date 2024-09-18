@@ -1,38 +1,64 @@
-import { useEffect, useState } from "react";
-import { listGoods } from "../../services/GoodsService";
+import { useEffect, useState } from 'react';
+import { deleteGoods, listGoods } from '../../services/GoodsService';
+import styles from './admincss/Admin.module.css';
+import { useNavigate } from 'react-router-dom';
 
 function GoodsManagement() {
-  let [goods, setGoods] = useState([]);
+	let [goods, setGoods] = useState([]);
 
-  useEffect(() => {
-    listGoods().then((response) => {
-      setGoods(response.data);
-    });
+	let navigate = useNavigate();
 
-    console.log(goods);
-  }, []);
+	useEffect(() => {
+		listGoods().then((response) => {
+			setGoods(response.data);
+		});
 
-  return (
-    <div
-      style={{
-        display: "inline-grid",
-        border: "1px solid green",
-      }}
-    >
-      <h2>상품관리컴포넌트임</h2>
-      <table>
-        {goods.map((item) => {
-          return (
-            <tr>
-              <td>{item.name}</td>
-              <td>{item.stock}</td>
-              <td>{item.price}</td>
-            </tr>
-          );
-        })}
-      </table>
-    </div>
-  );
+		console.log(goods);
+	}, []);
+
+	return (
+		<div>
+			<h2 style={{ margin: '15px' }}>Shop4 Goods</h2>
+			<table className={styles.admin_table}>
+				<thead>
+					<th>이름</th>
+					<th>재고</th>
+					<th>가격</th>
+					<th>관리</th>
+				</thead>
+				<tbody>
+					{goods.map((item) => {
+						return (
+							<tr>
+								<td>{item.name}</td>
+								<td>{item.stock}</td>
+								<td>{item.price}</td>
+								<td>
+									<button className="btn btn-primary">
+										{' '}
+										관리
+									</button>
+								</td>
+							</tr>
+						);
+					})}
+				</tbody>
+			</table>
+			<div style={{ textAlign: 'center' }}>
+				<button
+					className="btn btn-primary"
+					style={{
+						width: '150px',
+					}}
+					onClick={() => {
+						navigate('/admin/addgoods');
+					}}
+				>
+					상품추가
+				</button>
+			</div>
+		</div>
+	);
 }
 
 export default GoodsManagement;
