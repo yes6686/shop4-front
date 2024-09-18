@@ -109,7 +109,7 @@ function SignUp() {
       console.log(data);
       await createMember(data);
       alert("회원가입이 완료되었습니다.");
-      navigate("/"); // 회원가입 완료 후 홈으로 이동
+      navigate("/SignUpSuccess"); // 회원가입 완료 후 홈으로 이동
     } catch (error) {
       alert("회원가입에 실패하였습니다.");
       console.error(error);
