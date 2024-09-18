@@ -84,32 +84,21 @@ const Home = () => {
 			</div>
 
 			{/* 관리자일 때만 표시 */}
-			{isAdmin && (
-				<>
-					<hr />
-					<div>
-						<h2>관리자임</h2>
-						<button
-							className="btn btn-primary"
-							style={{ width: '10%', margin: '5px' }}
-							onClick={() => {
-								navigate('/addgoods');
-							}}
-						>
-							상품 추가
-						</button>
-						<button
-							className="btn btn-danger"
-							style={{ width: '10%' }}
-							onClick={() => {
-								navigate('/userManagement');
-							}}
-						>
-							유저 관리
-						</button>
-					</div>
-				</>
-			)}
+			<>
+				<hr />
+				<div>
+					<h2>관리자임</h2>
+					<button
+						className="btn btn-danger"
+						style={{ width: '10%', margin: '5px' }}
+						onClick={() => {
+							navigate('/admin');
+						}}
+					>
+						관리자 페이지로
+					</button>
+				</div>
+			</>
 		</div>
 	);
 };
