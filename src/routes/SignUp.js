@@ -140,8 +140,8 @@ function SignUp() {
       return;
     }
 
+    //비밀번호 확인이랑 비밀번호랑 같은지 확인
     if (confirmCorrectPw()) {
-      //비밀번호 확인이랑 비밀번호랑 같은지 확인
       return;
     }
 
