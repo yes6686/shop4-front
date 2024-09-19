@@ -1,4 +1,4 @@
-import "./../App.css";
+import "./../../App.css";
 import React, { useEffect, useState } from "react";
 import { Navbar, Container, Nav } from "react-bootstrap";
 import { useNavigate, useLocation } from "react-router-dom";
