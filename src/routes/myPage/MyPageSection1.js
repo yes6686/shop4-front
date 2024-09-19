@@ -1,20 +1,70 @@
-import { useState } from "react";
-import defaultImage from "../../images/default.jpg";
+import React, { useState, useEffect } from 'react';
+import defaultImage from '../../images/default.jpg';
+import { updateProfileImage } from '../../services/MemberService';
+import { getProfileImage } from '../../services/MemberService';
+import { deleteProfileImage } from '../../services/MemberService';
 
 function MyPageSection1({ user, setUser }) {
-  const [image, setImage] = useState(user.userImage || defaultImage);
+  const [image, setImage] = useState(defaultImage);
+  //서버에서 blob으로 받는거라 redux로 이미지 관리가 힘듦.
+  //redux로 저장하고싶으면 Base64로 인코딩해서 저장해야함.
+  //서버에 이미지 올리고 url받는게 젤 깔끔한듯.
+  //서버에서 바이너리 코드를 받는다->url로 변경한다->이 url을 이용한다. but 이 url은 새로고침하면 리셋된다.
 
-  const handleImageChange = (event) => {
+  useEffect(() => {
+    fetchProfileImage();
+  }, []);
+
+  const fetchProfileImage = async () => {
+    try {
+      // Binary Large Objects(blob)를 get함
+      const response = await getProfileImage(user.id, { responseType: 'blob' }); // 응답 타입을 blob으로 설정s
+
+      if (response.status === 200) {
+        const blob = response.data; // 바이너리 데이터(Blob)를 받아옴
+        if (blob.size === 0) {
+          setImage(defaultImage);
+        } else {
+          const imageUrl = URL.createObjectURL(blob); // Blob 데이터를 URL로 변환
+          console.log(imageUrl);
+          setImage(imageUrl);
+          const updatedUser = { ...user, userImage: imageUrl };
+          setUser(updatedUser);
+          sessionStorage.setItem('user', JSON.stringify(updatedUser)); //세션에 저장할 필요는 없는데 형식상 저장함. 어차피 새로고침하면 url리셋되서 의미없음
+        }
+      } else {
+        console.error('Failed to fetch profile image');
+      }
+    } catch (error) {
+      console.error('Error fetching profile image:', error);
+    }
+  };
+
+  // 프사 변경
+  const handleImageChange = async (event) => {
     const file = event.target.files[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImage(reader.result);
-        const updatedUser = { ...user, userImage: reader.result };
-        setUser(updatedUser);
-        sessionStorage.setItem("user", JSON.stringify(updatedUser));
-      };
-      reader.readAsDataURL(file);
+      const formData = new FormData();
+      formData.append('file', file); //폼데이터로 전송, 백엔드에서는 이를 바이너리코드로 저장
+
+      try {
+        await updateProfileImage(user.id, formData);
+        console.log('이미지 업데이트 성공');
+        fetchProfileImage();
+      } catch (error) {
+        console.error('Error uploading image:', error);
+      }
+    }
+  };
+  //프사 삭제
+  const deleteMyProfileImage = async () => {
+    try {
+      console.log('프로필 이미지 삭제 시도');
+      deleteProfileImage(user.id);
+      setImage(defaultImage); // 이미지 삭제 후 기본 이미지로 설정
+      console.log('프로필 이미지 삭제 성공');
+    } catch (error) {
+      console.error('프로필 이미지 삭제 실패:', error);
     }
   };
 
@@ -31,7 +81,7 @@ function MyPageSection1({ user, setUser }) {
               type="file"
               accept="image/*"
               id="imageUpload"
-              style={{ display: "none" }}
+              style={{ display: 'none' }}
               onChange={handleImageChange}
             />
             <label htmlFor="imageUpload" className="btn upload-btn">
@@ -39,7 +89,7 @@ function MyPageSection1({ user, setUser }) {
             </label>
             <button
               className="btn delete-btn"
-              onClick={() => setImage(defaultImage)}
+              onClick={() => deleteMyProfileImage()}
             >
               삭제
             </button>
