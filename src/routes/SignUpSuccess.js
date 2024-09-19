@@ -1,11 +1,11 @@
-import styles from "./css/SignUpSuccess.module.css";
-import { useNavigate } from "react-router-dom";
+import styles from './css/SignUpSuccess.module.css';
+import { useNavigate } from 'react-router-dom';
 
 function SignUpSuccess() {
   const navigate = useNavigate();
 
-  const goToHome = () => navigate("/");
-  const goToLogin = () => navigate("/login");
+  const goToHome = () => navigate('/');
+  const goToLogin = () => navigate('/login');
 
   return (
     <div className={styles.successContainer}>
