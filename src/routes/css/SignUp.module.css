@@ -28,8 +28,18 @@
   background-color: #ffffff;
 
   /* 그림자 효과 */
-  box-shadow: 0 2px 4px rgba(141, 126, 126, 0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 
+  box-sizing: border-box;
+
+  background-color: #fff;
+}
+
+.input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
   box-sizing: border-box;
 }
 
@@ -46,7 +56,6 @@
 .emailPrefix {
   flex: 1;
   margin-right: 15px;
-  width: 200px;
 }
 
 .atSign {
@@ -119,9 +128,9 @@
 }
 
 .profileInfo {
+  position: relative; /* 드롭다운 메뉴를 프로필 버튼 옆에 배치하기 위해 사용 */
   display: flex;
   justify-content: center;
-  align-items: center; /* 세로 중앙 정렬 */
   margin-bottom: 20px; /* 버튼 아래 여백 추가 */
 }
 
@@ -138,7 +147,65 @@
   border-radius: 50%; /* 원형 이미지 */
   object-fit: cover; /* 이미지 비율 유지 */
 }
-.profileImg:hover {
+/* 드롭다운 메뉴 */
+.dropdownMenu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+}
+
+.dropdownItem {
+  padding: 10px;
+  text-align: left;
+  background-color: #fff;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}
+
+.dropdownItem:hover {
+  background-color: #f0f0f0;
+}
+.circleButton {
+  position: absolute;
+  bottom: 0; /* 이미지 버튼의 바로 아래에 위치하도록 조정 */
+  right: 230px; /* 이미지 버튼의 오른쪽 끝에 위치 */
+  width: 30px;
+  height: 30px;
+  background-color: #ccc;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease,
+    box-shadow 0.3s ease; /* 애니메이션 효과 추가 */
+}
+
+.circleButton:hover {
+  background-color: #bbb;
+  transform: scale(1.25);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* 그림자 효과 증가 */
+}
+
+.button {
+  background-color: #888888;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.button:hover {
+  background-color: #555555;
   transform: scale(1.05);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
 }

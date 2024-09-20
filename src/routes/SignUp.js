@@ -1,5 +1,5 @@
 import styles from "./css/SignUp.module.css";
-import { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { createMember } from "../services/MemberService";
 import axios from "axios";
@@ -188,13 +188,10 @@ function SignUp() {
     formDataToSend.append("birth", formData.birth);
     formDataToSend.append("cash", 0); // 기본 값 추가
     formDataToSend.append("file", formData.userImage); // 이미지 파일 추가
-    console.log(formDataToSend);
 
     // 회원가입 서버에 요청
     try {
-      await createMember(formDataToSend).then((res) => {
-        console.log(res.data);
-      });
+      await createMember(formDataToSend);
       alert("회원가입이 완료되었습니다.");
       navigate("/SignUpSuccess"); // 회원가입 완료 후 홈으로 이동
     } catch (error) {
@@ -231,10 +228,12 @@ function SignUp() {
   const [domain, setDomain] = useState("gmail.com");
   const [isCustomDomain, setIsCustomDomain] = useState(false); // 직접입력 여부 관리
 
+  // 이메일의 prefix부분
   const handlePrefixChange = (e) => {
     setEmailPrefix(e.target.value);
   };
 
+  // 이메일의 도메인 부분
   const handleDomainChange = (e) => {
     const selectedDomain = e.target.value;
     if (selectedDomain === "none") {
@@ -246,6 +245,7 @@ function SignUp() {
     }
   };
 
+  // 이메일 prefix랑 domain 합치기
   const handleEmailChange = () => {
     setFormData((prevState) => ({
       ...prevState,
@@ -271,7 +271,6 @@ function SignUp() {
         ...prevState,
         userImage: file,
       }));
-      console.log(file);
 
       const reader = new FileReader();
       reader.onload = () => {
@@ -282,12 +281,40 @@ function SignUp() {
   };
 
   // 파일 선택창을 트리거하는 함수
-  const triggerFileInput = () => {
+  const triggerFileInput = (e) => {
+    e.preventDefault();
     document.getElementById("imageUpload").click(); // 숨겨진 input 클릭
   };
-  // useState(() => {
-  //   handleImageChange(defaultImage);
-  // }, []);
+
+  const [showDropdown, setShowDropdown] = useState(false); // 드롭다운 상태
+
+  const handleSetDefaultImage = (e) => {
+    e.preventDefault();
+    setImage(defaultImage); // 기본 이미지로 설정
+  };
+
+  const dropdownRef = useRef(null);
+  const toggleDropdown = (e) => {
+    setShowDropdown(!showDropdown); // 드롭다운 토글
+  };
+
+  const closeDropdown = () => {
+    setShowDropdown(false);
+  };
+
+  // 드롭다운 외부 클릭 감지
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        closeDropdown(); // 드롭다운 외부 클릭 시 닫기
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <>
@@ -302,15 +329,38 @@ function SignUp() {
 
           {/* 이미지 변경 버튼 */}
           <div className={styles.profileInfo}>
-            <button
-              type="button"
-              className={`btn ${styles.imageBtn}`}
-              onClick={triggerFileInput}
-            >
+            <button type="button" className={`btn ${styles.imageBtn}`}>
               <img src={image} alt="Profile" className={styles.profileImg} />
             </button>
 
-            {/* 파일 입력 (숨겨진 상태) */}
+            {/* 동그라미 버튼 (드롭다운 메뉴 트리거) */}
+            <button
+              type="button"
+              className={styles.circleButton}
+              onClick={toggleDropdown}
+            >
+              ⬇️
+            </button>
+
+            {/* 드롭다운 메뉴 */}
+            {showDropdown && (
+              <div className={styles.dropdownMenu} ref={dropdownRef}>
+                <button
+                  className={styles.dropdownItem}
+                  onClick={triggerFileInput}
+                >
+                  파일 선택하기
+                </button>
+                <button
+                  className={styles.dropdownItem}
+                  onClick={handleSetDefaultImage}
+                >
+                  기본 이미지로 설정
+                </button>
+              </div>
+            )}
+
+            {/* 파일 입력 (숨김) */}
             <input
               type="file"
               accept="image/*"
@@ -334,21 +384,19 @@ function SignUp() {
               name="userId"
               value={formData.userId}
               onChange={handleChange}
-              className="form-control"
+              className={`formControl ${styles.input}`}
               placeholder="아이디"
               style={{ height: "50px", paddingRight: "120px" }}
             />
             <button
               type="button"
-              className="btn btn-primary position-absolute"
+              className={`btn btn-primary position-absolute ${styles.button}`}
               style={{
                 width: "100px",
                 height: "40px",
-                padding: "0",
                 fontSize: "0.875rem",
                 right: "5px",
-                top: "-18px",
-                borderRadius: "5px",
+                top: "-19px",
               }}
               onClick={checkDuplicate}
             >
@@ -374,7 +422,7 @@ function SignUp() {
               type="password"
               name="userPw"
               onChange={handleChange}
-              className="form-control"
+              className={`formControl ${styles.input}`}
               placeholder="비밀번호 입력(문자, 숫자, 특수문자 포함 8~20자)"
               style={{ height: "50px" }}
             />
@@ -399,7 +447,7 @@ function SignUp() {
               type="password"
               name="confirmPw"
               onChange={handleConfirmPwChange}
-              className="form-control"
+              className={`formControl ${styles.input}`}
               placeholder="비밀번호 재입력"
               style={{ height: "50px" }}
             />
@@ -418,7 +466,7 @@ function SignUp() {
               type="text"
               name="name"
               onChange={handleChange}
-              className="form-control"
+              className={`formControl ${styles.input}`}
               placeholder="이름을 입력해주세요."
               style={{ height: "50px" }}
             />
@@ -440,7 +488,7 @@ function SignUp() {
               type="text"
               name="phone"
               onChange={handlePhoneChange}
-              className="form-control"
+              className={`formControl ${styles.input}`}
               placeholder="휴대폰 번호 입력('-'제외 11자리 입력)"
               style={{ height: "50px" }}
             />
@@ -464,7 +512,7 @@ function SignUp() {
                   handleEmailChange();
                 }}
                 placeholder="이메일 입력"
-                className={`form-control ${styles.emailPrefix}`}
+                className={` ${styles.input} form-control `}
                 style={{ height: "50px" }}
               />
               <span className={styles.atSign}>@</span>
@@ -476,7 +524,7 @@ function SignUp() {
                   handleEmailChange();
                 }}
                 placeholder="도메인 선택 또는 직접 입력"
-                className={`form-control ${styles.emailDomain}`}
+                className={`${styles.input} form-control ${styles.emailDomain}`}
                 style={{ height: "50px" }}
                 disabled={!isCustomDomain}
               />
@@ -550,7 +598,7 @@ function SignUp() {
             일
           </div>
 
-          <button type="submit" className="btn btn-primary">
+          <button type="submit" className={`btn btn-primary ${styles.button}`}>
             회원가입
           </button>
         </form>
