@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import defaultImage from '../../images/default.jpg';
-import { updateProfileImage } from '../../services/MemberService';
-import { getProfileImage } from '../../services/MemberService';
-import { deleteProfileImage } from '../../services/MemberService';
+import React, { useState, useEffect } from "react";
+import defaultImage from "../../images/default.jpg";
+import { updateProfileImage } from "../../services/MemberService";
+import { getProfileImage } from "../../services/MemberService";
+import { deleteProfileImage } from "../../services/MemberService";
 
 function MyPageSection1({ user, setUser }) {
   const [image, setImage] = useState(defaultImage);
@@ -18,7 +18,7 @@ function MyPageSection1({ user, setUser }) {
   const fetchProfileImage = async () => {
     try {
       // Binary Large Objects(blob)를 get함
-      const response = await getProfileImage(user.id, { responseType: 'blob' }); // 응답 타입을 blob으로 설정s
+      const response = await getProfileImage(user.id, { responseType: "blob" }); // 응답 타입을 blob으로 설정s
 
       if (response.status === 200) {
         const blob = response.data; // 바이너리 데이터(Blob)를 받아옴
@@ -30,13 +30,13 @@ function MyPageSection1({ user, setUser }) {
           setImage(imageUrl);
           const updatedUser = { ...user, userImage: imageUrl };
           setUser(updatedUser);
-          sessionStorage.setItem('user', JSON.stringify(updatedUser)); //세션에 저장할 필요는 없는데 형식상 저장함. 어차피 새로고침하면 url리셋되서 의미없음
+          sessionStorage.setItem("user", JSON.stringify(updatedUser)); //세션에 저장할 필요는 없는데 형식상 저장함. 어차피 새로고침하면 url리셋되서 의미없음
         }
       } else {
-        console.error('Failed to fetch profile image');
+        console.error("Failed to fetch profile image");
       }
     } catch (error) {
-      console.error('Error fetching profile image:', error);
+      console.error("Error fetching profile image:", error);
     }
   };
 
@@ -45,26 +45,26 @@ function MyPageSection1({ user, setUser }) {
     const file = event.target.files[0];
     if (file) {
       const formData = new FormData();
-      formData.append('file', file); //폼데이터로 전송, 백엔드에서는 이를 바이너리코드로 저장
+      formData.append("file", file); //폼데이터로 전송, 백엔드에서는 이를 바이너리코드로 저장
 
       try {
         await updateProfileImage(user.id, formData);
-        console.log('이미지 업데이트 성공');
+        console.log("이미지 업데이트 성공");
         fetchProfileImage();
       } catch (error) {
-        console.error('Error uploading image:', error);
+        console.error("Error uploading image:", error);
       }
     }
   };
   //프사 삭제
   const deleteMyProfileImage = async () => {
     try {
-      console.log('프로필 이미지 삭제 시도');
+      console.log("프로필 이미지 삭제 시도");
       deleteProfileImage(user.id);
       setImage(defaultImage); // 이미지 삭제 후 기본 이미지로 설정
-      console.log('프로필 이미지 삭제 성공');
+      console.log("프로필 이미지 삭제 성공");
     } catch (error) {
-      console.error('프로필 이미지 삭제 실패:', error);
+      console.error("프로필 이미지 삭제 실패:", error);
     }
   };
 
@@ -81,7 +81,7 @@ function MyPageSection1({ user, setUser }) {
               type="file"
               accept="image/*"
               id="imageUpload"
-              style={{ display: 'none' }}
+              style={{ display: "none" }}
               onChange={handleImageChange}
             />
             <label htmlFor="imageUpload" className="btn upload-btn">
