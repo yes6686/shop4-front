@@ -329,9 +329,7 @@ function SignUp() {
 
           {/* 이미지 변경 버튼 */}
           <div className={styles.profileInfo}>
-            <button type="button" className={`btn ${styles.imageBtn}`}>
-              <img src={image} alt="Profile" className={styles.profileImg} />
-            </button>
+            <img src={image} alt="Profile" className={styles.profileImg} />
 
             {/* 동그라미 버튼 (드롭다운 메뉴 트리거) */}
             <button
