@@ -85,8 +85,16 @@ function RequestedFriends() {
       <MyPageLeftSideBar />
       <div className="rightContent">
         <br />
-        <h2>
-          <FaUserFriends /> 친구 요청
+        <h2
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'flex-start',
+            fontWeight: 'bold',
+          }}
+        >
+          <FaUserFriends style={{ fontSize: '50px', marginRight: '10px' }} />{' '}
+          친구 요청
         </h2>
 
         <table className="friendsTable">
@@ -102,6 +110,15 @@ function RequestedFriends() {
               </th>
             </tr>
           </thead>
+          <hr
+            style={{
+              position: 'absolute',
+              left: '11.8%', // 테이블보다 왼쪽으로 더 연장
+              width: '42.9%', // 테이블보다 더 긴 수평선
+              border: '1px solid #ccc',
+              margin: '0',
+            }}
+          />
           <tbody>
             {requestedFriends.map((friend) => (
               <tr key={friend.id}>

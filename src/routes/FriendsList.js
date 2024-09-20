@@ -10,7 +10,6 @@ import { PiFinnTheHumanDuotone } from 'react-icons/pi';
 import { IoPersonAddSharp } from 'react-icons/io5';
 import FriendsRequestModal from '../components/Friend/FriendsRequestModal';
 
-
 const FriendsList = () => {
   const [friendsData, setFriendsData] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false); //모달창 관리
@@ -62,9 +61,16 @@ const FriendsList = () => {
       <MyPageLeftSideBar />
       <div className="rightContent">
         <br></br>
-        <h2>
-          &nbsp;
-          <FaUserFriends /> 친구 목록
+        <h2
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'flex-start',
+            fontWeight: 'bold',
+          }}
+        >
+          <FaUserFriends style={{ fontSize: '50px', marginRight: '10px' }} />{' '}
+          친구 목록
         </h2>
 
         <table className="friendsTable">
@@ -80,6 +86,15 @@ const FriendsList = () => {
               </th>
             </tr>
           </thead>
+          <hr
+            style={{
+              position: 'absolute',
+              left: '11.8%', // 테이블보다 왼쪽으로 더 연장
+              width: '42.9%', // 테이블보다 더 긴 수평선
+              border: '1px solid #ccc',
+              margin: '0',
+            }}
+          />
           <tbody>
             {friendsData.length > 0 ? (
               friendsData.map((friend) => (
