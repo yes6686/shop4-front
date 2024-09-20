@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { createMember } from "../services/MemberService";
 import axios from "axios";
 import defaultImage from "../images/default.jpg";
+import cameraImage from "../images/cameraImage.png";
 
 function SignUp() {
   const navigate = useNavigate();
@@ -337,7 +338,7 @@ function SignUp() {
               className={styles.circleButton}
               onClick={toggleDropdown}
             >
-              ⬇️
+              <img src={cameraImage} alt="아이콘" className={styles.icon} />
             </button>
 
             {/* 드롭다운 메뉴 */}
@@ -347,13 +348,13 @@ function SignUp() {
                   className={styles.dropdownItem}
                   onClick={triggerFileInput}
                 >
-                  파일 선택하기
+                  사진 변경
                 </button>
                 <button
                   className={styles.dropdownItem}
                   onClick={handleSetDefaultImage}
                 >
-                  기본 이미지로 설정
+                  기본 이미지로 변경
                 </button>
               </div>
             )}
