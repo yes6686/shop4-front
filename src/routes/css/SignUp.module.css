@@ -144,22 +144,26 @@
 
 /* 드롭다운 메뉴 */
 .dropdownMenu {
+  width: 150px; /* 원하는 너비로 설정 */
   position: absolute;
-  top: 100%;
-  right: 0;
+  top: 105%;
+  right: 110px;
   background-color: #fff;
   border: 1px solid #ccc;
   border-radius: 5px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   z-index: 1;
+  padding: 2px 5px; /* 위쪽 패딩을 줄임 */
 }
 .dropdownItem {
-  padding: 10px;
+  padding: 5px; /* 패딩을 줄여서 크기를 작게 */
+  margin: 0;
   text-align: left;
   background-color: #fff;
   border: none;
   cursor: pointer;
   width: 100%;
+  font-size: 14px; /* 원하는 크기로 조정 */
 }
 .dropdownItem:hover {
   background-color: #f0f0f0;
@@ -168,23 +172,26 @@
 .circleButton {
   position: absolute;
   bottom: 0; /* 이미지 버튼의 바로 아래에 위치하도록 조정 */
-  right: 230px; /* 이미지 버튼의 오른쪽 끝에 위치 */
-  width: 30px;
-  height: 30px;
-  background-color: #ccc;
+  right: 236px; /* 이미지 버튼의 오른쪽 끝에 위치 */
+  width: 32px;
+  height: 32px;
+  background-color: #fff;
   border-radius: 50%;
-  border: none;
+  border: 1px solid #ccc; /* 얇은 테두리 추가 */
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 3px; /* 내부 여백 추가 */
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.3s ease,
-    box-shadow 0.3s ease; /* 애니메이션 효과 추가 */
 }
+
+.icon {
+  width: 18px; /* 원하는 너비 */
+  height: auto; /* 비율 유지 */
+}
+
 .circleButton:hover {
-  background-color: #bbb;
-  transform: scale(1.25);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* 그림자 효과 증가 */
+  background-color: #ccc;
 }
 
 /* 전체적인 버튼들 꾸미기 */
