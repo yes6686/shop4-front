@@ -89,9 +89,9 @@ const FriendsList = () => {
           </thead>
           <hr
             style={{
-              position: 'absolute',
+              position: 'relative',
               left: '11.8%', // 테이블보다 왼쪽으로 더 연장
-              width: '42.9%', // 테이블보다 더 긴 수평선
+              width: '724%', // 테이블보다 더 긴 수평선
               border: '1px solid #ccc',
               margin: '0',
             }}
