@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setRequestedFriends } from '../store/requestedFriendsSlice'; // 액션 가져오기
 import { IoPersonAddSharp } from 'react-icons/io5';
 import FriendsRequestModal from '../components/Friend/FriendsRequestModal';
+import defaultImage from '../../src/images/default.jpg';
 
 function RequestedFriends() {
   const [isModalOpen, setIsModalOpen] = useState(false); // 모달창 관리
@@ -85,8 +86,17 @@ function RequestedFriends() {
       <MyPageLeftSideBar />
       <div className="rightContent">
         <br />
-        <h2>
-          <FaUserFriends /> 친구 요청
+        <h2
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'flex-start',
+            fontWeight: 'bold',
+            fontSize: '35px',
+          }}
+        >
+          <FaUserFriends style={{ fontSize: '50px', marginRight: '10px' }} />{' '}
+          친구 요청
         </h2>
 
         <table className="friendsTable">
@@ -102,39 +112,78 @@ function RequestedFriends() {
               </th>
             </tr>
           </thead>
+          <hr
+            style={{
+              position: 'absolute',
+              left: '11.8%', // 테이블보다 왼쪽으로 더 연장
+              width: '42.9%', // 테이블보다 더 긴 수평선
+              border: '1px solid #ccc',
+              margin: '0',
+            }}
+          />
           <tbody>
-            {requestedFriends.map((friend) => (
-              <tr key={friend.id}>
-                <td colSpan="2">
-                  <div className="friendRow">
-                    <div className="friendItem">
-                      <PiFinnTheHumanDuotone size={160} />
-                      &nbsp;&nbsp; &nbsp;&nbsp;
-                      {friend.name} ({friend.userId})
+            {requestedFriends.map((friend) => {
+              // 이미지 URL 처리
+              const imageUrl =
+                friend.userImage && friend.userImage.length > 0
+                  ? `data:image/png;base64,${friend.userImage}`
+                  : defaultImage; // userImage가 없으면 기본 이미지 사용
+
+              return (
+                <tr key={friend.id}>
+                  <td colSpan="2">
+                    <div className="friendRow">
+                      <div className="friendItem">
+                        <button className="btn image-btn">
+                          <img
+                            src={imageUrl}
+                            alt="Profile"
+                            className="profile-img"
+                            style={{
+                              width: '100px',
+                              height: '100px',
+                              borderRadius: '100%',
+                              transition:
+                                'transform 0.3s ease, box-shadow 0.3s ease',
+                            }}
+                            onMouseEnter={(e) => {
+                              e.currentTarget.style.transform = 'scale(1.05)';
+                              e.currentTarget.style.boxShadow =
+                                '0 4px 10px rgba(0, 0, 0, 0.2)';
+                            }}
+                            onMouseLeave={(e) => {
+                              e.currentTarget.style.transform = 'scale(1)';
+                              e.currentTarget.style.boxShadow = 'none';
+                            }}
+                          />
+                        </button>
+                        &nbsp;&nbsp; &nbsp;&nbsp;
+                        {friend.name} ({friend.userId})
+                      </div>
+                      <div className="deleteButton">
+                        <FaRegCircleCheck
+                          size={65}
+                          style={{ color: 'green' }}
+                          onClick={() => {
+                            const id = friend.userId;
+                            handleAccept(id);
+                          }}
+                        />
+                        &nbsp; &nbsp; &nbsp;
+                        <FaRegCircleXmark
+                          size={65}
+                          style={{ color: 'red' }} // 빨간색 적용
+                          onClick={() => {
+                            const id = friend.userId;
+                            handleDelete(id);
+                          }}
+                        />
+                      </div>
                     </div>
-                    <div className="deleteButton">
-                      <FaRegCircleCheck
-                        size={65}
-                        style={{ color: 'green' }}
-                        onClick={() => {
-                          const id = friend.userId;
-                          handleAccept(id);
-                        }}
-                      />
-                      &nbsp; &nbsp; &nbsp;
-                      <FaRegCircleXmark
-                        size={65}
-                        style={{ color: 'red' }} // 빨간색 적용
-                        onClick={() => {
-                          const id = friend.userId;
-                          handleDelete(id);
-                        }}
-                      />
-                    </div>
-                  </div>
-                </td>
-              </tr>
-            ))}
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
