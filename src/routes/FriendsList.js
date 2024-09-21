@@ -120,6 +120,17 @@ const FriendsList = () => {
                                 width: '100px',
                                 height: '100px',
                                 borderRadius: '100%',
+                                transition:
+                                  'transform 0.3s ease, box-shadow 0.3s ease',
+                              }}
+                              onMouseEnter={(e) => {
+                                e.currentTarget.style.transform = 'scale(1.05)';
+                                e.currentTarget.style.boxShadow =
+                                  '0 4px 10px rgba(0, 0, 0, 0.2)';
+                              }}
+                              onMouseLeave={(e) => {
+                                e.currentTarget.style.transform = 'scale(1)';
+                                e.currentTarget.style.boxShadow = 'none';
                               }}
                             />
                           </button>
