@@ -2,13 +2,10 @@ import styles from "./css/Payment.module.css";
 
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { getMember, updateMember } from "../services/MemberService";
-import { deleteCart } from "../services/CartService";
-import { updateGoods } from "../services/GoodsService";
+import { getMember } from "../services/MemberService";
 import requestPay from "../components/RequestPay";
 
 function Payment() {
-  // 유저 정보 및 상태 변수
   let userInfo = JSON.parse(sessionStorage.getItem("user"));
   let [copyUser, setCopyUser] = useState({});
   let [cartData, setCartData] = useState([]);
@@ -25,7 +22,6 @@ function Payment() {
 
   const id = userInfo.id;
 
-  // 유저 정보 가져오기
   useEffect(() => {
     const initMembers = async () => {
       await getMember(id).then((response) => {
@@ -35,12 +31,10 @@ function Payment() {
     initMembers();
   }, [id]);
 
-  // 장바구니 정보 가져오기
   useEffect(() => {
-    setCartData(products); // 한 번만 실행되도록 변경
-  }, []); // 빈 배열로 의존성을 제거하여 최초 렌더링 시에만 실행
+    setCartData(products);
+  }, []);
 
-  // 총 결제금액 계산
   useEffect(() => {
     let tmp = 0;
     cartData.forEach((item) => {
@@ -49,28 +43,18 @@ function Payment() {
     setTotalPrice(tmp);
   }, [cartData]);
 
-  // 결제 처리 함수
   const handlePayment = async () => {
-    if (copyUser.cash >= totalPrice) {
-      await updateMember(userInfo.id, {
-        cash: copyUser.cash - totalPrice,
-      });
-
-      cartData.forEach(async (item) => {
-        await updateGoods(item.goods.id, {
-          stock: item.goods.stock - item.quantity,
-        });
-        await deleteCart(item.id);
-      });
-
-      navigator("/");
-    } else {
-      requestPay();
-      console.log("잔액이 부족합니다.");
+    try {
+      const result = await requestPay(cartData, receiver, totalPrice);
+      if (result.success) {
+        navigator("/paymentSuccess"); // 성공 시 paymentSuccess 페이지로 이동
+      }
+    } catch (error) {
+      console.error("Payment error:", error);
+      alert(error.message || "결제 처리 중 오류가 발생했습니다.");
     }
   };
 
-  // Copy Buyer Info 버튼 클릭 시 호출되는 함수
   const handleCopyBuyerInfo = () => {
     setReceiver({
       name: copyUser.name,
