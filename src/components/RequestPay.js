@@ -60,8 +60,6 @@ const requestPay = (cartData, receiver, totalPrice) => {
           console.log("Verification Response:", data); // 결제 검증 응답
 
           if (rsp.paid_amount === data.response.amount) {
-            console.log("결제 검증 성공");
-
             // 주문 데이터 생성
             const order = {
               orderUid: rsp.merchant_uid,
@@ -77,7 +75,6 @@ const requestPay = (cartData, receiver, totalPrice) => {
 
             const orderResponse = await createOrder(order);
             const orderId = orderResponse.data.id; // 생성된 주문의 ID
-            console.log("Order created with ID:", orderId); // 주문 ID 출력
 
             // 결제 데이터 생성
             const payment = {
@@ -92,16 +89,12 @@ const requestPay = (cartData, receiver, totalPrice) => {
               order: { id: orderId },
             };
             await createPayment(payment);
-            console.log("Payment created successfully"); // 결제 생성 완료 메시지
 
             // cartData에서 orderDetail 생성
             for (const item of cartData) {
-              console.log("Processing cart item:", item); // 현재 처리 중인 카트 아이템
-
               // Goods 객체를 DB에서 조회
               const goodsResponse = await getGoodsById(item.goods.id);
               const goods = goodsResponse.data; // 조회된 Goods 객체
-              console.log("Fetched Goods:", goods); // 조회된 상품 출력
 
               const orderDetail = {
                 orderCount: item.quantity, // 상품 수량
@@ -110,15 +103,12 @@ const requestPay = (cartData, receiver, totalPrice) => {
               };
 
               await createOrderDetail(orderDetail); // 각 상품에 대해 orderDetail 생성
-              console.log("OrderDetail created for Goods ID:", goods.id); // 생성된 OrderDetail 메시지
             }
 
             // 장바구니 비우기
             const goodsIds = cartData.map((item) => item.goods.id); // goods_id 배열 생성
             console.log("Clearing cart for Goods IDs:", goodsIds);
             await clearCartAfterPayment(goodsIds); // 장바구니 비우기 API 호출
-
-            alert("결제 성공 및 주문 상세 내역 생성 완료");
             resolve({
               success: true,
               message: "결제가 성공적으로 완료되었습니다.",
