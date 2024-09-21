@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import MyPageLeftSideBar from '../components/MyPageLeftSideBar';
 import './css/MyPage.css';
+import defaultImage from '../../src/images/default.jpg';
 import { FaUserFriends } from 'react-icons/fa';
 import { TiUserDelete } from 'react-icons/ti';
 import { listFriends } from '../services/FriendService';
 import { deleteFriend } from '../services/FriendService';
 import './css/Friends.css';
-import { PiFinnTheHumanDuotone } from 'react-icons/pi';
 import { IoPersonAddSharp } from 'react-icons/io5';
 import FriendsRequestModal from '../components/Friend/FriendsRequestModal';
-
 
 const FriendsList = () => {
   const [friendsData, setFriendsData] = useState([]);
@@ -62,9 +61,17 @@ const FriendsList = () => {
       <MyPageLeftSideBar />
       <div className="rightContent">
         <br></br>
-        <h2>
-          &nbsp;
-          <FaUserFriends /> 친구 목록
+        <h2
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'flex-start',
+            fontWeight: 'bold',
+            fontSize: '35px',
+          }}
+        >
+          <FaUserFriends style={{ fontSize: '50px', marginRight: '10px' }} />{' '}
+          친구 목록
         </h2>
 
         <table className="friendsTable">
@@ -80,38 +87,78 @@ const FriendsList = () => {
               </th>
             </tr>
           </thead>
+          <hr
+            style={{
+              position: 'relative',
+              left: '11.8%', // 테이블보다 왼쪽으로 더 연장
+              width: '724%', // 테이블보다 더 긴 수평선
+              border: '1px solid #ccc',
+              margin: '0',
+            }}
+          />
           <tbody>
             {friendsData.length > 0 ? (
-              friendsData.map((friend) => (
-                <tr key={friend.id}>
-                  <td colSpan="2">
-                    <div className="friendRow">
-                      <div className="friendItem">
-                        <PiFinnTheHumanDuotone size={160} />
-                        &nbsp;&nbsp; &nbsp;&nbsp;
-                        {friend.name} ({friend.userId})
+              friendsData.map((friend) => {
+                // Blob 데이터를 URL로 변환
+
+                const imageUrl =
+                  friend.userImage && friend.userImage.length > 0
+                    ? `data:${friend.imageMimeType};base64,${friend.userImage}`
+                    : defaultImage; // userImage가 없으면 기본 이미지 사용
+
+                return (
+                  <tr key={friend.id}>
+                    <td colSpan="2">
+                      <div className="friendRow">
+                        <div className="friendItem">
+                          <button className="btn image-btn">
+                            <img
+                              src={imageUrl}
+                              alt="Profile"
+                              className="profile-img"
+                              style={{
+                                width: '100px',
+                                height: '100px',
+                                borderRadius: '100%',
+                                transition:
+                                  'transform 0.3s ease, box-shadow 0.3s ease',
+                              }}
+                              onMouseEnter={(e) => {
+                                e.currentTarget.style.transform = 'scale(1.05)';
+                                e.currentTarget.style.boxShadow =
+                                  '0 4px 10px rgba(0, 0, 0, 0.2)';
+                              }}
+                              onMouseLeave={(e) => {
+                                e.currentTarget.style.transform = 'scale(1)';
+                                e.currentTarget.style.boxShadow = 'none';
+                              }}
+                            />
+                          </button>
+                          &nbsp;&nbsp; &nbsp;&nbsp;
+                          {friend.name} ({friend.userId})
+                        </div>
+                        <div className="deleteButton">
+                          <TiUserDelete
+                            size={65}
+                            onClick={() => {
+                              const id = friend.userId;
+                              handleDelete(id);
+                            }}
+                          />
+                        </div>
                       </div>
-                      <div className="deleteButton">
-                        <TiUserDelete
-                          size={65}
-                          onClick={() => {
-                            const id = friend.userId;
-                            handleDelete(id);
-                          }}
-                        />
-                      </div>
-                    </div>
-                  </td>
-                </tr>
-              ))
+                    </td>
+                  </tr>
+                );
+              })
             ) : (
               <tr>
                 <td
                   colSpan="2"
                   style={{ fontWeight: 'bold', fontSize: '20px' }}
                 >
-                  <br></br>
-                  <br></br>
+                  <br />
+                  <br />
                 </td>
               </tr>
             )}
