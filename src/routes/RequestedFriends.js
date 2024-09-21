@@ -126,7 +126,7 @@ function RequestedFriends() {
               // 이미지 URL 처리
               const imageUrl =
                 friend.userImage && friend.userImage.length > 0
-                  ? `data:image/png;base64,${friend.userImage}`
+                  ? `data:${friend.imageMimeType};base64,${friend.userImage}`
                   : defaultImage; // userImage가 없으면 기본 이미지 사용
 
               return (

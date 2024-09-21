@@ -103,7 +103,7 @@ const FriendsList = () => {
 
                 const imageUrl =
                   friend.userImage && friend.userImage.length > 0
-                    ? `data:image/png;base64,${friend.userImage}`
+                    ? `data:${friend.imageMimeType};base64,${friend.userImage}`
                     : defaultImage; // userImage가 없으면 기본 이미지 사용
 
                 return (
