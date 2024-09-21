@@ -114,9 +114,9 @@ function RequestedFriends() {
           </thead>
           <hr
             style={{
-              position: 'absolute',
+              position: 'relative',
               left: '11.8%', // 테이블보다 왼쪽으로 더 연장
-              width: '42.9%', // 테이블보다 더 긴 수평선
+              width: '724%', // 테이블보다 더 긴 수평선
               border: '1px solid #ccc',
               margin: '0',
             }}
@@ -126,7 +126,7 @@ function RequestedFriends() {
               // 이미지 URL 처리
               const imageUrl =
                 friend.userImage && friend.userImage.length > 0
-                  ? `data:image/png;base64,${friend.userImage}`
+                  ? `data:${friend.imageMimeType};base64,${friend.userImage}`
                   : defaultImage; // userImage가 없으면 기본 이미지 사용
 
               return (
