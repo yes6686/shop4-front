@@ -76,7 +76,7 @@ function Detail() {
   // 장바구니에 상품 갱신
   useEffect(() => {
     if (cartItem && cartItem.member && cartItem.goods) {
-      createcart(cartItem)
+      const currentStock = createcart(cartItem)
         .then((response) => {
           toast.success("상품이 장바구니에 추가되었습니다!");
         })
