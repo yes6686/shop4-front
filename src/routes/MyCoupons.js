@@ -2,7 +2,6 @@ import MyPageLeftSideBar from "../components/MyPageLeftSideBar";
 import React, { useState, useEffect } from "react";
 import styles from "./css/MyCoupons.module.css";
 import { getUserCoupons } from "../services/UserCouponService";
-import { Link } from "react-router-dom";
 
 function MyCoupons() {
   const userSession = JSON.parse(sessionStorage.getItem("user")); // 세션에서 사용자 이름 가져오기
@@ -22,9 +21,6 @@ function MyCoupons() {
       const availableCoupons = getCoupons.filter(
         (coupon) => coupon.usedCoupon === false
       );
-
-      console.log(usedCoupons);
-      console.log(availableCoupons);
 
       // 상태 업데이트
       setUsedCoupons(usedCoupons);
