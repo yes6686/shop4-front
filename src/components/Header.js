@@ -93,7 +93,7 @@ const Header = () => {
 				<GiHamburgerMenu
 					className="ms-4"
 					style={{ width: '30px', height: '30px', cursor: 'pointer' }}
-					onMouseOver={() => {
+					onClick={() => {
 						setOpenCategory(!openCategory);
 					}}
 				/>

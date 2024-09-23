@@ -15,7 +15,8 @@ import RequestedFriends from './routes/RequestedFriends';
 import Admin from './routes/admin/Admin';
 import SignUpSuccess from './routes/SignUpSuccess';
 import PaymentSuccess from './routes/PaymentSuccess';
-import GoodsByCategory from './routes/GoodsByCategory';
+import GoodsPage from './routes/GoodsPage';
+import ScrollToTopButton from './components/ScrollToTopButton';
 
 function App() {
 	return (
@@ -36,11 +37,9 @@ function App() {
 				<Route path="/payment" element={<Payment />} />
 				<Route path="/login/kakao" element={<LoginHandeler />} />
 				<Route path="/admin/*" element={<Admin />}></Route>
-				<Route
-					path="/goods/:category"
-					element={<GoodsByCategory></GoodsByCategory>}
-				></Route>
+				<Route path="/goods/:category" element={<GoodsPage />}></Route>
 			</Routes>
+			<ScrollToTopButton></ScrollToTopButton>
 		</>
 	);
 }
