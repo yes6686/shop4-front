@@ -19,7 +19,7 @@ function AdminMenu() {
           <Link to="/admin/reports">통계</Link>
         </li>
         <li>
-          <Link to="/admin/coupon">쿠폰관리</Link>
+          <Link to="/admin/couponManagement">쿠폰관리</Link>
         </li>
       </ul>
     </div>

@@ -7,6 +7,7 @@ import AddGoods from "./AddGoods.js";
 import Reports from "./Reports.js";
 import { useEffect } from "react";
 import UpdateGoods from "./UpdateGoods.js";
+import CouponManagement from "./CouponManagement.js";
 
 function Admin() {
   useEffect(() => {
@@ -45,6 +46,10 @@ function Admin() {
           <Route
             path="/updategoods"
             element={<UpdateGoods></UpdateGoods>}
+          ></Route>
+          <Route
+            path="/couponManagement"
+            element={<CouponManagement />}
           ></Route>
         </Routes>
       </div>
