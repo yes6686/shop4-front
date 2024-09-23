@@ -20,6 +20,7 @@ const CouponManagement = () => {
     // 쿠폰 등록 로직 작성
     await createCoupons(couponData);
     console.log(couponData);
+    console.log("성공적으로 등록되었습니다.");
   };
 
   return (
