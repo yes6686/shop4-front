@@ -5,8 +5,8 @@ import MemberManagement from "./MemberManagement.js";
 import GoodsManagement from "./GoodsManagement.js";
 import AddGoods from "./AddGoods.js";
 import Reports from "./Reports.js";
-import CouponManagement from "./CouponManagement.js";
 import { useEffect } from "react";
+import UpdateGoods from "./UpdateGoods.js";
 
 function Admin() {
   useEffect(() => {
@@ -42,7 +42,10 @@ function Admin() {
           ></Route>
           <Route path="/addgoods" element={<AddGoods></AddGoods>}></Route>
           <Route path="/reports" element={<Reports></Reports>}></Route>
-          <Route path="/coupon" element={<CouponManagement />}></Route>
+          <Route
+            path="/updategoods"
+            element={<UpdateGoods></UpdateGoods>}
+          ></Route>
         </Routes>
       </div>
     </div>

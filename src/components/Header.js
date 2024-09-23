@@ -1,18 +1,23 @@
-import "./../App.css";
 import React, { useEffect, useState } from "react";
 import { Navbar, Container, Nav } from "react-bootstrap";
 import { useNavigate, useLocation } from "react-router-dom";
+import { searchInfo } from "../store/searchSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { setIsNotAdmin } from "../store/adminSlice";
+import { requestedListFriends } from "../services/FriendService";
+import { setRequestedFriends } from "../store/requestedFriendsSlice"; // 액션 가져오기
+
+import "./../App.css";
+
 import { IoLogInOutline, IoLogOutOutline } from "react-icons/io5";
 import { PiFinnTheHumanLight } from "react-icons/pi";
 import { BsClockHistory } from "react-icons/bs";
 import { FiShoppingCart } from "react-icons/fi";
-import { searchInfo } from "../store/searchSlice";
-import { useDispatch, useSelector } from "react-redux";
 import { CiSearch } from "react-icons/ci";
-import { setIsNotAdmin } from "../store/adminSlice";
 import { MdStoreMallDirectory } from "react-icons/md";
-import { requestedListFriends } from "../services/FriendService";
-import { setRequestedFriends } from "../store/requestedFriendsSlice"; // 액션 가져오기
+import { GiHamburgerMenu } from "react-icons/gi";
+
+import CategoryModal from "./CategoryModal";
 
 const Header = () => {
   const requestedFriends = useSelector(
@@ -29,6 +34,7 @@ const Header = () => {
   const userAlert = sessionStorage.getItem("user");
   const memberId = JSON.parse(userAlert)?.id;
   const isLoggedIn = sessionStorage.getItem("isLoggedIn"); // 로그인 여부 확인
+  let [openCategory, setOpenCategory] = useState(false);
 
   //친구요청 알림 세팅
   useEffect(() => {
@@ -84,6 +90,22 @@ const Header = () => {
           borderBottom: "1px solid #D8D8D8",
         }}
       >
+        <GiHamburgerMenu
+          className="ms-4"
+          style={{ width: "30px", height: "30px", cursor: "pointer" }}
+          onClick={() => {
+            setOpenCategory(!openCategory);
+          }}
+        />
+        {openCategory ? (
+          <CategoryModal
+            openCategory={openCategory}
+            setOpenCategory={setOpenCategory}
+          ></CategoryModal>
+        ) : (
+          ""
+        )}
+
         <Container>
           <Navbar.Brand
             onClick={() => navigate("/")}
@@ -198,20 +220,9 @@ const Header = () => {
               <br />
               장바구니
             </Nav.Item>
-            <Nav.Item
-              className="me-3 btn"
-              style={{ cursor: "pointer" }}
-              onClick={() => {
-                isLoggedIn
-                  ? handleNavigation("/couponRoulette")
-                  : handleLogin();
-              }}
-            >
-              <br />
-              쿠폰 뽑기
-            </Nav.Item>
+            <Nav.Item></Nav.Item>
           </Nav>
-          <h2 style={{ color: "black" }}>
+          <h2 style={{ color: "black", marginTop: "auto" }}>
             {isLoggedIn ? <div>{user.name + "님"}</div> : <div>Guest</div>}
           </h2>
         </Container>

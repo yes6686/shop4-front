@@ -29,7 +29,6 @@ const MyPage = () => {
     <>
       <div className="myPageContainer">
         <MyPageLeftSideBar />
-
         {/* 오른쪽 부분 */}
         <div className="rightContent">
           <h4 style={{ marginTop: "20px", fontWeight: "bold" }}>프로필 정보</h4>

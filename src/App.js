@@ -15,8 +15,8 @@ import RequestedFriends from "./routes/RequestedFriends";
 import Admin from "./routes/admin/Admin";
 import SignUpSuccess from "./routes/SignUpSuccess";
 import PaymentSuccess from "./routes/PaymentSuccess";
-import MyCoupons from "./routes/MyCoupons";
-import CouponRoulette from "./routes/CouponRoulette";
+import GoodsPage from "./routes/GoodsPage";
+import ScrollToTopButton from "./components/ScrollToTopButton";
 
 function App() {
   return (
@@ -37,9 +37,11 @@ function App() {
         <Route path="/payment" element={<Payment />} />
         <Route path="/login/kakao" element={<LoginHandeler />} />
         <Route path="/admin/*" element={<Admin />}></Route>
+        <Route path="/goods/:category" element={<GoodsPage />}></Route>
         <Route path="/myCoupons" element={<MyCoupons />} />
         <Route path="/couponRoulette" element={<CouponRoulette />} />
       </Routes>
+      <ScrollToTopButton></ScrollToTopButton>
     </>
   );
 }
