@@ -1,5 +1,5 @@
 import styles from "./css/Payment.module.css";
-
+import { getUserCoupons } from "../services/UserCouponService";
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getMember } from "../services/MemberService";
@@ -18,6 +18,8 @@ function Payment() {
   const { state } = useLocation();
   let products = Array.from(state);
   let [totalPrice, setTotalPrice] = useState(0);
+  let [totalPayment, setTotalPayment] = useState(0); // 결제 금액 상태
+  let [selectedDiscount, setSelectedDiscount] = useState(0); // 선택된 할인 값
   let navigator = useNavigate();
 
   const id = userInfo.id;
@@ -41,11 +43,12 @@ function Payment() {
       tmp += item.quantity * item.goods.price;
     });
     setTotalPrice(tmp);
-  }, [cartData]);
+    setTotalPayment(tmp - (tmp * selectedDiscount) / 100); // 총 결제 금액 계산
+  }, [cartData, selectedDiscount]); // 선택된 할인 값이 변경될 때마다 결제 금액 업데이트
 
   const handlePayment = async () => {
     try {
-      const result = await requestPay(cartData, receiver, totalPrice);
+      const result = await requestPay(cartData, receiver, totalPayment);
       if (result.success) {
         navigator("/paymentSuccess"); // 성공 시 paymentSuccess 페이지로 이동
       }
@@ -62,6 +65,28 @@ function Payment() {
       email: copyUser.email,
       address: copyUser.address,
     });
+  };
+
+  let [coupon, setCoupon] = useState([]);
+
+  // 유저의 쿠폰이 어떤게 있는지 가져옴
+  useEffect(() => {
+    const initCoupon = async () => {
+      await getUserCoupons(id).then((response) => {
+        let getCoupons = response.data;
+        const availableCoupons = getCoupons.filter(
+          (coupon) => coupon.usedCoupon === false
+        );
+        setCoupon(availableCoupons);
+      });
+    };
+    initCoupon();
+  }, [id]);
+
+  // 할인 쿠폰 선택 시 처리 함수
+  const handleCouponChange = (e) => {
+    const selectedValue = e.target.value;
+    setSelectedDiscount(parseFloat(selectedValue)); // 선택된 할인 퍼센트 설정
   };
 
   return (
@@ -152,16 +177,30 @@ function Payment() {
         <table className={styles.payTable}>
           <tbody>
             <tr>
-              <td>Total Amount</td>
+              <td>Total Price</td>
               <td>{totalPrice}</td>
+            </tr>
+            <tr>
+              <td>Discount</td>
+              <td>
+                <select onChange={handleCouponChange}>
+                  <option value="0">선택하세요</option> {/* 기본 선택 옵션 */}
+                  {coupon.length > 0 ? (
+                    coupon.map((couponItem, idx) => (
+                      <option key={idx} value={couponItem.coupons.discount}>
+                        {couponItem.coupons.name} -{" "}
+                        {couponItem.coupons.discount}% discount
+                      </option>
+                    ))
+                  ) : (
+                    <option>No available coupons</option>
+                  )}
+                </select>
+              </td>
             </tr>
             <tr>
               <td>Total Payment</td>
-              <td>{totalPrice}</td>
-            </tr>
-            <tr>
-              <td>Payment Method</td>
-              <td>Integrated Payment</td>
+              <td>{totalPayment}</td> {/* 총 결제 금액 표시 */}
             </tr>
           </tbody>
         </table>
