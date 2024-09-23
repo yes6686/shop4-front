@@ -67,7 +67,6 @@ function MyCoupons() {
                   <li key={idx}>{coupon.coupons.name}</li> // 고유한 id 사용
                 ))}
           </ul>
-          <Link to="/CouponRoulette">쿠폰뽑기</Link>
         </div>
       </div>
     </>
