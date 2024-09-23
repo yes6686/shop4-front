@@ -15,34 +15,31 @@ import RequestedFriends from './routes/RequestedFriends';
 import Admin from './routes/admin/Admin';
 import SignUpSuccess from './routes/SignUpSuccess';
 import PaymentSuccess from './routes/PaymentSuccess';
-import GoodsByCategory from './routes/GoodsByCategory';
+import GoodsPage from './routes/GoodsPage';
 
 function App() {
-	return (
-		<>
-			<Header />
-			<Routes>
-				<Route path="/" element={<Home />} />
-				<Route path="/detail/:id" element={<Detail />} />
-				<Route path="/cart" element={<Cart />} />
-				<Route path="/myPage" element={<MyPage />} />
-				<Route path="/friendsList" element={<FriendsList />} />
-				<Route path="/requestedFriends" element={<RequestedFriends />} />
-				<Route path="/recentlyViewed" element={<RecentlyViewed />} />
-				<Route path="/login" element={<Login />} />
-				<Route path="/signUp" element={<SignUp />} />
-				<Route path="/signUpSuccess" element={<SignUpSuccess />} />
-				<Route path="/paymentSuccess" element={<PaymentSuccess />} />
-				<Route path="/payment" element={<Payment />} />
-				<Route path="/login/kakao" element={<LoginHandeler />} />
-				<Route path="/admin/*" element={<Admin />}></Route>
-				<Route
-					path="/goods/:category"
-					element={<GoodsByCategory></GoodsByCategory>}
-				></Route>
-			</Routes>
-		</>
-	);
+  return (
+    <>
+      <Header />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/detail/:id" element={<Detail />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/myPage" element={<MyPage />} />
+        <Route path="/friendsList" element={<FriendsList />} />
+        <Route path="/requestedFriends" element={<RequestedFriends />} />
+        <Route path="/recentlyViewed" element={<RecentlyViewed />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signUp" element={<SignUp />} />
+        <Route path="/signUpSuccess" element={<SignUpSuccess />} />
+        <Route path="/paymentSuccess" element={<PaymentSuccess />} />
+        <Route path="/payment" element={<Payment />} />
+        <Route path="/login/kakao" element={<LoginHandeler />} />
+        <Route path="/admin/*" element={<Admin />}></Route>
+        <Route path="/goods/:category" element={<GoodsPage />}></Route>
+      </Routes>
+    </>
+  );
 }
 
 export default App;
