@@ -16,6 +16,7 @@ import Admin from "./routes/admin/Admin";
 import SignUpSuccess from "./routes/SignUpSuccess";
 import PaymentSuccess from "./routes/PaymentSuccess";
 import MyCoupons from "./routes/MyCoupons";
+import CouponRoulette from "./routes/CouponRoulette";
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
         <Route path="/login/kakao" element={<LoginHandeler />} />
         <Route path="/admin/*" element={<Admin />}></Route>
         <Route path="/myCoupons" element={<MyCoupons />} />
+        <Route path="/couponRoulette" element={<CouponRoulette />} />
       </Routes>
     </>
   );
