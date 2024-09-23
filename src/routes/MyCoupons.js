@@ -2,6 +2,7 @@ import MyPageLeftSideBar from "../components/MyPageLeftSideBar";
 import React, { useState, useEffect } from "react";
 import styles from "./css/MyCoupons.module.css";
 import { getUserCoupons } from "../services/UserCouponService";
+import { Link } from "react-router-dom";
 
 function MyCoupons() {
   const userSession = JSON.parse(sessionStorage.getItem("user")); // 세션에서 사용자 이름 가져오기
@@ -53,6 +54,7 @@ function MyCoupons() {
             >
               사용 완료{usedCoupons.length}개
             </button>
+            <Link to="/CouponRoulette">쿠폰룰렛</Link>
           </div>
           <ul className="couponList">
             {activeTab === "available"
