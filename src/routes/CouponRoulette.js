@@ -17,12 +17,16 @@ function CouponRoulette() {
 
   const getAllCoupon = async () => {
     try {
-      const res = await listCoupons(); // await 키워드로 비동기 처리
+      const res = await listCoupons();
       setIsCoupon(true);
-      const couponList = res.data; // 여기가 문제일 수 있음
+      const couponList = res.data;
 
-      // count가 0보다 큰 쿠폰만 필터링
       const validCoupons = couponList.filter((item) => item.count > 0);
+      if (validCoupons.length === 0) {
+        setIsCoupon(false); // 쿠폰이 없을 경우
+        alert("사용 가능한 쿠폰이 없습니다."); // 사용자에게 알림
+        return;
+      }
       setCoupon(validCoupons);
 
       const rouletteData = validCoupons.map((item, idx) => {
@@ -47,12 +51,13 @@ function CouponRoulette() {
     } catch (error) {
       console.error("쿠폰 목록을 가져오는 데 실패했습니다:", error);
       setIsCoupon(false); // 데이터를 가져오지 못했으므로 false로 설정
+      alert("쿠폰 목록을 가져오는 데 실패했습니다."); // 사용자에게 알림
     }
   };
 
   useEffect(() => {
     getAllCoupon();
-  }, [mustSpin]);
+  }, [mustSpin, isCoupon]);
 
   // 룰렛 애니메이션을 실행시킬 함수
   const handleSpinClick = () => {
@@ -82,7 +87,7 @@ function CouponRoulette() {
     setMustSpin(false);
     distributeUserCoupon();
     if (data.length > 0) {
-      alert(coupon[prizeNumber].name + "이 당첨되셨습니다");
+      console.log(coupon[prizeNumber].name + "이 당첨되셨습니다");
     }
   };
 
@@ -98,7 +103,7 @@ function CouponRoulette() {
   return (
     <>
       <div>
-        {isCoupon ? ( // 데이터가 있을 때만 Wheel 컴포넌트 렌더링
+        {isCoupon ? (
           <>
             <Wheel
               spinDuration={0.2}
@@ -111,7 +116,7 @@ function CouponRoulette() {
             <button onClick={handleSpinClick}>SPIN</button>
           </>
         ) : (
-          <div>No data available for the wheel.</div> // 데이터가 없을 때 처리
+          <div>사용 가능한 쿠폰이 없습니다.</div> // 데이터가 없을 때 처리
         )}
       </div>
     </>
