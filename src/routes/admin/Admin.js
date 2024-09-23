@@ -6,6 +6,7 @@ import GoodsManagement from './GoodsManagement.js';
 import AddGoods from './AddGoods.js';
 import Reports from './Reports.js';
 import { useEffect } from 'react';
+import UpdateGoods from './UpdateGoods.js';
 
 function Admin() {
 	useEffect(() => {
@@ -39,13 +40,11 @@ function Admin() {
 						path="/goods"
 						element={<GoodsManagement></GoodsManagement>}
 					></Route>
+					<Route path="/addgoods" element={<AddGoods></AddGoods>}></Route>
+					<Route path="/reports" element={<Reports></Reports>}></Route>
 					<Route
-						path="/addgoods"
-						element={<AddGoods></AddGoods>}
-					></Route>
-					<Route
-						path="/reports"
-						element={<Reports></Reports>}
+						path="/updategoods"
+						element={<UpdateGoods></UpdateGoods>}
 					></Route>
 				</Routes>
 			</div>
