@@ -36,12 +36,12 @@ function MyCoupons() {
 
   return (
     <>
-      <div className="myPageContainer">
+      <div className={styles.myPageContainer}>
         <MyPageLeftSideBar />
-        <div className="rightContent">
+        <div className={styles.rightContent}>
           <h2>쿠폰함</h2>
           <hr />
-          <div className="couponTabs">
+          <div className={styles.couponTabs}>
             <button
               onClick={() => handleToggle("available")}
               className={activeTab === "available" ? "active" : ""}
@@ -55,7 +55,7 @@ function MyCoupons() {
               사용 완료{usedCoupons.length}개
             </button>
           </div>
-          <ul className="couponList">
+          <ul className={styles.couponList}>
             {activeTab === "available"
               ? availableCoupons.map((coupon, idx) => (
                   <li key={idx}>{coupon.coupons.name}</li> // 고유한 id 사용
