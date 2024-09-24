@@ -1,21 +1,25 @@
 import { Wheel } from "react-custom-roulette"; // 룰렛 import
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { listCoupons, deleteCoupon } from "../services/CouponService";
 import { distributeCoupon } from "../services/UserCouponService";
 
 function CouponRoulette() {
   const userSession = JSON.parse(sessionStorage.getItem("user")); // 세션에서 사용자 이름 가져오기
-
+  let navigate = useNavigate();
   // 1. 쿠폰 종류 읽어오기
   const [coupon, setCoupon] = useState([]);
   const [data, setData] = useState([]); // 룰렛에 쓸 데이터를 따로 저장
 
   // 룰렛이 회전 애니메이션을 시작
   const [mustSpin, setMustSpin] = useState(false);
-  const [prizeNumber, setPrizeNumber] = useState(0); // 당첨 인덱스
+  const [prizeNumber, setPrizeNumber] = useState(null); // 당첨 인덱스
   const [isCoupon, setIsCoupon] = useState(false);
 
+  const [loading, setLoading] = useState(true); // 로딩 상태 초기값을 true로 설정
+
   const getAllCoupon = async () => {
+    setLoading(true); // 데이터 가져오기 시작
     try {
       const res = await listCoupons();
       setIsCoupon(true);
@@ -23,8 +27,9 @@ function CouponRoulette() {
 
       const validCoupons = couponList.filter((item) => item.count > 0);
       if (validCoupons.length === 0) {
-        setIsCoupon(false); // 쿠폰이 없을 경우
-        alert("사용 가능한 쿠폰이 없습니다."); // 사용자에게 알림
+        setIsCoupon(false);
+        alert("사용 가능한 쿠폰이 없습니다.");
+        setLoading(false);
         return;
       }
       setCoupon(validCoupons);
@@ -50,14 +55,23 @@ function CouponRoulette() {
       setData(rouletteData);
     } catch (error) {
       console.error("쿠폰 목록을 가져오는 데 실패했습니다:", error);
-      setIsCoupon(false); // 데이터를 가져오지 못했으므로 false로 설정
-      alert("쿠폰 목록을 가져오는 데 실패했습니다."); // 사용자에게 알림
+      setIsCoupon(false);
+      alert("쿠폰 목록을 가져오는 데 실패했습니다.");
+    } finally {
+      setLoading(false); // 데이터 가져오기 완료
     }
   };
 
   useEffect(() => {
-    getAllCoupon();
-  }, [mustSpin, isCoupon]);
+    if (!isCoupon) {
+      getAllCoupon();
+    }
+  }, [isCoupon]);
+
+  useEffect(() => {
+    console.log("current data:", data);
+    console.log("current coupon:", coupon);
+  }, [data, coupon]);
 
   // 룰렛 애니메이션을 실행시킬 함수
   const handleSpinClick = () => {
@@ -86,9 +100,13 @@ function CouponRoulette() {
   const StopSpinning = () => {
     setMustSpin(false);
     distributeUserCoupon();
-    if (data.length > 0) {
+    if (prizeNumber !== null && prizeNumber >= 0 && coupon[prizeNumber]) {
       console.log(coupon[prizeNumber].name + "이 당첨되셨습니다");
+    } else {
+      console.error("유효하지 않은 prizeNumber:", prizeNumber);
     }
+    alert(coupon[prizeNumber].name + "이 당첨되셨습니다");
+    navigate("/myCoupons");
   };
 
   const distributeUserCoupon = async () => {
@@ -97,13 +115,12 @@ function CouponRoulette() {
       await distributeCoupon(userSession.id, coupon[prizeNumber].id);
     }
   };
-
-  console.log(data);
-  console.log(coupon);
   return (
     <>
       <div>
-        {isCoupon ? (
+        {loading ? ( // 로딩 중일 때
+          <div>로딩 중...</div>
+        ) : isCoupon ? ( // 쿠폰이 있을 때
           <>
             <Wheel
               spinDuration={0.2}
@@ -116,7 +133,8 @@ function CouponRoulette() {
             <button onClick={handleSpinClick}>SPIN</button>
           </>
         ) : (
-          <div>사용 가능한 쿠폰이 없습니다.</div> // 데이터가 없을 때 처리
+          // 쿠폰이 없을 때
+          <div>사용 가능한 쿠폰이 없습니다.</div>
         )}
       </div>
     </>

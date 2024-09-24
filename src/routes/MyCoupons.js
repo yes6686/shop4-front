@@ -54,7 +54,6 @@ function MyCoupons() {
             >
               사용 완료{usedCoupons.length}개
             </button>
-            <Link to="/CouponRoulette">쿠폰룰렛</Link>
           </div>
           <ul className="couponList">
             {activeTab === "available"
