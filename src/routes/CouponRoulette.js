@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { listCoupons } from "../services/CouponService";
 import { distributeCoupon } from "../services/UserCouponService";
-import "./css/CouponRoulette.css"; // 스타일을 위한 CSS 파일 import
+import styles from "./css/CouponRoulette.module.css"; // 스타일을 위한 CSS 파일 import
 
 function CouponRoulette() {
   const userSession = JSON.parse(sessionStorage.getItem("user")); // 세션에서 사용자 이름 가져오기
@@ -149,12 +149,12 @@ function CouponRoulette() {
   };
   return (
     <>
-      <div className="roulette-container">
+      <div className={styles.rouletteContainer}>
         {loading ? (
           <div>로딩 중...</div>
         ) : isCoupon ? (
           <>
-            <div className="wheel-container">
+            <div className={styles.wheelContainer}>
               <Wheel
                 spinDuration={0.4}
                 startingOptionIndex={Math.floor(Math.random() * data.length)}
@@ -163,7 +163,7 @@ function CouponRoulette() {
                 data={data}
                 onStopSpinning={StopSpinning}
               />
-              <button className="spin-button" onClick={handleSpinClick}>
+              <button className={styles.spinButton} onClick={handleSpinClick}>
                 돌리기
               </button>
             </div>
