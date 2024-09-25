@@ -16,13 +16,6 @@ function Detail() {
   let [orderNum, setOrderNum] = useState(1);
   const navigate = useNavigate();
 
-  function chkCharCode(event) {
-    const validKey = /[^0-9]/g;
-    if (validKey.test(event.target)) {
-      event.target.value = event.target.value.replace(validKey, "");
-    }
-  }
-
   const [cartItem, setCartItem] = useState({});
   const [directItem, setDirectItem] = useState({});
   const user = sessionStorage.getItem("user");
@@ -75,6 +68,7 @@ function Detail() {
 
   // 장바구니에 상품 갱신
   useEffect(() => {
+    // cartItem 변수가 비어있지 않다면 실행
     if (cartItem && cartItem.member && cartItem.goods) {
       const currentStock = createcart(cartItem)
         .then((response) => {
@@ -90,6 +84,20 @@ function Detail() {
   useEffect(() => {
     dispatch(addRecentlyViewedGoods(id));
   }, [dispatch, id]);
+
+  // 수량 변경 핸들러
+  const handleQuantityChange = (e) => {
+    const value = parseInt(e.target.value);
+    if (value > stock) {
+      toast.warning("최대 수량은 " + stock + "개입니다.");
+      setOrderNum(stock);
+    } else if (value < 1) {
+      toast.warning("최소 1개 이상이어야 합니다.");
+      setOrderNum(1);
+    } else {
+      setOrderNum(value);
+    }
+  };
 
   return (
     <>
@@ -112,21 +120,15 @@ function Detail() {
           <div className={styles.inputContainer}>
             <input
               type="number"
-              defaultValue="1"
-              min="1"
-              max={stock}
+              value={orderNum}
+              min="0"
+              max={stock !== undefined ? (stock + 1).toString() : undefined} // stock이 정의된 경우만 max 설정
               className={styles.quantityInput}
               onCompositionStart={(e) => {
-                e.target.blur();
-                requestAnimationFrame(() => e.target.focus());
+                e.target.blur(); // 입력 요소에서 포커스를 제거
+                requestAnimationFrame(() => e.target.focus()); // 다음 애니메이션 프레임에서 다시 포커스를 설정
               }}
-              onChange={(e) => {
-                chkCharCode(e);
-                if (e.target.value > stock) {
-                  e.target.value = stock;
-                }
-                setOrderNum(e.target.value);
-              }}
+              onChange={handleQuantityChange} // 핸들러 함수 사용
             />
             <button
               className={styles.buyButton}
