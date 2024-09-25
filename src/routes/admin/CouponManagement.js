@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import styles from "./admincss/AddCoupon.module.css"; // 스타일 파일 추가
 import { createCoupons } from "../../services/CouponService";
+import { useNavigate } from "react-router-dom";
+
 const CouponManagement = () => {
+  let navigate = useNavigate();
+
   const [couponData, setCouponData] = useState({
     name: "",
     discount: "",
@@ -20,7 +24,8 @@ const CouponManagement = () => {
     // 쿠폰 등록 로직 작성
     await createCoupons(couponData);
     console.log(couponData);
-    console.log("성공적으로 등록되었습니다.");
+    alert("성공적으로 등록되었습니다.");
+    navigate("/admin");
   };
 
   return (
