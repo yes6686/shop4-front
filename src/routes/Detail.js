@@ -8,6 +8,7 @@ import Comments from "../components/Comments";
 import { toast, ToastContainer } from "react-toastify";
 import styles from "./css/Detail.module.css";
 import { canComment } from "../services/CommentService";
+import { getCartFromUserAndCart } from "../services/CartService";
 
 function Detail() {
   let { id } = useParams();
@@ -17,7 +18,7 @@ function Detail() {
   let [orderNum, setOrderNum] = useState(1);
   const navigate = useNavigate();
 
-  const [cartItem, setCartItem] = useState({});
+  // const [cartItem, setCartItem] = useState({});
   const [directItem, setDirectItem] = useState({});
   const user = sessionStorage.getItem("user");
   const userData = user ? JSON.parse(user) : { id: null }; // Null 체크 후 기본값 설정
@@ -79,27 +80,33 @@ function Detail() {
   }, [directItem, navigate, orderNum]);
 
   // 장바구니에 담기 함수
-  const handleOrderClick = () => {
-    setCartItem({
-      quantity: orderNum,
-      member: { id: member_id },
-      goods: { id: findProduct.id },
-    });
+  const handleOrderClick = async () => {
+    // cartItem을 설정하기 전에 상품이 이미 있는지 확인
+    const res = await getCartFromUserAndCart(member_id, findProduct.id);
+    if (res.data) {
+      toast.error("장바구니에 이미 상품이 있어요!!");
+    } else {
+      // 상품이 없으면 장바구니에 추가할 데이터 설정 후 요청
+      const newCartItem = {
+        quantity: orderNum,
+        member: { id: member_id },
+        goods: { id: findProduct.id },
+      };
+
+      requestCreateCart(newCartItem);
+    }
   };
 
-  // handleOrderClick 함수의 setCartItem이 실행될때마다 장바구니에 상품추가
-  useEffect(() => {
-    // cartItem 변수가 비어있지 않다면 실행
-    if (cartItem && cartItem.member && cartItem.goods) {
-      createcart(cartItem)
-        .then((response) => {
-          toast.success("상품이 장바구니에 추가되었습니다!");
-        })
-        .catch((error) => {
-          console.error("There was an error adding the cart item:", error);
-        });
-    }
-  }, [cartItem]);
+  // 장바구니에 상품추가 요청 함수
+  const requestCreateCart = async (cartItem) => {
+    await createcart(cartItem)
+      .then((response) => {
+        toast.success("상품이 장바구니에 추가되었습니다!");
+      })
+      .catch((error) => {
+        console.error("There was an error adding the cart item:", error);
+      });
+  };
 
   useEffect(() => {
     dispatch(addRecentlyViewedGoods(id));
