@@ -3,12 +3,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { getGoods } from "../services/GoodsService";
 import { addRecentlyViewedGoods } from "../store/recentlyViewedSlice";
-import { createcart } from "../services/CartService";
+import { createcart, getCartFromUserAndCart } from "../services/CartService";
 import Comments from "../components/Comments";
 import { toast, ToastContainer } from "react-toastify";
 import styles from "./css/Detail.module.css";
 import { canComment } from "../services/CommentService";
-import { getCartFromUserAndCart } from "../services/CartService";
 
 function Detail() {
   let { id } = useParams();
@@ -79,20 +78,10 @@ function Detail() {
     }
   }, [directItem, navigate, orderNum]);
 
-  //재고수 0인지 확인하는 함수
-  const isGoodsStock = async () => {
-    const res = await getGoods(id);
-    console.log(res.data.stock);
-    return res.data.stock > 0; // 재고가 있으면 true, 없으면 false 반환
-  };
-
   // 장바구니에 담기 함수
   const handleOrderClick = async () => {
-    // 재고 확인
-    const hasStock = await isGoodsStock();
-
-    // 재고가 없을 때
-    if (!hasStock) {
+    // 재고가 없으면
+    if (findProduct.stock === 0) {
       toast.error("재고가 없습니다.");
       return; // 재고가 없으면 더 이상 진행하지 않음
     }
