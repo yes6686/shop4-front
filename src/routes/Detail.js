@@ -11,7 +11,7 @@ import { canComment } from "../services/CommentService";
 
 function Detail() {
   let { id } = useParams();
-  let [findProduct, setFindProduct] = useState({});
+  let [findProduct, setFindProduct] = useState({}); //comment 찾을려고 필요한 변수
   let dispatch = useDispatch();
   let [stock, setStock] = useState();
   let [orderNum, setOrderNum] = useState(1);
@@ -23,6 +23,8 @@ function Detail() {
   const userData = user ? JSON.parse(user) : { id: null }; // Null 체크 후 기본값 설정
   const member_id = userData.id;
   const [canCommentCheck, setCanCommentCheck] = useState(false);
+
+  // 상품 id 바뀔때마다 상품에 대한 정보 새로고침
   useEffect(() => {
     getGoods(id)
       .then((response) => {
@@ -34,6 +36,7 @@ function Detail() {
       });
   }, [id]);
 
+  // 상품 정보의 id값이 바뀌거나 유저 id값 바뀌면 comment값 갱신
   useEffect(() => {
     if (findProduct.id) {
       // findProduct가 초기화된 후에 canComment 함수 호출
@@ -48,6 +51,7 @@ function Detail() {
     }
   }, [findProduct.id, member_id]);
 
+  //바로 구매 함수
   const handleDirectOrder = () => {
     setDirectItem({
       quantity: orderNum,
@@ -56,6 +60,7 @@ function Detail() {
     });
   };
 
+  // 바로 구매 함수로 directItem 변수 바꿔서 장바구니에 포함시키는 api 호출
   useEffect(() => {
     if (directItem && directItem.member && directItem.goods) {
       createcart(directItem).then((response) => {
@@ -73,6 +78,7 @@ function Detail() {
     }
   }, [directItem, navigate, orderNum]);
 
+  // 장바구니에 담기 함수
   const handleOrderClick = () => {
     setCartItem({
       quantity: orderNum,
@@ -81,6 +87,7 @@ function Detail() {
     });
   };
 
+  // handleOrderClick 함수의 setCartItem이 실행될때마다 장바구니에 상품추가
   useEffect(() => {
     // cartItem 변수가 비어있지 않다면 실행
     if (cartItem && cartItem.member && cartItem.goods) {
