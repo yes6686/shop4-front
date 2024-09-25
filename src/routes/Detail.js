@@ -79,8 +79,24 @@ function Detail() {
     }
   }, [directItem, navigate, orderNum]);
 
+  //재고수 0인지 확인하는 함수
+  const isGoodsStock = async () => {
+    const res = await getGoods(id);
+    console.log(res.data.stock);
+    return res.data.stock > 0; // 재고가 있으면 true, 없으면 false 반환
+  };
+
   // 장바구니에 담기 함수
   const handleOrderClick = async () => {
+    // 재고 확인
+    const hasStock = await isGoodsStock();
+
+    // 재고가 없을 때
+    if (!hasStock) {
+      toast.error("재고가 없습니다.");
+      return; // 재고가 없으면 더 이상 진행하지 않음
+    }
+
     // cartItem을 설정하기 전에 상품이 이미 있는지 확인
     const res = await getCartFromUserAndCart(member_id, findProduct.id);
     if (res.data) {
