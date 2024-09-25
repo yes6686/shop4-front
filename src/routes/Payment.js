@@ -1,5 +1,8 @@
 import styles from "./css/Payment.module.css";
-import { getUserCoupons } from "../services/UserCouponService";
+import {
+  getUserCoupons,
+  requestUseCoupon,
+} from "../services/UserCouponService";
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getMember } from "../services/MemberService";
@@ -20,6 +23,7 @@ function Payment() {
   let [totalPrice, setTotalPrice] = useState(0);
   let [totalPayment, setTotalPayment] = useState(0); // 결제 금액 상태
   let [selectedDiscount, setSelectedDiscount] = useState(0); // 선택된 할인 값
+  let [selectedCouponId, setSelectedCouponId] = useState(null); // 선택된 쿠폰 ID 값
   let navigator = useNavigate();
 
   const id = userInfo.id;
@@ -43,8 +47,20 @@ function Payment() {
       tmp += item.quantity * item.goods.price;
     });
     setTotalPrice(tmp);
-    setTotalPayment(tmp - (tmp * selectedDiscount) / 100); // 총 결제 금액 계산
+    setTotalPayment(tmp - (tmp * selectedDiscount) / 100); // 총 결제 금액 계산c
+    console.log(selectedCouponId);
   }, [cartData, selectedDiscount]); // 선택된 할인 값이 변경될 때마다 결제 금액 업데이트
+
+  // 쿠폰 사용 처리 함수
+  const applyCoupon = async (couponId) => {
+    try {
+      await requestUseCoupon(couponId); // 쿠폰 사용 요청
+      console.log(`Coupon ${couponId} has been used.`);
+    } catch (error) {
+      console.error("Failed to apply coupon:", error);
+      alert("쿠폰 사용 중 오류가 발생했습니다.");
+    }
+  };
 
   const handlePayment = async () => {
     try {
@@ -52,6 +68,9 @@ function Payment() {
       const result = await requestPay(cartData, receiver, totalPayment);
       if (result.success) {
         navigator("/paymentSuccess"); // 성공 시 paymentSuccess 페이지로 이동
+      }
+      if (selectedCouponId) {
+        await applyCoupon(selectedCouponId); // 쿠폰 사용 처리
       }
     } catch (error) {
       console.error("Payment error:", error);
@@ -87,7 +106,10 @@ function Payment() {
   // 할인 쿠폰 선택 시 처리 함수
   const handleCouponChange = (e) => {
     const selectedValue = e.target.value;
+    const selectedOption = e.target.selectedOptions[0]; // 선택된 옵션의 전체 데이터 가져오기
+    const couponId = selectedOption.getAttribute("data-id"); // 옵션에 저장된 쿠폰 ID 가져오기
     setSelectedDiscount(parseFloat(selectedValue)); // 선택된 할인 퍼센트 설정
+    setSelectedCouponId(couponId); // 선택된 쿠폰 ID 저장
   };
 
   return (
@@ -188,7 +210,11 @@ function Payment() {
                   <option value="0">선택하세요</option> {/* 기본 선택 옵션 */}
                   {coupon.length > 0 ? (
                     coupon.map((couponItem, idx) => (
-                      <option key={idx} value={couponItem.coupons.discount}>
+                      <option
+                        key={idx}
+                        value={couponItem.coupons.discount}
+                        data-id={couponItem.id}
+                      >
                         {couponItem.coupons.name} -{" "}
                         {couponItem.coupons.discount}% discount
                       </option>
