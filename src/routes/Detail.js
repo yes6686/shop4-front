@@ -7,6 +7,7 @@ import { createcart } from "../services/CartService";
 import Comments from "../components/Comments";
 import { toast, ToastContainer } from "react-toastify";
 import styles from "./css/Detail.module.css";
+import { canComment } from "../services/CommentService";
 
 function Detail() {
   let { id } = useParams();
@@ -21,7 +22,7 @@ function Detail() {
   const user = sessionStorage.getItem("user");
   const userData = user ? JSON.parse(user) : { id: null }; // Null 체크 후 기본값 설정
   const member_id = userData.id;
-
+  const [canCommentCheck, setCanCommentCheck] = useState(false);
   useEffect(() => {
     getGoods(id)
       .then((response) => {
@@ -32,6 +33,20 @@ function Detail() {
         console.error(error);
       });
   }, [id]);
+
+  useEffect(() => {
+    if (findProduct.id) {
+      // findProduct가 초기화된 후에 canComment 함수 호출
+      canComment(member_id, findProduct.id)
+        .then((response) => {
+          setCanCommentCheck(response.data);
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.error("Error checking comment permission:", error);
+        });
+    }
+  }, [findProduct.id, member_id]);
 
   const handleDirectOrder = () => {
     setDirectItem({
@@ -66,11 +81,10 @@ function Detail() {
     });
   };
 
-  // 장바구니에 상품 갱신
   useEffect(() => {
     // cartItem 변수가 비어있지 않다면 실행
     if (cartItem && cartItem.member && cartItem.goods) {
-      const currentStock = createcart(cartItem)
+      createcart(cartItem)
         .then((response) => {
           toast.success("상품이 장바구니에 추가되었습니다!");
         })
@@ -80,7 +94,6 @@ function Detail() {
     }
   }, [cartItem]);
 
-  // 최근 본 상품에 추가하기
   useEffect(() => {
     dispatch(addRecentlyViewedGoods(id));
   }, [dispatch, id]);
@@ -154,7 +167,11 @@ function Detail() {
           </div>
         </div>
       </div>
-      <Comments goods_id={findProduct.id} member_id={member_id} />
+      <Comments
+        goods_id={findProduct.id}
+        member_id={member_id}
+        canCommentCheck={canCommentCheck}
+      />
       <ToastContainer />
     </>
   );
