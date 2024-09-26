@@ -16,6 +16,7 @@ import { FiShoppingCart } from "react-icons/fi";
 import { CiSearch } from "react-icons/ci";
 import { MdStoreMallDirectory } from "react-icons/md";
 import { GiHamburgerMenu } from "react-icons/gi";
+import { RiCoupon3Line } from "react-icons/ri";
 
 import CategoryModal from "./CategoryModal";
 
@@ -229,6 +230,7 @@ const Header = () => {
                   : handleLogin();
               }}
             >
+              <RiCoupon3Line style={{ height: "30px", width: "30px" }} />
               <br />
               쿠폰룰렛
             </Nav.Item>
