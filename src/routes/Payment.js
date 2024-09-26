@@ -13,6 +13,7 @@ function Payment() {
   let [copyUser, setCopyUser] = useState({});
   let [cartData, setCartData] = useState([]);
   let [receiver, setReceiver] = useState({
+    //상품을 받을 사람 정보
     name: "",
     phone: "",
     email: "",
@@ -78,6 +79,7 @@ function Payment() {
     }
   };
 
+  // 받는 사람을 유저 정보와 같도록 설정
   const handleCopyBuyerInfo = () => {
     setReceiver({
       name: copyUser.name,
