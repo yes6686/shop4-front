@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getMember } from "../services/MemberService";
 import requestPay from "../components/RequestPay";
+import { toast, ToastContainer } from "react-toastify";
 
 function Payment() {
   let userInfo = JSON.parse(sessionStorage.getItem("user"));
@@ -64,6 +65,17 @@ function Payment() {
   };
 
   const handlePayment = async () => {
+    // 모든 필드가 입력되었는지 확인
+    if (
+      !receiver.name ||
+      !receiver.phone ||
+      !receiver.email ||
+      !receiver.address
+    ) {
+      toast.error("모든 수령인 정보를 입력해주세요."); // 오류 메시지 출력
+      return; // 결제 처리 중단
+    }
+
     try {
       console.log(totalPayment);
       const result = await requestPay(cartData, receiver, totalPayment);
@@ -241,6 +253,7 @@ function Payment() {
           Cancel
         </button>
       </div>
+      <ToastContainer />
     </div>
   );
 }
