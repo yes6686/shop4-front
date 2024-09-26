@@ -234,7 +234,7 @@ function Payment() {
                       </option>
                     ))
                   ) : (
-                    <option>No available coupons</option>
+                    <option value="0">No available coupons</option>
                   )}
                 </select>
               </td>
