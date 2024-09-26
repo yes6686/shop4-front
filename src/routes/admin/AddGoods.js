@@ -125,6 +125,7 @@ function AddGoods() {
             <td>카테고리</td>
             <td>
               <select onChange={(e) => setCategory(e.target.value)}>
+                <option value="">선택하세요</option>
                 <option value={"shoes"}>신발</option>
                 <option value={"top"}>상의</option>
                 <option value={"bottom"}>하의</option>
