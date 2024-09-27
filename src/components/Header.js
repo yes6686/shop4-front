@@ -10,12 +10,13 @@ import { setRequestedFriends } from "../store/requestedFriendsSlice"; // 액션 
 import "./../App.css";
 
 import { IoLogInOutline, IoLogOutOutline } from "react-icons/io5";
-import { PiFinnTheHumanLight } from "react-icons/pi";
+import { PiFinnTheHumanBold } from "react-icons/pi";
 import { BsClockHistory } from "react-icons/bs";
 import { FiShoppingCart } from "react-icons/fi";
 import { CiSearch } from "react-icons/ci";
 import { MdStoreMallDirectory } from "react-icons/md";
 import { GiHamburgerMenu } from "react-icons/gi";
+import { PiChatCircleBold } from "react-icons/pi";
 import { RiCoupon3Line } from "react-icons/ri";
 
 import CategoryModal from "./CategoryModal";
@@ -171,9 +172,7 @@ const Header = () => {
                   textAlign: "center",
                 }}
               >
-                <PiFinnTheHumanLight
-                  style={{ height: "30px", width: "30px" }}
-                />
+                <PiFinnTheHumanBold style={{ height: "30px", width: "30px" }} />
                 {isLoggedIn && friendRequestsCount > 0 && (
                   <span
                     style={{
@@ -220,6 +219,17 @@ const Header = () => {
               <FiShoppingCart style={{ height: "30px", width: "30px" }} />
               <br />
               장바구니
+            </Nav.Item>
+            <Nav.Item
+              className="me-3 btn"
+              style={{ cursor: "pointer" }}
+              onClick={() => {
+                isLoggedIn ? handleNavigation("/chatList") : handleLogin();
+              }}
+            >
+              <PiChatCircleBold style={{ height: "30px", width: "30px" }} />
+              <br />
+              채팅
             </Nav.Item>
             <Nav.Item
               className="me-3 btn"
