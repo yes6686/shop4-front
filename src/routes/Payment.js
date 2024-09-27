@@ -7,12 +7,14 @@ import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getMember } from "../services/MemberService";
 import requestPay from "../components/RequestPay";
+import { toast, ToastContainer } from "react-toastify";
 
 function Payment() {
   let userInfo = JSON.parse(sessionStorage.getItem("user"));
   let [copyUser, setCopyUser] = useState({});
   let [cartData, setCartData] = useState([]);
   let [receiver, setReceiver] = useState({
+    //상품을 받을 사람 정보
     name: "",
     phone: "",
     email: "",
@@ -63,14 +65,25 @@ function Payment() {
   };
 
   const handlePayment = async () => {
+    // 모든 필드가 입력되었는지 확인
+    if (
+      !receiver.name ||
+      !receiver.phone ||
+      !receiver.email ||
+      !receiver.address
+    ) {
+      toast.error("모든 수령인 정보를 입력해주세요."); // 오류 메시지 출력
+      return; // 결제 처리 중단
+    }
+
     try {
       console.log(totalPayment);
       const result = await requestPay(cartData, receiver, totalPayment);
       if (result.success) {
+        if (selectedCouponId) {
+          await applyCoupon(selectedCouponId); // 쿠폰 사용 처리
+        }
         navigator("/paymentSuccess"); // 성공 시 paymentSuccess 페이지로 이동
-      }
-      if (selectedCouponId) {
-        await applyCoupon(selectedCouponId); // 쿠폰 사용 처리
       }
     } catch (error) {
       console.error("Payment error:", error);
@@ -78,6 +91,7 @@ function Payment() {
     }
   };
 
+  // 받는 사람을 유저 정보와 같도록 설정
   const handleCopyBuyerInfo = () => {
     setReceiver({
       name: copyUser.name,
@@ -92,13 +106,16 @@ function Payment() {
   // 유저의 쿠폰이 어떤게 있는지 가져옴
   useEffect(() => {
     const initCoupon = async () => {
-      await getUserCoupons(id).then((response) => {
-        let getCoupons = response.data;
+      try {
+        const res = await getUserCoupons(id);
+        let getCoupons = res.data;
         const availableCoupons = getCoupons.filter(
           (coupon) => coupon.usedCoupon === false
         );
         setCoupon(availableCoupons);
-      });
+      } catch (err) {
+        console.log(err);
+      }
     };
     initCoupon();
   }, [id]);
@@ -220,7 +237,7 @@ function Payment() {
                       </option>
                     ))
                   ) : (
-                    <option>No available coupons</option>
+                    <option value="0">No available coupons</option>
                   )}
                 </select>
               </td>
@@ -239,6 +256,7 @@ function Payment() {
           Cancel
         </button>
       </div>
+      <ToastContainer />
     </div>
   );
 }
