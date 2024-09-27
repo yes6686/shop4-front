@@ -80,10 +80,10 @@ function Payment() {
       console.log(totalPayment);
       const result = await requestPay(cartData, receiver, totalPayment);
       if (result.success) {
+        if (selectedCouponId) {
+          await applyCoupon(selectedCouponId); // 쿠폰 사용 처리
+        }
         navigator("/paymentSuccess"); // 성공 시 paymentSuccess 페이지로 이동
-      }
-      if (selectedCouponId) {
-        await applyCoupon(selectedCouponId); // 쿠폰 사용 처리
       }
     } catch (error) {
       console.error("Payment error:", error);
@@ -106,13 +106,16 @@ function Payment() {
   // 유저의 쿠폰이 어떤게 있는지 가져옴
   useEffect(() => {
     const initCoupon = async () => {
-      await getUserCoupons(id).then((response) => {
-        let getCoupons = response.data;
+      try {
+        const res = await getUserCoupons(id);
+        let getCoupons = res.data;
         const availableCoupons = getCoupons.filter(
           (coupon) => coupon.usedCoupon === false
         );
         setCoupon(availableCoupons);
-      });
+      } catch (err) {
+        console.log(err);
+      }
     };
     initCoupon();
   }, [id]);
