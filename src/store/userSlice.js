@@ -4,7 +4,7 @@ let user = createSlice({
 	name: 'user',
 	initialState: 'Guest',
 	reducers: {
-		// Redux의 state 변경하는 함수 만드는 곳
+		// redux의 state 변경하는 함수 만드는 곳
 	},
 });
 
